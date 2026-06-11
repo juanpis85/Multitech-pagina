@@ -408,17 +408,8 @@ async function adminSaveProduct() {
         let image = document.getElementById('adminImage').value.trim();
 
         if (fileInput.files.length > 0) {
-            if (firebaseReady) {
-                try {
-                    image = await firebaseUploadImage(fileInput.files[0]);
-                } catch (e) {
-                    alert('Error al subir imagen: ' + e.message);
-                    return;
-                }
-            } else {
-                if (preview.src && !preview.classList.contains('hidden')) {
-                    image = preview.src;
-                }
+            if (preview.src && !preview.classList.contains('hidden')) {
+                image = preview.src;
             }
         } else if (!image && preview.src && !preview.classList.contains('hidden')) {
             image = preview.src;
@@ -544,7 +535,6 @@ function adminExportJSON() {
 /* ===== FIREBASE INTEGRATION ===== */
 let firebaseApp = null;
 let firestoreDb = null;
-let storageRef = null;
 let firebaseReady = false;
 
 function firebaseLoadConfig() {
@@ -594,7 +584,6 @@ function firebaseInit(config) {
     try {
         firebaseApp = firebase.initializeApp(config, 'multitechco');
         firestoreDb = firebaseApp.firestore();
-        storageRef = firebaseApp.storage().ref();
         firebaseReady = true;
         updateFirebaseStatus();
         firebaseLoadProducts();
