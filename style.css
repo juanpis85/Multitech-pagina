@@ -82,22 +82,3 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     }
 }
 
-/* Admin Panel */
-.admin-btn-hidden {
-    opacity: 0;
-    position: fixed;
-    bottom: 100px;
-    right: 25px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    cursor: default;
-    z-index: 155;
-    transition: none;
-}
-.admin-btn-hidden:hover {
-    background: transparent;
-}
-

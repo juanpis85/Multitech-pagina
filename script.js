@@ -353,14 +353,14 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ===== ADMIN PANEL ===== */
 const ADMIN_PASSWORD = 'kjkrzpj8599';
 let adminAuth = sessionStorage.getItem('admin_auth') === 'true';
-let logoClickCount = 0;
-let logoClickTimer = null;
 
 function checkAdminAccess() {
-    if (window.location.hash === '#admin' && !adminAuth) {
-        promptAdminPassword();
-    } else if (window.location.hash === '#admin' && adminAuth) {
-        setTimeout(openAdmin, 100);
+    if (window.location.hash === '#admin') {
+        if (!adminAuth) {
+            promptAdminPassword();
+        } else {
+            setTimeout(openAdmin, 100);
+        }
     }
 }
 
@@ -373,21 +373,6 @@ function promptAdminPassword() {
     } else if (pass !== null) {
         alert('Clave incorrecta.');
         window.location.hash = '';
-    }
-}
-
-function onLogoClick() {
-    logoClickCount++;
-    if (logoClickTimer) clearTimeout(logoClickTimer);
-    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
-    if (logoClickCount >= 5) {
-        logoClickCount = 0;
-        window.location.hash = 'admin';
-        if (!adminAuth) {
-            promptAdminPassword();
-        } else {
-            openAdmin();
-        }
     }
 }
 
