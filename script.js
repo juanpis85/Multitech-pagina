@@ -429,17 +429,20 @@ async function adminSaveProduct() {
             return;
         }
 
+        const product = { id: 0, name, price, category, tag, material, image };
+        if (originalPrice) product.originalPrice = originalPrice;
+
         if (editId) {
-            const idx = products.findIndex(p => p.id === parseInt(editId));
+            product.id = parseInt(editId);
+            const idx = products.findIndex(p => p.id === product.id);
             if (idx !== -1) {
-                products[idx] = { ...products[idx], name, price, originalPrice, category, tag, material, image };
+                products[idx] = { ...products[idx], ...product };
                 if (firebaseReady) await firebaseSaveProductToCloud(products[idx]);
             }
         } else {
-            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-            const newProduct = { id: newId, name, price, originalPrice, category, tag, material, image };
-            products.push(newProduct);
-            if (firebaseReady) await firebaseSaveProductToCloud(newProduct);
+            product.id = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+            products.push(product);
+            if (firebaseReady) await firebaseSaveProductToCloud(product);
         }
 
         adminCancelEdit();
