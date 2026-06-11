@@ -390,7 +390,7 @@ function closeAdmin() {
     showPage('home');
 }
 
-function adminSaveProduct(e) {
+async function adminSaveProduct(e) {
     e.preventDefault();
     const editId = document.getElementById('adminEditId').value;
     const name = document.getElementById('adminName').value.trim();
@@ -399,9 +399,26 @@ function adminSaveProduct(e) {
     const category = document.getElementById('adminCategory').value;
     const tag = document.getElementById('adminTag').value;
     const material = document.getElementById('adminMaterial').value;
-    const imageUrl = document.getElementById('adminImage').value.trim();
+    const fileInput = document.getElementById('adminImageFile');
     const preview = document.getElementById('adminImagePreview');
-    const image = imageUrl || (preview.src && preview.classList.contains('hidden') === false ? preview.src : '');
+    let image = document.getElementById('adminImage').value.trim();
+
+    if (fileInput.files.length > 0) {
+        if (firebaseReady) {
+            try {
+                image = await firebaseUploadImage(fileInput.files[0]);
+            } catch (e) {
+                alert('Error al subir imagen: ' + e.message);
+                return;
+            }
+        } else {
+            if (preview.src && !preview.classList.contains('hidden')) {
+                image = preview.src;
+            }
+        }
+    } else if (!image && preview.src && !preview.classList.contains('hidden')) {
+        image = preview.src;
+    }
 
     if (!name || !price || !image) {
         alert('Completa todos los campos obligatorios (nombre, precio, imagen).');
@@ -412,10 +429,13 @@ function adminSaveProduct(e) {
         const idx = products.findIndex(p => p.id === parseInt(editId));
         if (idx !== -1) {
             products[idx] = { ...products[idx], name, price, originalPrice, category, tag, material, image };
+            if (firebaseReady) await firebaseSaveProductToCloud(products[idx]);
         }
     } else {
         const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-        products.push({ id: newId, name, price, originalPrice, category, tag, material, image });
+        const newProduct = { id: newId, name, price, originalPrice, category, tag, material, image };
+        products.push(newProduct);
+        if (firebaseReady) await firebaseSaveProductToCloud(newProduct);
     }
 
     adminCancelEdit();
@@ -626,64 +646,13 @@ async function firebaseUploadImage(file) {
     return await snapshot.ref.getDownloadURL();
 }
 
-// Override admin functions for Firebase
-const _origAdminSaveProduct = adminSaveProduct;
-adminSaveProduct = async function(e) {
-    e.preventDefault();
-    const editId = document.getElementById('adminEditId').value;
-    const name = document.getElementById('adminName').value.trim();
-    const price = parseInt(document.getElementById('adminPrice').value);
-    const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
-    const category = document.getElementById('adminCategory').value;
-    const tag = document.getElementById('adminTag').value;
-    const material = document.getElementById('adminMaterial').value;
-    const fileInput = document.getElementById('adminImageFile');
-    const preview = document.getElementById('adminImagePreview');
-    let image = document.getElementById('adminImage').value.trim();
-
-    if (fileInput.files.length > 0 && firebaseReady) {
-        try {
-            image = await firebaseUploadImage(fileInput.files[0]);
-        } catch (e) {
-            alert('Error al subir imagen: ' + e.message);
-            return;
-        }
-    } else if (!image && preview.src && !preview.classList.contains('hidden')) {
-        image = preview.src;
-    }
-
-    if (!name || !price || !image) {
-        alert('Completa todos los campos obligatorios (nombre, precio, imagen).');
-        return;
-    }
-
-    if (editId) {
-        const idx = products.findIndex(p => p.id === parseInt(editId));
-        if (idx !== -1) {
-            products[idx] = { ...products[idx], name, price, originalPrice, category, tag, material, image };
-            if (firebaseReady) await firebaseSaveProductToCloud(products[idx]);
-        }
-    } else {
-        const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-        const newProduct = { id: newId, name, price, originalPrice, category, tag, material, image };
-        products.push(newProduct);
-        if (firebaseReady) await firebaseSaveProductToCloud(newProduct);
-    }
-
-    adminCancelEdit();
-    adminRenderTable();
-    refreshSiteProducts();
-    alert('Producto guardado correctamente.');
-};
-
-const _origAdminDeleteProduct = adminDeleteProduct;
-adminDeleteProduct = async function(id) {
+async function adminDeleteProduct(id) {
     if (!confirm('¿Eliminar este producto permanentemente?')) return;
     products = products.filter(p => p.id !== id);
     if (firebaseReady) await firebaseDeleteProductFromCloud(id);
     adminRenderTable();
     refreshSiteProducts();
-};
+}
 
 // Init Firebase on page load
 const savedConfig = firebaseLoadConfig();
