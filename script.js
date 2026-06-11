@@ -486,13 +486,6 @@ function adminEditProduct(id) {
     window.scrollTo({ top: document.getElementById('adminForm').offsetTop - 120, behavior: 'smooth' });
 }
 
-function adminDeleteProduct(id) {
-    if (!confirm('¿Eliminar este producto permanentemente?')) return;
-    products = products.filter(p => p.id !== id);
-    adminRenderTable();
-    refreshSiteProducts();
-}
-
 function adminRenderTable() {
     const tbody = document.getElementById('adminTableBody');
     if (!tbody) return;
@@ -540,52 +533,17 @@ let firebaseApp = null;
 let firestoreDb = null;
 let firebaseReady = false;
 
-function firebaseLoadConfig() {
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCWDbLxZ15J6f50Gfu4tGFWHZ6wZ1qWNdI",
+    projectId: "database-multitech",
+    storageBucket: "database-multitech.firebasestorage.app",
+    appId: "1:196014084589:web:9d6b64ff928df9b67357e4",
+    messagingSenderId: "196014084589"
+};
+
+function firebaseInit() {
     try {
-        const saved = localStorage.getItem('firebase_config');
-        if (saved) {
-            const config = JSON.parse(saved);
-            document.getElementById('fbApiKey').value = config.apiKey || '';
-            document.getElementById('fbProjectId').value = config.projectId || '';
-            document.getElementById('fbStorageBucket').value = config.storageBucket || '';
-            document.getElementById('fbAppId').value = config.appId || '';
-            document.getElementById('fbMessagingSenderId').value = config.messagingSenderId || '';
-            return config;
-        }
-    } catch (e) {}
-    return null;
-}
-
-function firebaseSaveConfig(e) {
-    e.preventDefault();
-    const config = {
-        apiKey: document.getElementById('fbApiKey').value.trim(),
-        projectId: document.getElementById('fbProjectId').value.trim(),
-        storageBucket: document.getElementById('fbStorageBucket').value.trim(),
-        appId: document.getElementById('fbAppId').value.trim(),
-        messagingSenderId: document.getElementById('fbMessagingSenderId').value.trim()
-    };
-    if (!config.apiKey || !config.projectId || !config.storageBucket || !config.appId) {
-        alert('Completa apiKey, projectId, storageBucket y appId.');
-        return;
-    }
-    localStorage.setItem('firebase_config', JSON.stringify(config));
-    firebaseInit(config);
-}
-
-function firebaseDisconnect() {
-    localStorage.removeItem('firebase_config');
-    firebaseApp = null;
-    firestoreDb = null;
-    storageRef = null;
-    firebaseReady = false;
-    updateFirebaseStatus();
-    location.reload();
-}
-
-function firebaseInit(config) {
-    try {
-        firebaseApp = firebase.initializeApp(config, 'multitechco');
+        firebaseApp = firebase.initializeApp(FIREBASE_CONFIG, 'multitechco');
         firestoreDb = firebaseApp.firestore();
         firebaseReady = true;
         updateFirebaseStatus();
@@ -599,11 +557,7 @@ function firebaseInit(config) {
 function updateFirebaseStatus() {
     const el = document.getElementById('firebaseStatus');
     if (!el) return;
-    if (firebaseReady) {
-        el.innerHTML = '<span class="text-green-700 font-semibold">✓ Conectado a Firebase.</span> Los productos se guardan en la nube.';
-    } else {
-        el.innerHTML = 'No configurado. Los productos solo viven en memoria local.';
-    }
+    el.innerHTML = '<span class="text-green-700 font-semibold">✓ Conectado a Firebase.</span> Los productos se guardan en la nube.';
 }
 
 async function firebaseLoadProducts() {
@@ -643,14 +597,6 @@ async function firebaseDeleteProductFromCloud(id) {
     }
 }
 
-async function firebaseUploadImage(file) {
-    if (!storageRef) throw new Error('Firebase no conectado');
-    const fileName = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '');
-    const ref = storageRef.child('productos/' + fileName);
-    const snapshot = await ref.put(file);
-    return await snapshot.ref.getDownloadURL();
-}
-
 async function adminDeleteProduct(id) {
     if (!confirm('¿Eliminar este producto permanentemente?')) return;
     products = products.filter(p => p.id !== id);
@@ -660,8 +606,4 @@ async function adminDeleteProduct(id) {
 }
 
 // Init Firebase on page load
-const savedConfig = firebaseLoadConfig();
-if (savedConfig) {
-    firebaseInit(savedConfig);
-}
-updateFirebaseStatus();
+firebaseInit();
