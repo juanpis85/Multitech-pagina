@@ -411,8 +411,19 @@ Ver ofertas
 </select>
 </div>
 <div class="md:col-span-2 lg:col-span-3">
-<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">URL de Imagen</label>
-<input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminImage" placeholder="https://images.unsplash.com/..." required type="url"/>
+<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Imagen</label>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex-1">
+<input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminImage" placeholder="https://images.unsplash.com/... o dejar vacío si subís archivo" type="url"/>
+</div>
+<div class="flex-none">
+<label class="flex items-center gap-2 border border-outline-variant px-4 py-2.5 text-sm cursor-pointer hover:bg-surface-container-high transition-soft">
+<span class="material-symbols-outlined text-sm">upload</span> Subir archivo
+<input accept="image/*" class="hidden" id="adminImageFile" onchange="adminUploadImage(event)" type="file"/>
+</label>
+</div>
+</div>
+<img class="mt-3 h-24 w-24 object-cover border border-outline-variant hidden" id="adminImagePreview"/>
 </div>
 <div class="md:col-span-2 lg:col-span-3 flex gap-3">
 <button class="bg-on-surface text-surface px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary transition-soft" type="submit">Guardar Producto</button>

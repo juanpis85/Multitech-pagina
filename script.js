@@ -399,10 +399,12 @@ function adminSaveProduct(e) {
     const category = document.getElementById('adminCategory').value;
     const tag = document.getElementById('adminTag').value;
     const material = document.getElementById('adminMaterial').value;
-    const image = document.getElementById('adminImage').value.trim();
+    const imageUrl = document.getElementById('adminImage').value.trim();
+    const preview = document.getElementById('adminImagePreview');
+    const image = imageUrl || (preview.src && preview.classList.contains('hidden') === false ? preview.src : '');
 
     if (!name || !price || !image) {
-        alert('Completa todos los campos obligatorios.');
+        alert('Completa todos los campos obligatorios (nombre, precio, imagen).');
         return;
     }
 
@@ -416,8 +418,7 @@ function adminSaveProduct(e) {
         products.push({ id: newId, name, price, originalPrice, category, tag, material, image });
     }
 
-    document.getElementById('adminForm').reset();
-    document.getElementById('adminEditId').value = '';
+    adminCancelEdit();
     adminRenderTable();
     refreshSiteProducts();
     alert('Producto guardado correctamente.');
@@ -426,6 +427,21 @@ function adminSaveProduct(e) {
 function adminCancelEdit() {
     document.getElementById('adminForm').reset();
     document.getElementById('adminEditId').value = '';
+    const preview = document.getElementById('adminImagePreview');
+    preview.classList.add('hidden');
+    preview.src = '';
+}
+
+function adminUploadImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        const preview = document.getElementById('adminImagePreview');
+        preview.src = event.target.result;
+        preview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
 }
 
 function adminEditProduct(id) {
@@ -438,7 +454,10 @@ function adminEditProduct(id) {
     document.getElementById('adminCategory').value = p.category;
     document.getElementById('adminTag').value = p.tag;
     document.getElementById('adminMaterial').value = p.material;
-    document.getElementById('adminImage').value = p.image;
+    document.getElementById('adminImage').value = '';
+    const preview = document.getElementById('adminImagePreview');
+    preview.src = p.image;
+    preview.classList.remove('hidden');
     window.scrollTo({ top: document.getElementById('adminForm').offsetTop - 120, behavior: 'smooth' });
 }
 
