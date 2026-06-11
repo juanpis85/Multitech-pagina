@@ -392,56 +392,61 @@ function closeAdmin() {
 
 async function adminSaveProduct(e) {
     e.preventDefault();
-    const editId = document.getElementById('adminEditId').value;
-    const name = document.getElementById('adminName').value.trim();
-    const price = parseInt(document.getElementById('adminPrice').value);
-    const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
-    const category = document.getElementById('adminCategory').value;
-    const tag = document.getElementById('adminTag').value;
-    const material = document.getElementById('adminMaterial').value;
-    const fileInput = document.getElementById('adminImageFile');
-    const preview = document.getElementById('adminImagePreview');
-    let image = document.getElementById('adminImage').value.trim();
+    try {
+        const editId = document.getElementById('adminEditId').value;
+        const name = document.getElementById('adminName').value.trim();
+        const price = parseInt(document.getElementById('adminPrice').value);
+        const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
+        const category = document.getElementById('adminCategory').value;
+        const tag = document.getElementById('adminTag').value;
+        const material = document.getElementById('adminMaterial').value;
+        const fileInput = document.getElementById('adminImageFile');
+        const preview = document.getElementById('adminImagePreview');
+        let image = document.getElementById('adminImage').value.trim();
 
-    if (fileInput.files.length > 0) {
-        if (firebaseReady) {
-            try {
-                image = await firebaseUploadImage(fileInput.files[0]);
-            } catch (e) {
-                alert('Error al subir imagen: ' + e.message);
-                return;
+        if (fileInput.files.length > 0) {
+            if (firebaseReady) {
+                try {
+                    image = await firebaseUploadImage(fileInput.files[0]);
+                } catch (e) {
+                    alert('Error al subir imagen: ' + e.message);
+                    return;
+                }
+            } else {
+                if (preview.src && !preview.classList.contains('hidden')) {
+                    image = preview.src;
+                }
+            }
+        } else if (!image && preview.src && !preview.classList.contains('hidden')) {
+            image = preview.src;
+        }
+
+        if (!name || !price || !image) {
+            alert('Completa todos los campos: nombre, precio e imagen (URL o archivo).');
+            return;
+        }
+
+        if (editId) {
+            const idx = products.findIndex(p => p.id === parseInt(editId));
+            if (idx !== -1) {
+                products[idx] = { ...products[idx], name, price, originalPrice, category, tag, material, image };
+                if (firebaseReady) await firebaseSaveProductToCloud(products[idx]);
             }
         } else {
-            if (preview.src && !preview.classList.contains('hidden')) {
-                image = preview.src;
-            }
+            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+            const newProduct = { id: newId, name, price, originalPrice, category, tag, material, image };
+            products.push(newProduct);
+            if (firebaseReady) await firebaseSaveProductToCloud(newProduct);
         }
-    } else if (!image && preview.src && !preview.classList.contains('hidden')) {
-        image = preview.src;
-    }
 
-    if (!name || !price || !image) {
-        alert('Completa todos los campos obligatorios (nombre, precio, imagen).');
-        return;
+        adminCancelEdit();
+        adminRenderTable();
+        refreshSiteProducts();
+        alert('Producto guardado correctamente.');
+    } catch (err) {
+        alert('Error inesperado: ' + err.message + ' (revisá la consola con F12)');
+        throw err;
     }
-
-    if (editId) {
-        const idx = products.findIndex(p => p.id === parseInt(editId));
-        if (idx !== -1) {
-            products[idx] = { ...products[idx], name, price, originalPrice, category, tag, material, image };
-            if (firebaseReady) await firebaseSaveProductToCloud(products[idx]);
-        }
-    } else {
-        const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-        const newProduct = { id: newId, name, price, originalPrice, category, tag, material, image };
-        products.push(newProduct);
-        if (firebaseReady) await firebaseSaveProductToCloud(newProduct);
-    }
-
-    adminCancelEdit();
-    adminRenderTable();
-    refreshSiteProducts();
-    alert('Producto guardado correctamente.');
 }
 
 function adminCancelEdit() {
