@@ -624,6 +624,7 @@ async function firebaseLoadProducts() {
             adminRenderTable();
         }
     } catch (e) {
+        alert('Error al cargar productos de Firebase: ' + e.message);
         console.error('Error loading from Firestore:', e);
     }
 }
@@ -633,6 +634,7 @@ async function firebaseSaveProductToCloud(product) {
     try {
         await firestoreDb.collection('productos').doc(String(product.id)).set(product);
     } catch (e) {
+        alert('Error al guardar en Firebase: ' + e.message);
         console.error('Error saving to Firestore:', e);
     }
 }
