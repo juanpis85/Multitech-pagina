@@ -13,6 +13,9 @@
 <link rel="canonical" href="https://multitechco.com/"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
 <link rel="stylesheet" href="style.css"/>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
@@ -367,6 +370,27 @@ Ver ofertas
 <div class="flex gap-3">
 <button class="border border-outline px-5 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="adminExportJSON()"><span class="material-symbols-outlined text-sm align-text-bottom">download</span> Exportar JSON</button>
 <button class="border border-outline px-5 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="closeAdmin()">Cerrar Panel</button>
+</div>
+</div>
+<!-- Firebase Config -->
+<div class="bg-surface-container-lowest border border-outline-variant p-8 mb-6">
+<button class="flex justify-between items-center w-full" onclick="toggleFilter(this)">
+<h3 class="font-display text-xl"><span class="material-symbols-outlined text-primary align-text-bottom">cloud</span> Conexión Firebase</h3>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<div class="pt-6" id="firebaseConfigContent">
+<p class="text-sm text-on-surface-variant mb-4" id="firebaseStatus">No configurado. Los productos solo viven en memoria local.</p>
+<form class="grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="firebaseSaveConfig(event)">
+<div><input class="w-full border border-outline-variant bg-surface px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none" id="fbApiKey" placeholder="apiKey" type="text"/></div>
+<div><input class="w-full border border-outline-variant bg-surface px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none" id="fbProjectId" placeholder="projectId" type="text"/></div>
+<div><input class="w-full border border-outline-variant bg-surface px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none" id="fbStorageBucket" placeholder="storageBucket" type="text"/></div>
+<div><input class="w-full border border-outline-variant bg-surface px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none" id="fbAppId" placeholder="appId" type="text"/></div>
+<div><input class="w-full border border-outline-variant bg-surface px-3 py-2 text-xs focus:ring-1 focus:ring-primary outline-none" id="fbMessagingSenderId" placeholder="messagingSenderId (opcional)" type="text"/></div>
+<div class="flex items-end gap-2">
+<button class="bg-primary text-white px-5 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-on-primary-fixed-variant transition-soft" type="submit">Conectar</button>
+<button class="border border-outline px-5 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="firebaseDisconnect()" type="button">Desconectar</button>
+</div>
+</form>
 </div>
 </div>
 <!-- Product Form -->

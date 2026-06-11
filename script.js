@@ -509,3 +509,185 @@ function adminExportJSON() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
+/* ===== FIREBASE INTEGRATION ===== */
+let firebaseApp = null;
+let firestoreDb = null;
+let storageRef = null;
+let firebaseReady = false;
+
+function firebaseLoadConfig() {
+    try {
+        const saved = localStorage.getItem('firebase_config');
+        if (saved) {
+            const config = JSON.parse(saved);
+            document.getElementById('fbApiKey').value = config.apiKey || '';
+            document.getElementById('fbProjectId').value = config.projectId || '';
+            document.getElementById('fbStorageBucket').value = config.storageBucket || '';
+            document.getElementById('fbAppId').value = config.appId || '';
+            document.getElementById('fbMessagingSenderId').value = config.messagingSenderId || '';
+            return config;
+        }
+    } catch (e) {}
+    return null;
+}
+
+function firebaseSaveConfig(e) {
+    e.preventDefault();
+    const config = {
+        apiKey: document.getElementById('fbApiKey').value.trim(),
+        projectId: document.getElementById('fbProjectId').value.trim(),
+        storageBucket: document.getElementById('fbStorageBucket').value.trim(),
+        appId: document.getElementById('fbAppId').value.trim(),
+        messagingSenderId: document.getElementById('fbMessagingSenderId').value.trim()
+    };
+    if (!config.apiKey || !config.projectId || !config.storageBucket || !config.appId) {
+        alert('Completa apiKey, projectId, storageBucket y appId.');
+        return;
+    }
+    localStorage.setItem('firebase_config', JSON.stringify(config));
+    firebaseInit(config);
+}
+
+function firebaseDisconnect() {
+    localStorage.removeItem('firebase_config');
+    firebaseApp = null;
+    firestoreDb = null;
+    storageRef = null;
+    firebaseReady = false;
+    updateFirebaseStatus();
+    location.reload();
+}
+
+function firebaseInit(config) {
+    try {
+        firebaseApp = firebase.initializeApp(config, 'multitechco');
+        firestoreDb = firebaseApp.firestore();
+        storageRef = firebaseApp.storage().ref();
+        firebaseReady = true;
+        updateFirebaseStatus();
+        firebaseLoadProducts();
+    } catch (e) {
+        console.error('Firebase init error:', e);
+        alert('Error al conectar con Firebase: ' + e.message);
+    }
+}
+
+function updateFirebaseStatus() {
+    const el = document.getElementById('firebaseStatus');
+    if (!el) return;
+    if (firebaseReady) {
+        el.innerHTML = '<span class="text-green-700 font-semibold">✓ Conectado a Firebase.</span> Los productos se guardan en la nube.';
+    } else {
+        el.innerHTML = 'No configurado. Los productos solo viven en memoria local.';
+    }
+}
+
+async function firebaseLoadProducts() {
+    if (!firestoreDb) return;
+    try {
+        const snapshot = await firestoreDb.collection('productos').orderBy('id', 'asc').get();
+        if (!snapshot.empty) {
+            const fbProducts = [];
+            snapshot.forEach(doc => fbProducts.push(doc.data()));
+            products.length = 0;
+            fbProducts.forEach(p => products.push(p));
+            refreshSiteProducts();
+            adminRenderTable();
+        }
+    } catch (e) {
+        console.error('Error loading from Firestore:', e);
+    }
+}
+
+async function firebaseSaveProductToCloud(product) {
+    if (!firestoreDb) return;
+    try {
+        await firestoreDb.collection('productos').doc(String(product.id)).set(product);
+    } catch (e) {
+        console.error('Error saving to Firestore:', e);
+    }
+}
+
+async function firebaseDeleteProductFromCloud(id) {
+    if (!firestoreDb) return;
+    try {
+        await firestoreDb.collection('productos').doc(String(id)).delete();
+    } catch (e) {
+        console.error('Error deleting from Firestore:', e);
+    }
+}
+
+async function firebaseUploadImage(file) {
+    if (!storageRef) throw new Error('Firebase no conectado');
+    const fileName = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '');
+    const ref = storageRef.child('productos/' + fileName);
+    const snapshot = await ref.put(file);
+    return await snapshot.ref.getDownloadURL();
+}
+
+// Override admin functions for Firebase
+const _origAdminSaveProduct = adminSaveProduct;
+adminSaveProduct = async function(e) {
+    e.preventDefault();
+    const editId = document.getElementById('adminEditId').value;
+    const name = document.getElementById('adminName').value.trim();
+    const price = parseInt(document.getElementById('adminPrice').value);
+    const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
+    const category = document.getElementById('adminCategory').value;
+    const tag = document.getElementById('adminTag').value;
+    const material = document.getElementById('adminMaterial').value;
+    const fileInput = document.getElementById('adminImageFile');
+    const preview = document.getElementById('adminImagePreview');
+    let image = document.getElementById('adminImage').value.trim();
+
+    if (fileInput.files.length > 0 && firebaseReady) {
+        try {
+            image = await firebaseUploadImage(fileInput.files[0]);
+        } catch (e) {
+            alert('Error al subir imagen: ' + e.message);
+            return;
+        }
+    } else if (!image && preview.src && !preview.classList.contains('hidden')) {
+        image = preview.src;
+    }
+
+    if (!name || !price || !image) {
+        alert('Completa todos los campos obligatorios (nombre, precio, imagen).');
+        return;
+    }
+
+    if (editId) {
+        const idx = products.findIndex(p => p.id === parseInt(editId));
+        if (idx !== -1) {
+            products[idx] = { ...products[idx], name, price, originalPrice, category, tag, material, image };
+            if (firebaseReady) await firebaseSaveProductToCloud(products[idx]);
+        }
+    } else {
+        const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+        const newProduct = { id: newId, name, price, originalPrice, category, tag, material, image };
+        products.push(newProduct);
+        if (firebaseReady) await firebaseSaveProductToCloud(newProduct);
+    }
+
+    adminCancelEdit();
+    adminRenderTable();
+    refreshSiteProducts();
+    alert('Producto guardado correctamente.');
+};
+
+const _origAdminDeleteProduct = adminDeleteProduct;
+adminDeleteProduct = async function(id) {
+    if (!confirm('¿Eliminar este producto permanentemente?')) return;
+    products = products.filter(p => p.id !== id);
+    if (firebaseReady) await firebaseDeleteProductFromCloud(id);
+    adminRenderTable();
+    refreshSiteProducts();
+};
+
+// Init Firebase on page load
+const savedConfig = firebaseLoadConfig();
+if (savedConfig) {
+    setTimeout(() => firebaseInit(savedConfig), 500);
+}
+updateFirebaseStatus();
