@@ -383,6 +383,10 @@ function openAdmin() {
     adminRenderTable();
     document.getElementById('adminForm').reset();
     document.getElementById('adminEditId').value = '';
+    const btn = document.getElementById('adminSaveBtn');
+    if (btn) {
+        btn.onclick = function() { adminSaveProduct(); };
+    }
 }
 
 function closeAdmin() {
