@@ -256,6 +256,7 @@ function openProductModal(id) {
     const body = document.getElementById('modalBody');
     if(!body) return;
     const materialText = p.material === 'aluminio' ? 'aluminio aeronáutico' : p.material === 'metal' ? 'acero cepillado' : 'materiales sustentables';
+    const descText = p.description || `Este artefacto ha sido seleccionado por su excepcional manufactura y estética superior. Construido con ${materialText}, garantiza durabilidad y una experiencia de usuario inigualable.`;
     body.innerHTML = `
         <div class="md:w-1/2 bg-surface-container-low h-80 md:h-auto">
             <img src="${p.image}" class="w-full h-full object-cover">
@@ -264,7 +265,7 @@ function openProductModal(id) {
             <span class="text-[10px] uppercase tracking-widest text-primary font-bold mb-2">${p.category} | ${p.tag}</span>
             <h2 class="text-4xl font-display font-bold mb-4 text-on-surface">${p.name}</h2>
             <p class="text-2xl font-price text-primary mb-8 font-semibold">${priceHTML}</p>
-            <p class="text-on-surface-variant text-sm leading-relaxed mb-10">Este artefacto ha sido seleccionado por su excepcional manufactura y estética superior. Construido con ${materialText}, garantiza durabilidad y una experiencia de usuario inigualable.</p>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-10">${descText}</p>
             <button onclick="addToCart(${p.id}); closeProductModal();" class="w-full bg-on-surface text-surface py-5 font-semibold uppercase tracking-widest hover:bg-primary transition-soft">
                 Adquirir ahora
             </button>
@@ -403,6 +404,7 @@ async function adminSaveProduct() {
         const category = document.getElementById('adminCategory').value;
         const tag = document.getElementById('adminTag').value;
         const material = document.getElementById('adminMaterial').value;
+        const description = document.getElementById('adminDescription').value.trim();
         const fileInput = document.getElementById('adminImageFile');
         const preview = document.getElementById('adminImagePreview');
         let image = document.getElementById('adminImage').value.trim();
@@ -420,7 +422,7 @@ async function adminSaveProduct() {
             return;
         }
 
-        const product = { id: 0, name, price, category, tag, material, image };
+        const product = { id: 0, name, price, category, tag, material, image, description };
         if (originalPrice) product.originalPrice = originalPrice;
 
         if (editId) {
@@ -476,6 +478,7 @@ function adminEditProduct(id) {
     document.getElementById('adminCategory').value = p.category;
     document.getElementById('adminTag').value = p.tag;
     document.getElementById('adminMaterial').value = p.material;
+    document.getElementById('adminDescription').value = p.description || '';
     document.getElementById('adminImage').value = '';
     const preview = document.getElementById('adminImagePreview');
     preview.src = p.image;
