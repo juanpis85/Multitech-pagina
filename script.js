@@ -670,6 +670,6 @@ async function adminDeleteProduct(id) {
 // Init Firebase on page load
 const savedConfig = firebaseLoadConfig();
 if (savedConfig) {
-    setTimeout(() => firebaseInit(savedConfig), 500);
+    firebaseInit(savedConfig);
 }
 updateFirebaseStatus();
