@@ -390,8 +390,7 @@ function closeAdmin() {
     showPage('home');
 }
 
-async function adminSaveProduct(e) {
-    e.preventDefault();
+async function adminSaveProduct() {
     try {
         const editId = document.getElementById('adminEditId').value;
         const name = document.getElementById('adminName').value.trim();
