@@ -82,24 +82,147 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     }
 }
 
-/* World Cup animation */
-@keyframes ballRoll {
-    0% { left: -8rem; opacity: 0; transform: translateY(-50%) rotate(0deg); }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { left: calc(100% + 8rem); opacity: 0; transform: translateY(-50%) rotate(720deg); }
+/* World Cup - screen crash animation */
+
+/* Glass screen */
+.worldcup-glass {
+    background: rgba(10, 12, 14, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
-@keyframes contentSlideUp {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
+/* Crack lines */
+.crack {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 1px;
+    transform-origin: left center;
+    pointer-events: none;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+}
+.crack-1 { transform: rotate(10deg); }
+.crack-2 { transform: rotate(45deg); }
+.crack-3 { transform: rotate(80deg); }
+.crack-4 { transform: rotate(120deg); }
+.crack-5 { transform: rotate(165deg); }
+.crack-6 { transform: rotate(200deg); top: 52%; }
+.crack-7 { transform: rotate(290deg); }
+.crack-8 { transform: rotate(330deg); }
+.crack-9 { transform: rotate(355deg); }
+
+.crack.animate {
+    animation: crackGrow 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.crack-1.animate { width: 180px; }
+.crack-2.animate { width: 250px; }
+.crack-3.animate { width: 140px; }
+.crack-4.animate { width: 200px; }
+.crack-5.animate { width: 120px; }
+.crack-6.animate { width: 160px; }
+.crack-7.animate { width: 220px; }
+.crack-8.animate { width: 300px; }
+.crack-9.animate { width: 90px; }
+
+@keyframes crackGrow {
+    from { width: 0; }
+    to { width: var(--crack-length, 180px); }
+}
+
+/* Shatter - glass breaks into pieces and falls */
+.worldcup-glass.shatter {
+    animation: glassShatter 0.8s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+@keyframes glassShatter {
+    0% { opacity: 1; clip-path: inset(0); }
+    30% { opacity: 1; clip-path: polygon(
+        0% 0%, 40% 5%, 45% 10%, 60% 3%, 80% 8%, 100% 0%,
+        100% 30%, 92% 35%, 95% 50%, 88% 55%, 92% 70%, 100% 80%,
+        100% 100%, 70% 92%, 65% 88%, 50% 95%, 30% 90%, 20% 96%,
+        0% 100%, 8% 70%, 3% 55%, 12% 40%, 5% 25%
+    ); }
+    100% { opacity: 0; clip-path: polygon(
+        0% -10%, 35% -5%, 40% 5%, 55% -8%, 75% 2%, 100% -10%,
+        105% 25%, 88% 30%, 100% 45%, 85% 50%, 95% 65%, 110% 75%,
+        105% 110%, 65% 98%, 60% 92%, 45% 105%, 25% 95%, 15% 105%,
+        -10% 110%, 2% 65%, -5% 50%, 8% 35%, 0% 20%
+    ); }
+}
+
+/* Flash on impact */
+.worldcup-flash.flash {
+    animation: impactFlash 0.4s ease-out forwards;
+}
+@keyframes impactFlash {
+    0% { opacity: 0; }
+    15% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+    100% { opacity: 0; transform: scale(1.3); }
+}
+
+/* Ball crash */
+.worldcup-ball {
+    position: absolute;
+    z-index: 20;
+    pointer-events: none;
+    font-size: 5rem;
+    left: -10%;
+    top: 35%;
+    transform: scale(0.3) rotate(0deg);
+    opacity: 0;
+    transition: none;
 }
 
 .worldcup-ball.animate {
-    animation: ballRoll 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: ballFly 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes ballFly {
+    0%   { left: -10%; top: 40%; transform: scale(0.3) rotate(0deg); opacity: 0; }
+    8%   { opacity: 1; }
+    35%  { left: 30%; top: 38%; transform: scale(0.9) rotate(540deg); }
+    55%  { left: 42%; top: 35%; transform: scale(1.2) rotate(900deg); }
+    70%  { left: 47%; top: 36%; transform: scale(2.5) rotate(1080deg); }
+    82%  { left: 49%; top: 38%; transform: scale(5) rotate(1260deg); opacity: 1; }
+    92%  { left: 50%; top: 40%; transform: scale(8) rotate(1350deg); opacity: 0.8; }
+    100% { left: 50%; top: 42%; transform: scale(10) rotate(1440deg); opacity: 0; }
+}
+
+/* Content emerges after glass shatters */
+.worldcup-content {
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(40px);
 }
 
 .worldcup-content.animate {
-    animation: contentSlideUp 1s ease-out 1.8s forwards;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Shard pieces flying outward */
+.shard {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 15;
+    border-radius: 2px;
+}
+.shard.animate {
+    animation: shardFly 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.shard-1 { top: 30%; left: 20%; width: 60px; height: 80px; --shard-x: -100px; --shard-y: -120px; --shard-rot: 25deg; background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)); }
+.shard-2 { top: 55%; left: 65%; width: 90px; height: 50px; --shard-x: 120px; --shard-y: 80px; --shard-rot: -30deg; background: linear-gradient(200deg, rgba(255,255,255,0.15), rgba(255,255,255,0.03)); }
+.shard-3 { top: 70%; left: 15%; width: 40px; height: 100px; --shard-x: -140px; --shard-y: 100px; --shard-rot: 55deg; background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04)); }
+.shard-4 { top: 20%; left: 70%; width: 70px; height: 70px; --shard-x: 130px; --shard-y: -140px; --shard-rot: -15deg; background: linear-gradient(300deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02)); }
+.shard-5 { top: 45%; left: 80%; width: 50px; height: 90px; --shard-x: 160px; --shard-y: 40px; --shard-rot: 40deg; background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent); }
+.shard-6 { top: 65%; left: 40%; width: 80px; height: 40px; --shard-x: -50px; --shard-y: 130px; --shard-rot: -45deg; background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.03)); }
+
+@keyframes shardFly {
+    0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.6); }
+    15% { opacity: 0.7; }
+    100% { opacity: 0; transform: translate(var(--shard-x, 80px), var(--shard-y, 60px)) rotate(var(--shard-rot, 0deg)) scale(0.15); }
 }
 

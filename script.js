@@ -350,18 +350,43 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
     checkAdminAccess();
 
-    // World Cup section scroll animation
+    // World Cup section crash animation
     const wcSection = document.querySelector('.worldcup-section');
     if (wcSection) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    document.getElementById('worldcupBall')?.classList.add('animate');
-                    document.getElementById('worldcupContent')?.classList.add('animate');
+                    const ball = document.getElementById('worldcupBall');
+                    const glass = document.getElementById('worldcupGlass');
+                    const flash = document.getElementById('worldcupFlash');
+                    const content = document.getElementById('worldcupContent');
+                    const cracks = document.querySelectorAll('.crack');
+                    const shards = document.querySelectorAll('.shard');
+
+                    // Step 1: Ball flies
+                    ball?.classList.add('animate');
+
+                    // Step 2: Flash + cracks at impact point (~1.6s)
+                    setTimeout(() => {
+                        flash?.classList.add('flash');
+                        cracks.forEach(c => c.classList.add('animate'));
+                    }, 1550);
+
+                    // Step 3: Glass shatters (~1.9s)
+                    setTimeout(() => {
+                        glass?.classList.add('shatter');
+                        shards.forEach(s => s.classList.add('animate'));
+                    }, 1850);
+
+                    // Step 4: Content emerges (~2.3s)
+                    setTimeout(() => {
+                        content?.classList.add('animate');
+                    }, 2300);
+
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.25 });
         observer.observe(wcSection);
     }
 });

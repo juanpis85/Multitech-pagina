@@ -90,20 +90,46 @@ Ver ofertas
 </div>
 </div>
 </section>
-<!-- World Cup 2026 - Animated Banner -->
+<!-- World Cup 2026 - screen crash -->
 <section class="relative overflow-hidden bg-on-surface min-h-[600px] flex items-center worldcup-section">
 <div class="absolute inset-0">
-<img alt="" class="w-full h-full object-cover opacity-25 scale-105" src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1600&q=80"/>
+<img alt="" class="w-full h-full object-cover opacity-30 scale-105" src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=1600&q=80"/>
 </div>
-<div class="absolute inset-0 bg-gradient-to-t from-on-surface via-on-surface/60 to-transparent"></div>
-<!-- Soccer ball animation -->
-<div class="worldcup-ball absolute z-10 top-1/2 -translate-y-1/2 -left-32 text-8xl opacity-0" id="worldcupBall">⚽</div>
-<div class="relative max-w-container-max mx-auto px-gutter w-full py-section-gap">
-<div class="max-w-3xl mx-auto text-center worldcup-content opacity-0 translate-y-10" id="worldcupContent">
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface via-on-surface/70 to-on-surface/30"></div>
+
+<!-- Ball that crashes -->
+<div class="worldcup-ball z-20" id="worldcupBall">⚽</div>
+
+<!-- Glass screen that cracks -->
+<div class="worldcup-glass absolute inset-0 z-10 pointer-events-none" id="worldcupGlass">
+<div class="crack crack-1"></div>
+<div class="crack crack-2"></div>
+<div class="crack crack-3"></div>
+<div class="crack crack-4"></div>
+<div class="crack crack-5"></div>
+<div class="crack crack-6"></div>
+<div class="crack crack-7"></div>
+<div class="crack crack-8"></div>
+<div class="crack crack-9"></div>
+</div>
+
+<!-- Shards flying outward -->
+<div class="shard shard-1 z-15" id="shard1"></div>
+<div class="shard shard-2 z-15" id="shard2"></div>
+<div class="shard shard-3 z-15" id="shard3"></div>
+<div class="shard shard-4 z-15" id="shard4"></div>
+<div class="shard shard-5 z-15" id="shard5"></div>
+<div class="shard shard-6 z-15" id="shard6"></div>
+
+<!-- Impact flash -->
+<div class="worldcup-flash absolute inset-0 z-15 pointer-events-none opacity-0" id="worldcupFlash"></div>
+
+<div class="relative max-w-container-max mx-auto px-gutter w-full py-section-gap z-5">
+<div class="max-w-3xl mx-auto text-center worldcup-content opacity-0" id="worldcupContent">
 <span class="text-[#FFCD00] uppercase tracking-[0.4em] text-xs font-bold mb-6 block">⚽ Mundial 2026</span>
-<h2 class="text-display-lg md:text-6xl font-display font-bold leading-[1.05] mb-6 text-surface">Llegó el momento.<br/>Colombia pisa el Mundial.</h2>
-<p class="text-surface/70 text-body-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto">Cada partido es una final. Cada gol, una locura. Reuní a los tuyos y viví cada jugada como si estuvieras en el estadio. La tricolor necesita tu voz.</p>
-<p class="text-[#FFCD00] font-display text-2xl md:text-3xl font-bold italic mb-10">— No te pierdas ni un segundo —</p>
+<h2 class="text-display-lg md:text-6xl font-display font-bold leading-[1.05] mb-6 text-surface">Llegó el momento.<br/>Todas las selecciones. Un solo sueño.</h2>
+<p class="text-surface/70 text-body-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto">32 países. Un balón. Una pasión que nos une. Colombia está lista y vos también. Viví cada partido, cada gol, cada latido en la pantalla que merece este momento.</p>
+<p class="text-[#FFCD00] font-display text-2xl md:text-3xl font-bold italic mb-10">— Esto es Mundial —</p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 <a class="bg-[#FFCD00] text-on-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-yellow-400 transition-soft shadow-xl flex items-center gap-3" href="#" onclick="showPage('electro'); return false;">
 <span class="text-lg">📺</span> Ver Televisores
@@ -111,7 +137,6 @@ Ver ofertas
 <a class="border-2 border-[#FFCD00]/40 text-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface/10 transition-soft flex items-center gap-3" href="#" onclick="showPage('electro'); return false;">
 <span class="text-lg">🇨🇴</span> Explora la colección
 </a>
-</div>
 </div>
 </div>
 </div>
