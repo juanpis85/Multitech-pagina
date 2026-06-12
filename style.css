@@ -173,21 +173,21 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     top: 35%;
     transform: scale(0.3) rotate(0deg);
     opacity: 0;
-    transition: none;
+    will-change: transform, left;
 }
 
 .worldcup-ball.animate {
-    animation: ballFly 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: ballFly 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes ballFly {
-    0%   { left: -10%; top: 40%; transform: scale(0.3) rotate(0deg); opacity: 0; }
-    8%   { opacity: 1; }
-    35%  { left: 30%; top: 38%; transform: scale(0.9) rotate(540deg); }
+    0%   { left: -10%; top: 42%; transform: scale(0.2) rotate(0deg); opacity: 0; }
+    10%  { left: 5%;  top: 40%; transform: scale(0.4) rotate(180deg); opacity: 1; }
+    35%  { left: 28%; top: 37%; transform: scale(0.8) rotate(540deg); }
     55%  { left: 42%; top: 35%; transform: scale(1.2) rotate(900deg); }
-    70%  { left: 47%; top: 36%; transform: scale(2.5) rotate(1080deg); }
-    82%  { left: 49%; top: 38%; transform: scale(5) rotate(1260deg); opacity: 1; }
-    92%  { left: 50%; top: 40%; transform: scale(8) rotate(1350deg); opacity: 0.8; }
+    70%  { left: 48%; top: 36%; transform: scale(2) rotate(1080deg); }
+    82%  { left: 50%; top: 38%; transform: scale(4.5) rotate(1200deg); }
+    92%  { left: 50%; top: 40%; transform: scale(7) rotate(1350deg); opacity: 1; }
     100% { left: 50%; top: 42%; transform: scale(10) rotate(1440deg); opacity: 0; }
 }
 
