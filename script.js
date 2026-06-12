@@ -13,7 +13,11 @@ let products = [
     { id: 12, name: "Base de Carga Inalámbrica", price: 89000, category: "accesorios", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80", tag: "Nuevo", material: "plastico" },
     { id: 13, name: "Smartwatch Deportivo", price: 349000, category: "tecno", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80", tag: "Nuevo", material: "aluminio" },
     { id: 14, name: "Aspiradora Robot Inteligente", price: 890000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80", tag: "Mas Vendido", material: "plastico" },
-    { id: 15, name: "Hub USB-C 7 en 1", price: 65000, category: "accesorios", image: "https://images.unsplash.com/photo-1619953942547-233eab5a70d6?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 85000 }
+    { id: 15, name: "Hub USB-C 7 en 1", price: 65000, category: "accesorios", image: "https://images.unsplash.com/photo-1619953942547-233eab5a70d6?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 85000 },
+    { id: 16, name: "Televisor QLED 65\" 4K Smart TV", price: 2890000, category: "tecno", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 3490000 },
+    { id: 17, name: "Televisor OLED 55\" 4K Dolby Vision", price: 3450000, category: "tecno", image: "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 4190000 },
+    { id: 18, name: "Televisor 75\" Mini LED 8K", price: 7250000, category: "tecno", image: "https://images.unsplash.com/photo-1601944179066-29786cb9d32a?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 8490000 },
+    { id: 19, name: "Televisor 50\" UHD 4K Smart TV", price: 1590000, category: "tecno", image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 1890000 }
 ];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
