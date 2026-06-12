@@ -349,6 +349,21 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
     renderCart();
     checkAdminAccess();
+
+    // World Cup section scroll animation
+    const wcSection = document.querySelector('.worldcup-section');
+    if (wcSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.getElementById('worldcupBall')?.classList.add('animate');
+                    document.getElementById('worldcupContent')?.classList.add('animate');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(wcSection);
+    }
 });
 
 /* ===== ADMIN PANEL ===== */

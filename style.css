@@ -82,3 +82,24 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     }
 }
 
+/* World Cup animation */
+@keyframes ballRoll {
+    0% { left: -8rem; opacity: 0; transform: translateY(-50%) rotate(0deg); }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: calc(100% + 8rem); opacity: 0; transform: translateY(-50%) rotate(720deg); }
+}
+
+@keyframes contentSlideUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.worldcup-ball.animate {
+    animation: ballRoll 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.worldcup-content.animate {
+    animation: contentSlideUp 1s ease-out 1.8s forwards;
+}
+
