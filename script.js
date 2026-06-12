@@ -155,11 +155,29 @@ function addToCart(id) {
     const p = products.find(x => x.id === id);
     if(!p) return;
     const exists = cart.find(x => x.id === id);
-    if(exists) exists.quantity++;
-    else cart.push({...p, quantity: 1});
+    if(exists) {
+        exists.quantity++;
+        showToast(`✓ ${p.name} — otra unidad agregada`);
+    } else {
+        cart.push({...p, quantity: 1});
+        showToast(`✓ ${p.name} agregado al carrito`);
+    }
     saveCart();
     renderCart();
-    openCart();
+}
+
+function showToast(msg) {
+    const el = document.getElementById('cartToast');
+    if (!el) return;
+    el.querySelector('.toast-msg').textContent = msg;
+    el.classList.remove('opacity-0', 'translate-y-4');
+    el.classList.add('opacity-100', 'translate-y-0');
+    clearTimeout(el._hide);
+    clearTimeout(el._remove);
+    el._hide = setTimeout(() => {
+        el.classList.remove('opacity-100', 'translate-y-0');
+        el.classList.add('opacity-0', 'translate-y-4');
+    }, 3000);
 }
 
 function saveCart() {
@@ -186,24 +204,25 @@ function renderCart() {
         return;
     }
     container.innerHTML = cart.map(item => `
-        <div class="flex gap-4 group">
-            <div class="w-24 h-24 bg-surface-container-low flex-none overflow-hidden">
-                <img src="${item.image}" class="w-full h-full object-cover">
+        <div class="flex gap-4 group border-b border-outline-variant/40 pb-5 last:border-0">
+            <div class="w-24 h-24 bg-surface-container-low flex-none overflow-hidden rounded-sm">
+                <img src="${item.image}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 96 96%22><rect fill=%22%23e3e2e0%22 width=%2296%22 height=%2296%22/><text x=%2248%22 y=%2254%22 text-anchor=%22middle%22 font-size=%2232%22>📦</text></svg>'" class="w-full h-full object-cover">
             </div>
-            <div class="flex-grow">
-                <div class="flex justify-between items-start mb-1">
-                    <h4 class="font-display text-sm font-bold uppercase tracking-wider">${item.name}</h4>
-                    <button onclick="removeFromCart(${item.id})" class="text-on-surface-variant hover:text-error transition-colors">
-                        <span class="material-symbols-outlined text-base">close</span>
+            <div class="flex-grow min-w-0">
+                <div class="flex justify-between items-start gap-2">
+                    <h4 class="font-display text-sm font-bold uppercase tracking-wider truncate">${item.name}</h4>
+                    <button onclick="removeFromCart(${item.id})" class="text-on-surface-variant/40 hover:text-error transition-colors shrink-0">
+                        <span class="material-symbols-outlined text-lg">close</span>
                     </button>
                 </div>
-                <p class="text-xs text-on-surface-variant mb-4">${formatCOP(item.price)}</p>
-                <div class="flex items-center gap-4">
-                    <div class="flex border border-outline-variant text-[10px]">
-                        <button onclick="changeQty(${item.id}, -1)" class="px-2 py-1 hover:bg-surface-container">-</button>
-                        <span class="px-3 py-1 border-x border-outline-variant font-bold">${item.quantity}</span>
-                        <button onclick="changeQty(${item.id}, 1)" class="px-2 py-1 hover:bg-surface-container">+</button>
+                <p class="text-xs text-on-surface-variant/70 mt-0.5 mb-3">${formatCOP(item.price)} c/u</p>
+                <div class="flex items-center justify-between">
+                    <div class="flex border border-outline-variant text-xs">
+                        <button onclick="changeQty(${item.id}, -1)" class="px-2.5 py-1.5 hover:bg-surface-container transition-colors leading-none">−</button>
+                        <span class="px-3 py-1.5 border-x border-outline-variant font-bold min-w-[2rem] text-center">${item.quantity}</span>
+                        <button onclick="changeQty(${item.id}, 1)" class="px-2.5 py-1.5 hover:bg-surface-container transition-colors leading-none">+</button>
                     </div>
+                    <span class="text-sm font-bold font-display">${formatCOP(item.price * item.quantity)}</span>
                 </div>
             </div>
         </div>
@@ -334,15 +353,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if(menuOverlay) menuOverlay.onclick = closeMenu;
     if(checkoutBtn) checkoutBtn.onclick = () => {
         if(cart.length === 0) {
-            alert('Tu carrito está vacío');
+            showToast('Tu carrito está vacío');
             return;
         }
+        const items = cart.map((i, idx) =>
+            `${idx + 1}. ${i.name} x${i.quantity} — ${formatCOP(i.price * i.quantity)}`
+        ).join('\n');
         const total = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
-        const msg = encodeURIComponent('¡Hola! Quiero finalizar mi compra en MultiTechco por un total de ' + formatCOP(total));
-        window.open('https://wa.me/573000000000?text=' + msg, '_blank');
-        cart.length = 0;
-        saveCart();
-        renderCart();
+        const msg = encodeURIComponent(
+            '¡Hola! Quiero finalizar mi compra en MultiTechco 🛒\n\n' +
+            '*Productos:*\n' + items +
+            '\n\n*Total: ' + formatCOP(total) + '*\n\n¡Gracias!'
+        );
+        window.open('https://wa.me/573006298971?text=' + msg, '_blank');
         closeCart();
     };
 
