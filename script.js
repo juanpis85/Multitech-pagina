@@ -303,7 +303,7 @@ function closeProductModal() {
 }
 
 function openWhatsApp() {
-    window.open('https://wa.me/573000000000?text=Hola, estoy interesado en sus productos premium.', '_blank');
+    window.open('https://wa.me/573006298971?text=¡Hola! Quiero conocer más sobre sus productos premium.', '_blank');
 }
 
 function scrollCarousel(id, dir) {
@@ -356,17 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast('Tu carrito está vacío');
             return;
         }
-        const items = cart.map((i, idx) =>
-            `${idx + 1}. ${i.name} x${i.quantity} — ${formatCOP(i.price * i.quantity)}`
-        ).join('\n');
-        const total = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
-        const msg = encodeURIComponent(
-            '¡Hola! Quiero finalizar mi compra en MultiTechco 🛒\n\n' +
-            '*Productos:*\n' + items +
-            '\n\n*Total: ' + formatCOP(total) + '*\n\n¡Gracias!'
-        );
-        window.open('https://wa.me/573006298971?text=' + msg, '_blank');
         closeCart();
+        openCheckout();
     };
 
     renderProducts();
@@ -701,6 +692,166 @@ async function adminDeleteProduct(id) {
 
 // Init Firebase on page load
 firebaseInit();
+
+/* ===== CHECKOUT ===== */
+
+function openCheckout() {
+    const modal = document.getElementById('checkoutModal');
+    if (!modal) return;
+    // Clear form
+    ['checkoutName','checkoutEmail','checkoutPhone','checkoutCity','checkoutAddress'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('checkoutStep1').classList.remove('hidden');
+    document.getElementById('checkoutStep2').classList.add('hidden');
+    document.getElementById('checkoutLoading').classList.add('hidden');
+    document.getElementById('checkoutSuccess').classList.add('hidden');
+    document.getElementById('checkoutError').classList.add('hidden');
+    document.getElementById('checkoutPayBtn').disabled = false;
+    // Focus first field
+    setTimeout(() => document.getElementById('checkoutName')?.focus(), 100);
+}
+
+function closeCheckout() {
+    const modal = document.getElementById('checkoutModal');
+    if (modal) modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+window.openCheckout = openCheckout;
+window.closeCheckout = closeCheckout;
+
+document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target.id === 'checkoutPayBtn') {
+        proceedToPayment();
+    }
+    if (target.classList.contains('checkout-continue') || target.closest('.checkout-continue')) {
+        goToStep2();
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !document.getElementById('checkoutStep1')?.classList.contains('hidden')) {
+        const active = document.activeElement;
+        if (active && active.closest('#checkoutStep1')) {
+            goToStep2();
+        }
+    }
+});
+
+function goToStep2() {
+    const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const city = document.getElementById('checkoutCity').value.trim();
+    const address = document.getElementById('checkoutAddress').value.trim();
+
+    if (!name) return showToast('Ingresá tu nombre');
+    if (!email || !email.includes('@')) return showToast('Ingresá un correo válido');
+    if (!phone) return showToast('Ingresá tu teléfono');
+
+    document.getElementById('checkoutStep1').classList.add('hidden');
+    document.getElementById('checkoutStep2').classList.remove('hidden');
+
+    // Render order summary
+    const container = document.getElementById('checkoutItems');
+    container.innerHTML = cart.map(item => `
+        <div class="flex justify-between items-center text-sm">
+            <span><span class="font-semibold">${item.quantity}x</span> ${item.name}</span>
+            <span>${formatCOP(item.price * item.quantity)}</span>
+        </div>
+    `).join('');
+
+    const subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+    const shipping = subtotal >= 500000 ? 0 : 15000;
+    const total = subtotal + shipping;
+
+    document.getElementById('checkoutSubtotal').textContent = formatCOP(subtotal);
+    document.getElementById('checkoutShipping').textContent = shipping === 0 ? 'Gratis' : formatCOP(shipping);
+    document.getElementById('checkoutTotal').textContent = formatCOP(total);
+}
+
+async function proceedToPayment() {
+    const payBtn = document.getElementById('checkoutPayBtn');
+    const loading = document.getElementById('checkoutLoading');
+    const step2 = document.getElementById('checkoutStep2');
+
+    const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+
+    step2.classList.add('hidden');
+    loading.classList.remove('hidden');
+    payBtn.disabled = true;
+
+    try {
+        const res = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                items: cart,
+                customer: { name, email, phone }
+            })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al conectar con el procesador de pagos');
+        }
+
+        // Redirect to MercadoPago
+        loading.classList.add('hidden');
+        window.location.href = data.init_point;
+    } catch (err) {
+        loading.classList.add('hidden');
+        step2.classList.remove('hidden');
+        payBtn.disabled = false;
+        document.getElementById('checkoutErrorMsg').textContent = err.message;
+        document.getElementById('checkoutError').classList.remove('hidden');
+    }
+}
+
+/* ===== HANDLE PAYMENT RETURN ===== */
+(function checkPaymentReturn() {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('payment');
+    const collectionId = params.get('collection_id');
+    if (status === 'success') {
+        cart.length = 0;
+        saveCart();
+        renderCart();
+        setTimeout(() => {
+            openCheckout();
+            document.getElementById('checkoutStep1').classList.add('hidden');
+            document.getElementById('checkoutStep2').classList.add('hidden');
+            document.getElementById('checkoutLoading').classList.add('hidden');
+            document.getElementById('checkoutError').classList.add('hidden');
+            document.getElementById('checkoutSuccess').classList.remove('hidden');
+            if (collectionId) document.getElementById('checkoutPaymentId').textContent = 'ID de transacción: ' + collectionId;
+        }, 500);
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+    } else if (status === 'failure') {
+        setTimeout(() => {
+            openCheckout();
+            document.getElementById('checkoutStep1').classList.add('hidden');
+            document.getElementById('checkoutStep2').classList.add('hidden');
+            document.getElementById('checkoutLoading').classList.add('hidden');
+            document.getElementById('checkoutSuccess').classList.add('hidden');
+            document.getElementById('checkoutError').classList.remove('hidden');
+            document.getElementById('checkoutErrorMsg').textContent = 'El pago no pudo completarse. Intentá de nuevo.';
+        }, 500);
+        window.history.replaceState({}, '', window.location.pathname);
+    } else if (status === 'pending') {
+        showToast('Tu pago está pendiente de confirmación');
+        window.history.replaceState({}, '', window.location.pathname);
+    }
+})();
 
 /* ===== COOKIE CONSENT ===== */
 (function() {

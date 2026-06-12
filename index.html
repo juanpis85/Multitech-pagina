@@ -546,6 +546,99 @@ Ver ofertas
 <p class="text-[10px] text-center mt-4 uppercase tracking-tighter text-on-secondary-container">Impuestos y envío calculados al finalizar</p>
 </div>
 </div>
+<!-- CHECKOUT MODAL -->
+<div class="fixed inset-0 z-[180] hidden flex items-center justify-center p-4" id="checkoutModal">
+<div class="absolute inset-0 bg-inverse-surface/60 backdrop-blur-sm" onclick="closeCheckout()"></div>
+<div class="relative bg-surface w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+<div class="sticky top-0 bg-surface z-10 flex items-center justify-between p-6 md:p-8 border-b border-outline-variant">
+<h2 class="font-display text-2xl font-bold">Finalizar Compra</h2>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container transition-colors" onclick="closeCheckout()"><span class="material-symbols-outlined">close</span></button>
+</div>
+
+<div class="p-6 md:p-8 space-y-8" id="checkoutBody">
+<!-- Step 1: Customer info -->
+<div id="checkoutStep1">
+<h3 class="font-display text-lg mb-6">Tus datos</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div>
+<label class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-1.5 block">Nombre completo</label>
+<input class="w-full border border-outline-variant px-4 py-3 text-sm bg-surface focus:outline-none focus:border-primary transition-colors" id="checkoutName" placeholder="Tu nombre"/>
+</div>
+<div>
+<label class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-1.5 block">Correo electrónico</label>
+<input class="w-full border border-outline-variant px-4 py-3 text-sm bg-surface focus:outline-none focus:border-primary transition-colors" id="checkoutEmail" type="email" placeholder="correo@ejemplo.com"/>
+</div>
+<div>
+<label class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-1.5 block">Teléfono</label>
+<input class="w-full border border-outline-variant px-4 py-3 text-sm bg-surface focus:outline-none focus:border-primary transition-colors" id="checkoutPhone" placeholder="300 000 0000"/>
+</div>
+<div>
+<label class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-1.5 block">Ciudad</label>
+<input class="w-full border border-outline-variant px-4 py-3 text-sm bg-surface focus:outline-none focus:border-primary transition-colors" id="checkoutCity" placeholder="Bogotá"/>
+</div>
+</div>
+<div class="mt-5">
+<label class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-1.5 block">Dirección de envío</label>
+<input class="w-full border border-outline-variant px-4 py-3 text-sm bg-surface focus:outline-none focus:border-primary transition-colors" id="checkoutAddress" placeholder="Calle 123 # 45-67"/>
+</div>
+<button class="checkout-continue w-full bg-on-surface text-surface py-4 mt-6 font-bold uppercase tracking-widest hover:bg-primary transition-soft text-sm">Continuar</button>
+</div>
+
+<!-- Step 2: Order summary + payment -->
+<div id="checkoutStep2" class="hidden">
+<h3 class="font-display text-lg mb-6">Resumen del pedido</h3>
+<div class="space-y-4 mb-8" id="checkoutItems"></div>
+<div class="border-t border-outline-variant pt-4 space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-semibold" id="checkoutSubtotal"></span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Envío</span>
+<span class="font-semibold" id="checkoutShipping"></span>
+</div>
+<div class="flex justify-between text-lg font-display font-bold pt-2 border-t border-outline-variant">
+<span>Total</span>
+<span class="text-primary" id="checkoutTotal"></span>
+</div>
+</div>
+<div class="mt-8 space-y-4">
+<div class="bg-surface-container-low p-4 text-xs text-on-surface-variant leading-relaxed">
+<p class="font-semibold text-on-surface mb-1">🔒 Pago 100% seguro</p>
+<p>Serás redirigido a MercadoPago para pagar con tarjeta de crédito, débito, PSE, Nequi o Daviplata. Tus datos están protegidos.</p>
+</div>
+<button class="w-full bg-on-surface text-surface py-5 font-bold uppercase tracking-widest hover:bg-primary transition-soft disabled:opacity-30 disabled:cursor-not-allowed" id="checkoutPayBtn">
+Ir a pagar con MercadoPago
+</button>
+<p class="text-[10px] text-center text-on-secondary-container">Una vez confirmado el pago, recibirás un correo con los detalles de tu compra.</p>
+</div>
+</div>
+
+<!-- Loading -->
+<div id="checkoutLoading" class="hidden text-center py-16">
+<div class="inline-block w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+<p class="text-on-surface-variant">Creando tu pago...</p>
+</div>
+
+<!-- Success -->
+<div id="checkoutSuccess" class="hidden text-center py-12">
+<div class="text-6xl mb-6">✅</div>
+<h3 class="font-display text-2xl font-bold mb-3">¡Pago confirmado!</h3>
+<p class="text-on-surface-variant mb-2">Gracias por tu compra. Recibirás un correo con los detalles.</p>
+<p class="text-xs text-on-surface-variant/60" id="checkoutPaymentId"></p>
+<button class="mt-8 bg-on-surface text-surface px-8 py-4 font-semibold uppercase tracking-widest hover:bg-primary transition-soft" onclick="closeCheckout()">Seguir comprando</button>
+</div>
+
+<!-- Error -->
+<div id="checkoutError" class="hidden text-center py-12">
+<div class="text-6xl mb-6">❌</div>
+<h3 class="font-display text-2xl font-bold mb-3">Error al procesar el pago</h3>
+<p class="text-on-surface-variant mb-2" id="checkoutErrorMsg">No se pudo crear el pago. Intentá de nuevo.</p>
+<button class="mt-8 bg-on-surface text-surface px-8 py-4 font-semibold uppercase tracking-widest hover:bg-primary transition-soft" onclick="closeCheckout()">Cerrar</button>
+</div>
+</div>
+</div>
+</div>
 <!-- PRODUCT MODAL -->
 <div class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4" id="productModal">
 <div class="absolute inset-0 modal-blur" onclick="closeProductModal()"></div>
@@ -593,7 +686,7 @@ Ver ofertas
 <div>
 <h4 class="font-semibold uppercase tracking-widest text-xs mb-6 text-primary">Contacto</h4>
 <ul class="space-y-4 text-sm text-surface-variant/80">
-<li class="flex gap-3"><span class="material-symbols-outlined text-sm">phone</span> +57 300 000 0000</li>
+<li class="flex gap-3"><span class="material-symbols-outlined text-sm">phone</span> +57 300 629 8971</li>
 <li class="flex gap-3"><span class="material-symbols-outlined text-sm">mail</span> concierge@multitechco.com</li>
 <li class="flex gap-3"><span class="material-symbols-outlined text-sm">location_on</span> Bogotá, Colombia</li>
 </ul>
