@@ -350,43 +350,72 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
     checkAdminAccess();
 
-    // World Cup section crash animation
+    // World Cup section — physics ball crash
     const wcSection = document.querySelector('.worldcup-section');
     if (wcSection) {
+        let animTriggered = false;
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && !animTriggered) {
+                    animTriggered = true;
                     const ball = document.getElementById('worldcupBall');
                     const glass = document.getElementById('worldcupGlass');
                     const flash = document.getElementById('worldcupFlash');
                     const content = document.getElementById('worldcupContent');
                     const cracks = document.querySelectorAll('.crack');
                     const shards = document.querySelectorAll('.shard');
+                    if (!ball) return;
 
-                    // Step 1: Ball flies
-                    ball?.classList.add('animate');
+                    const rect = wcSection.getBoundingClientRect();
+                    const startX = -120;
+                    const endX = rect.width * 0.5;
+                    const startY = rect.height * 0.75;
+                    const endY = rect.height * 0.43;
+                    const arcHeight = -rect.height * 0.3;
+                    const duration = 2000;
+                    const totalRotation = 1440;
+                    const startTime = performance.now();
 
-                    // Step 2: Flash + cracks at impact point (~1.6s)
-                    setTimeout(() => {
-                        flash?.classList.add('flash');
-                        cracks.forEach(c => c.classList.add('animate'));
-                    }, 1550);
+                    function frame(now) {
+                        const elapsed = now - startTime;
+                        let t = Math.min(elapsed / duration, 1);
 
-                    // Step 3: Glass shatters (~1.9s)
-                    setTimeout(() => {
-                        glass?.classList.add('shatter');
-                        shards.forEach(s => s.classList.add('animate'));
-                    }, 1850);
+                        // ease-out for position: fast start, slow finish
+                        const easePos = 1 - Math.pow(1 - t, 1.8);
+                        const x = startX + (endX - startX) * easePos;
+                        const linearY = startY + (endY - startY) * easePos;
+                        const arc = 4 * arcHeight * easePos * (1 - easePos);
+                        const y = linearY + arc;
 
-                    // Step 4: Content emerges (~2.3s)
-                    setTimeout(() => {
-                        content?.classList.add('animate');
-                    }, 2300);
+                        // scale ramps up fast near the end
+                        const scale = 0.12 + Math.pow(t, 2.5) * 11.88;
+                        const rotation = totalRotation * easePos;
 
+                        ball.style.left = x + 'px';
+                        ball.style.top = y + 'px';
+                        ball.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
+                        ball.style.opacity = t < 0.04 ? String(t / 0.04) : '1';
+
+                        if (t < 1) {
+                            requestAnimationFrame(frame);
+                        } else {
+                            // Impact sequence
+                            flash?.classList.add('flash');
+                            cracks.forEach(c => c.classList.add('animate'));
+                            setTimeout(() => {
+                                glass?.classList.add('shatter');
+                                shards.forEach(s => s.classList.add('animate'));
+                            }, 250);
+                            setTimeout(() => {
+                                content?.classList.add('animate');
+                            }, 650);
+                        }
+                    }
+                    requestAnimationFrame(frame);
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.25 });
+        }, { threshold: 0.2 });
         observer.observe(wcSection);
     }
 });

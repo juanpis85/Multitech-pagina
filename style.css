@@ -103,6 +103,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     transform-origin: left center;
     pointer-events: none;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+    transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .crack-1 { transform: rotate(10deg); }
 .crack-2 { transform: rotate(45deg); }
@@ -114,9 +115,6 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
 .crack-8 { transform: rotate(330deg); }
 .crack-9 { transform: rotate(355deg); }
 
-.crack.animate {
-    animation: crackGrow 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
 .crack-1.animate { width: 180px; }
 .crack-2.animate { width: 250px; }
 .crack-3.animate { width: 140px; }
@@ -126,11 +124,6 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
 .crack-7.animate { width: 220px; }
 .crack-8.animate { width: 300px; }
 .crack-9.animate { width: 90px; }
-
-@keyframes crackGrow {
-    from { width: 0; }
-    to { width: var(--crack-length, 180px); }
-}
 
 /* Shatter - glass breaks into pieces and falls */
 .worldcup-glass.shatter {
@@ -163,32 +156,15 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     100% { opacity: 0; transform: scale(1.3); }
 }
 
-/* Ball crash */
+/* Ball crash - position controlled by JS */
 .worldcup-ball {
     position: absolute;
     z-index: 20;
     pointer-events: none;
-    font-size: 5rem;
-    left: -10%;
-    top: 35%;
-    transform: scale(0.3) rotate(0deg);
+    font-size: 4rem;
+    transform: translate(-50%, -50%) scale(0.1) rotate(0deg);
     opacity: 0;
-    will-change: transform, left;
-}
-
-.worldcup-ball.animate {
-    animation: ballFly 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes ballFly {
-    0%   { left: -10%; top: 42%; transform: scale(0.2) rotate(0deg); opacity: 0; }
-    10%  { left: 5%;  top: 40%; transform: scale(0.4) rotate(180deg); opacity: 1; }
-    35%  { left: 28%; top: 37%; transform: scale(0.8) rotate(540deg); }
-    55%  { left: 42%; top: 35%; transform: scale(1.2) rotate(900deg); }
-    70%  { left: 48%; top: 36%; transform: scale(2) rotate(1080deg); }
-    82%  { left: 50%; top: 38%; transform: scale(4.5) rotate(1200deg); }
-    92%  { left: 50%; top: 40%; transform: scale(7) rotate(1350deg); opacity: 1; }
-    100% { left: 50%; top: 42%; transform: scale(10) rotate(1440deg); opacity: 0; }
+    will-change: transform, left, top;
 }
 
 /* Content emerges after glass shatters */
