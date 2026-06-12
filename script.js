@@ -678,3 +678,25 @@ async function adminDeleteProduct(id) {
 
 // Init Firebase on page load
 firebaseInit();
+
+/* ===== COOKIE CONSENT ===== */
+(function() {
+    const banner = document.getElementById('cookieBanner');
+    if (!banner) return;
+    if (localStorage.getItem('cookies_accepted') !== null) return;
+    setTimeout(() => banner.classList.add('show'), 600);
+})();
+
+function acceptCookies() {
+    localStorage.setItem('cookies_accepted', 'true');
+    const banner = document.getElementById('cookieBanner');
+    banner.classList.remove('show');
+    banner.classList.add('hide');
+}
+
+function declineCookies() {
+    localStorage.setItem('cookies_accepted', 'false');
+    const banner = document.getElementById('cookieBanner');
+    banner.classList.remove('show');
+    banner.classList.add('hide');
+}

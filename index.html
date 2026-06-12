@@ -130,7 +130,7 @@ Ver ofertas
 <div class="max-w-3xl mx-auto text-center worldcup-content opacity-0" id="worldcupContent">
 <span class="text-[#FFCD00] uppercase tracking-[0.4em] text-xs font-bold mb-6 block">⚽ Mundial 2026</span>
 <h2 class="text-display-lg md:text-6xl font-display font-bold leading-[1.05] mb-6 text-surface">Llegó el momento.<br/>Todas las selecciones. Un solo sueño.</h2>
-<p class="text-surface/70 text-body-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto">32 países. Un balón. Una pasión que nos une. Colombia está lista y vos también. Viví cada partido, cada gol, cada latido en la pantalla que merece este momento.</p>
+<p class="text-surface/70 text-body-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto">32 países. Un balón. Una pasión que nos une. Colombia está lista y esperamos que tu si. Vive cada partido, cada gol, cada latido en la pantalla que merece este momento.</p>
 <p class="text-[#FFCD00] font-display text-2xl md:text-3xl font-bold italic mb-10">— Esto es Mundial —</p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 <a class="bg-[#FFCD00] text-on-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-yellow-400 transition-soft shadow-xl flex items-center gap-3" href="#" onclick="showPage('electro'); return false;">
@@ -613,5 +613,23 @@ Ver ofertas
 </div>
 </footer>
 <script src="script.js"></script>
+<!-- Cookie Consent -->
+<div class="cookie-banner fixed bottom-0 left-0 right-0 z-50 translate-y-full opacity-0" id="cookieBanner">
+<div class="bg-on-surface/95 backdrop-blur-xl border-t border-white/10">
+<div class="max-w-container-max mx-auto px-gutter py-6 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+<div class="flex items-start gap-4 max-w-2xl">
+<span class="material-symbols-outlined text-primary text-2xl mt-0.5 shrink-0">cookie</span>
+<div>
+<p class="text-surface text-sm font-medium">🍪 Este sitio usa cookies</p>
+<p class="text-surface/60 text-xs leading-relaxed mt-1">Utilizamos cookies propias y de terceros para mejorar tu experiencia, recordar tus preferencias y mostrarte contenido relevante. Al hacer clic en "Aceptar todas", consentís su uso.</p>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<button class="text-xs text-surface/50 hover:text-surface transition-colors px-4 py-2.5 uppercase tracking-widest font-semibold" onclick="declineCookies()">Rechazar</button>
+<button class="bg-primary text-on-surface px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-yellow-400 transition-soft shadow-lg" onclick="acceptCookies()">Aceptar todas</button>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>
