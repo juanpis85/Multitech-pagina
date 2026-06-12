@@ -399,6 +399,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (t < 1) {
                             requestAnimationFrame(frame);
                         } else {
+                            // Hide ball on impact
+                            ball.style.opacity = '0';
                             // Impact sequence
                             flash?.classList.add('flash');
                             cracks.forEach(c => c.classList.add('animate'));
