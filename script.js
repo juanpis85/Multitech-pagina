@@ -703,6 +703,12 @@ function openCheckout() {
         const el = document.getElementById(id);
         if (el) el.value = '';
     });
+    // Reset terms checkbox
+    const termsCb = document.getElementById('termsCheckbox');
+    if (termsCb) {
+        termsCb.checked = false;
+        document.getElementById('checkoutPayBtn').disabled = true;
+    }
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     document.getElementById('checkoutStep1').classList.remove('hidden');
@@ -774,6 +780,26 @@ function goToStep2() {
     document.getElementById('checkoutShipping').textContent = shipping === 0 ? 'Gratis' : formatCOP(shipping);
     document.getElementById('checkoutTotal').textContent = formatCOP(total);
 }
+
+function openTermsModal() {
+    document.getElementById('termsModal')?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeTermsModal() {
+    document.getElementById('termsModal')?.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+window.openTermsModal = openTermsModal;
+window.closeTermsModal = closeTermsModal;
+
+// Enable pay button only when terms are accepted
+document.addEventListener('change', (e) => {
+    if (e.target.id === 'termsCheckbox') {
+        document.getElementById('checkoutPayBtn').disabled = !e.target.checked;
+    }
+});
 
 async function proceedToPayment() {
     const payBtn = document.getElementById('checkoutPayBtn');

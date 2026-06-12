@@ -607,7 +607,13 @@ Ver ofertas
 <p class="font-semibold text-on-surface mb-1">🔒 Pago 100% seguro</p>
 <p>Serás redirigido a MercadoPago para pagar con tarjeta de crédito, débito, PSE, Nequi o Daviplata. Tus datos están protegidos.</p>
 </div>
-<button class="w-full bg-on-surface text-surface py-5 font-bold uppercase tracking-widest hover:bg-primary transition-soft disabled:opacity-30 disabled:cursor-not-allowed" id="checkoutPayBtn">
+<label class="flex items-start gap-3 cursor-pointer group" id="termsLabel">
+<input type="checkbox" class="mt-0.5 w-4 h-4 accent-primary cursor-pointer" id="termsCheckbox"/>
+<span class="text-xs text-on-surface-variant leading-relaxed select-none group-hover:text-on-surface transition-colors">
+Acepto los <button class="text-primary underline hover:text-yellow-500 transition-colors" onclick="event.preventDefault(); openTermsModal(); return false;">Términos y Condiciones</button> y la <button class="text-primary underline hover:text-yellow-500 transition-colors" onclick="event.preventDefault(); openTermsModal(); return false;">Política de Tratamiento de Datos</button> de MultiTechco. Declaro haber leído y entendido las condiciones de compra, incluyendo el derecho de retracto, las políticas de envío y la garantía de los productos.
+</span>
+</label>
+<button class="w-full bg-on-surface text-surface py-5 font-bold uppercase tracking-widest hover:bg-primary transition-soft disabled:opacity-30 disabled:cursor-not-allowed" id="checkoutPayBtn" disabled>
 Ir a pagar con MercadoPago
 </button>
 <p class="text-[10px] text-center text-on-secondary-container">Una vez confirmado el pago, recibirás un correo con los detalles de tu compra.</p>
@@ -636,6 +642,169 @@ Ir a pagar con MercadoPago
 <p class="text-on-surface-variant mb-2" id="checkoutErrorMsg">No se pudo crear el pago. Intentá de nuevo.</p>
 <button class="mt-8 bg-on-surface text-surface px-8 py-4 font-semibold uppercase tracking-widest hover:bg-primary transition-soft" onclick="closeCheckout()">Cerrar</button>
 </div>
+</div>
+</div>
+</div>
+<!-- TÉRMINOS Y CONDICIONES MODAL -->
+<div class="fixed inset-0 z-[190] hidden flex items-center justify-center p-4" id="termsModal">
+<div class="absolute inset-0 bg-inverse-surface/60 backdrop-blur-sm" onclick="closeTermsModal()"></div>
+<div class="relative bg-surface w-full max-w-3xl max-h-[90vh] shadow-2xl flex flex-col">
+<div class="sticky top-0 bg-surface z-10 flex items-center justify-between p-6 md:p-8 border-b border-outline-variant">
+<h2 class="font-display text-2xl font-bold">Términos y Condiciones</h2>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container transition-colors" onclick="closeTermsModal()"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="overflow-y-auto p-6 md:p-8 text-sm text-on-surface-variant leading-relaxed space-y-6">
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">1. Información General</h3>
+<p>MultiTechco es una tienda virtual colombiana dedicada a la curaduría y comercialización de productos tecnológicos y electrodomésticos de alta gama. No contamos con puntos de venta físicos; todas nuestras transacciones se realizan exclusivamente a través de este sitio web (<strong>multitechcolombia.com</strong>).</p>
+<p class="mt-2">Al realizar una compra en MultiTechco, usted acepta los presentes Términos y Condiciones, así como nuestra Política de Tratamiento de Datos Personales. Si no está de acuerdo con alguno de estos términos, le solicitamos no utilizar nuestros servicios.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">2. Identificación del Comercio</h3>
+<ul class="list-disc pl-5 space-y-1.5">
+<li><strong>Nombre comercial:</strong> MultiTechco</li>
+<li><strong>Sitio web:</strong> multitechcolombia.com</li>
+<li><strong>Correo de contacto:</strong> concierge@multitechco.com</li>
+<li><strong>WhatsApp:</strong> +57 300 629 8971</li>
+<li><strong>Ciudad:</strong> Bogotá, Colombia</li>
+<li><strong>Naturaleza:</strong> Comercio electrónico sin establecimiento físico de comercio</li>
+</ul>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">3. Productos y Precios</h3>
+<p>3.1. Las imágenes de los productos son de carácter referencial. Aunque nos esforzamos por mostrar los colores y detalles con la mayor precisión posible, la visualización puede variar según la configuración de su pantalla.</p>
+<p>3.2. Los precios publicados están expresados en pesos colombianos (COP) e incluyen el IVA correspondiente, salvo que se indique expresamente lo contrario.</p>
+<p>3.3. MultiTechco se reserva el derecho de modificar los precios en cualquier momento sin previo aviso. No obstante, el precio aplicable a su compra será el vigente al momento de realizar el pedido.</p>
+<p>3.4. En caso de error en la publicación del precio de un producto, MultiTechco se comunicará con usted antes de procesar el pago para informarle y, si lo desea, cancelar el pedido sin costo alguno.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">4. Proceso de Compra</h3>
+<p>4.1. Para realizar una compra, el cliente debe:</p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>Agregar los productos deseados al carrito de compras.</li>
+<li>Completar el formulario con sus datos personales y dirección de envío.</li>
+<li>Aceptar los presentes Términos y Condiciones.</li>
+<li>Ser redirigido a la plataforma de pago seguro de MercadoPago para realizar la transacción.</li>
+</ul>
+<p class="mt-2">4.2. Una vez confirmado el pago por parte de MercadoPago, recibirá un correo electrónico con la confirmación del pedido y los detalles de la compra.</p>
+<p>4.3. MultiTechco no almacena ni procesa datos financieros. El procesamiento de pagos se realiza íntegramente a través de MercadoPago, cumpliendo con los más altos estándares de seguridad PCI-DSS.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">5. Medios de Pago Aceptados</h3>
+<p>A través de MercadoPago aceptamos los siguientes medios de pago:</p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>Tarjetas de crédito (Visa, Mastercard, American Express, Diners)</li>
+<li>Tarjetas débito (Visa débito, Mastercard débito)</li>
+<li>PSE (Pagos Seguros en Línea)</li>
+<li>Nequi</li>
+<li>Daviplata</li>
+<li>Efectivo (Efecty, Baloto, Gana) — sujeto a disponibilidad de MercadoPago</li>
+</ul>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">6. Envío y Entrega</h3>
+<p>6.1. Realizamos envíos a todo el territorio colombiano a través de operadores logísticos aliados.</p>
+<p>6.2. <strong>Cobertura:</strong> Entregamos en ciudades principales y áreas metropolitanas. Para zonas rurales o de difícil acceso, el tiempo de entrega puede ser mayor y estaremos en contacto para coordinar la mejor opción.</p>
+<p>6.3. <strong>Plazos de entrega estimados:</strong></p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>Bogotá y principales ciudades: 1 a 3 días hábiles</li>
+<li>Otras ciudades y municipios: 3 a 7 días hábiles</li>
+<li>Zonas especiales: hasta 10 días hábiles</li>
+</ul>
+<p class="mt-2">6.4. <strong>Costo de envío:</strong> El valor del envío se calcula automáticamente en el resumen del pedido. Para compras superiores a $500.000 COP, el envío es gratuito dentro del territorio colombiano.</p>
+<p>6.5. Una vez despachado el pedido, recibirá un número de guía para realizar el seguimiento en línea.</p>
+<p>6.6. MultiTechco no se hace responsable por retrasos ocasionados por el operador logístico o por circunstancias de fuerza mayor (desastres naturales, paros, condiciones climáticas adversas, etc.).</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">7. Derecho de Retracto</h3>
+<p>7.1. De conformidad con el artículo 47 de la Ley 1480 de 2011 (Estatuto del Consumidor), el cliente dispone de un plazo máximo de <strong>cinco (5) días hábiles</strong> contados a partir de la recepción del producto para ejercer el derecho de retracto, sin necesidad de justificar la decisión.</p>
+<p>7.2. Para ejercer este derecho, el cliente debe:</p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>Notificar su decisión a través del correo electrónico concierge@multitechco.com o al WhatsApp +57 300 629 8971.</li>
+<li>El producto debe estar en su estado original, sin signos de uso, con todos sus accesorios, manuales y empaques originales.</li>
+</ul>
+<p>7.3. <strong>Procedimiento de devolución:</strong></p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>MultiTechco coordinará el recojo del producto a través del operador logístico.</li>
+<li>El costo de transporte de la devolución será asumido por el cliente, salvo que el producto presente defectos de fábrica o no corresponda a lo solicitado.</li>
+<li>Una vez recibido el producto y verificado su estado, MultiTechco procederá con el reembolso total del valor pagado (incluido el costo de envío original) en un plazo máximo de quince (15) días hábiles, a través del mismo medio de pago utilizado.</li>
+</ul>
+<p>7.4. <strong>Excepciones al derecho de retracto:</strong> No aplica para productos sellados que por razones de higiene o salubridad no puedan ser devueltos (ej. audífonos intrauriculares), productos personalizados, o productos que por su naturaleza no puedan ser devueltos o puedan deteriorarse rápidamente.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">8. Garantía</h3>
+<p>8.1. Todos nuestros productos nuevos cuentan con la <strong>garantía legal</strong> establecida en el artículo 11 de la Ley 1480 de 2011, que cubre defectos de fabricación por un período mínimo de un (1) año a partir de la entrega del producto.</p>
+<p>8.2. <strong>La garantía no cubre:</strong></p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>Daños causados por uso indebido o negligencia.</li>
+<li>Daños por accidentes, golpes, derrames de líquidos o exposición a condiciones ambientales adversas.</li>
+<li>Desgaste normal por uso del producto.</li>
+<li>Modificaciones, reparaciones o mantenimiento realizados por personal no autorizado.</li>
+</ul>
+<p>8.3. Para hacer efectiva la garantía, el cliente debe contactarnos a través de concierge@multitechco.com o al WhatsApp +57 300 629 8971, indicando el número de pedido y describiendo el defecto.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">9. Cambios y Devoluciones</h3>
+<p>9.1. Además del derecho de retracto, aceptamos cambios por talla, color o modelo dentro de los primeros cinco (5) días hábiles posteriores a la entrega, siempre que el producto esté en perfectas condiciones y en su empaque original.</p>
+<p>9.2. El cliente asume el costo de envío del cambio. Si el cambio es por un error nuestro (producto equivocado, defecto), el costo será asumido por MultiTechco.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">10. Protección de Datos Personales</h3>
+<p>10.1. De conformidad con la Ley 1581 de 2012 y sus decretos reglamentarios, MultiTechco actúa como responsable del tratamiento de los datos personales suministrados por los clientes.</p>
+<p>10.2. Los datos recolectados (nombre, correo electrónico, teléfono, dirección) serán utilizados exclusivamente para:</p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li>Procesar y gestionar el pedido realizado.</li>
+<li>Coordinar la entrega del producto.</li>
+<li>Enviar información relacionada con la compra (confirmación, facturación, estado del envío).</li>
+<li>Cumplir con obligaciones legales y fiscales.</li>
+</ul>
+<p>10.3. MultiTechco no compartirá, venderá ni cederá sus datos personales a terceros para fines diferentes a los aquí descritos, salvo obligación legal.</p>
+<p>10.4. El cliente puede ejercer sus derechos de acceso, rectificación, cancelación y oposición (ARCO) enviando una solicitud a concierge@multitechco.com.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">11. Facturación</h3>
+<p>11.1. MultiTechco emitirá factura electrónica por cada compra realizada, la cual será enviada al correo electrónico registrado por el cliente.</p>
+<p>11.2. La factura cumple con todos los requisitos establecidos por la DIAN para la facturación electrónica en Colombia.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">12. Propiedad Intelectual</h3>
+<p>12.1. Todos los contenidos del sitio web multitechcolombia.com, incluyendo textos, imágenes, logotipos, diseños, y código, son propiedad de MultiTechco o se utilizan con licencia de sus respectivos titulares.</p>
+<p>12.2. Queda prohibida la reproducción, distribución, modificación o uso no autorizado de los contenidos sin el consentimiento expreso de MultiTechco.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">13. Limitación de Responsabilidad</h3>
+<p>13.1. MultiTechco no será responsable por daños indirectos, pérdida de beneficios o interrupción del negocio derivados del uso o la imposibilidad de uso de los productos adquiridos.</p>
+<p>13.2. Nuestra responsabilidad máxima estará limitada al valor del producto adquirido, en los términos de la Ley 1480 de 2011.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">14. Legislación Aplicable y Jurisdicción</h3>
+<p>14.1. Estos Términos y Condiciones se rigen por las leyes de la República de Colombia.</p>
+<p>14.2. Para cualquier controversia derivada de la interpretación o ejecución del presente acuerdo, las partes se someten a la jurisdicción de los jueces y tribunales de la ciudad de Bogotá, D.C., Colombia.</p>
+</section>
+
+<section>
+<h3 class="font-display text-lg font-bold text-on-surface mb-3">15. Contacto</h3>
+<p>Para cualquier inquietud, reclamación o solicitud relacionada con estos Términos y Condiciones, puede contactarnos a través de:</p>
+<ul class="list-disc pl-5 space-y-1.5">
+<li><strong>Correo electrónico:</strong> concierge@multitechco.com</li>
+<li><strong>WhatsApp:</strong> +57 300 629 8971</li>
+<li><strong>Sitio web:</strong> multitechcolombia.com</li>
+</ul>
+<p class="mt-4 text-xs text-on-surface-variant/60">Última actualización: junio de 2026.</p>
+</section>
 </div>
 </div>
 </div>
