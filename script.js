@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             try {
-                await firebase.auth().signInWithEmailAndPassword(email, pass);
+                await firebase.auth(firebaseApp).signInWithEmailAndPassword(email, pass);
                 if (errEl) errEl.classList.add('hidden');
             } catch (e) {
                 const msg = e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'
@@ -501,7 +501,7 @@ function showAdminLogin() {
 }
 
 function adminLogout() {
-    firebase.auth().signOut().then(() => {
+    firebase.auth(firebaseApp).signOut().then(() => {
         adminAuth = false;
         showAdminLogin();
         showPage('home');
@@ -729,7 +729,7 @@ function firebaseInit() {
         updateFirebaseStatus();
         firebaseLoadProducts();
         // Listen for auth state changes
-        firebase.auth().onAuthStateChanged(user => {
+        firebase.auth(firebaseApp).onAuthStateChanged(user => {
             if (user && user.email === 'admin@multitechcolombia.com') {
                 adminAuth = true;
                 if (window.location.hash === '#admin') {
