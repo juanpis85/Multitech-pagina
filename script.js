@@ -1,24 +1,4 @@
-let products = [
-    { id: 1, name: "Nevera Side-by-Side Smart", price: 1850000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1571175432270-4822567450d9?w=800&q=80", tag: "Nuevo", material: "metal", originalPrice: 2100000, estancias: ["cocina"] },
-    { id: 2, name: "MacBook Pro M3 Max", price: 8950000, category: "tecno", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 9990000, estancias: ["oficina", "sala"] },
-    { id: 3, name: "AirPods Max Silver", price: 1250000, category: "tecno", image: "https://images.unsplash.com/photo-1613040819284-97f741502c2c?w=800&q=80", tag: "Mas Vendido", material: "aluminio", estancias: ["oficina", "sala", "dormitorio"] },
-    { id: 4, name: "Horno Empotrable Pro", price: 980000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80", tag: "Nuevo", material: "metal", estancias: ["cocina"] },
-    { id: 5, name: "Teclado Mecánico Custom", price: 245000, category: "accesorios", image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 299000, estancias: ["oficina"] },
-    { id: 6, name: "Mouse Inalámbrico Zen", price: 132000, category: "accesorios", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80", tag: "Mas Vendido", material: "plastico", estancias: ["oficina", "sala"] },
-    { id: 7, name: "Lavadora Ultra Quiet", price: 2200000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1582730147043-34827495fe45?w=800&q=80", tag: "Nuevo", material: "metal", estancias: ["cocina", "bano"] },
-    { id: 8, name: "Monitor 4K Design Studio", price: 1680000, category: "tecno", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 1990000, estancias: ["oficina", "sala"] },
-    { id: 9, name: "Cafetera Expreso Italia", price: 420000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80", tag: "Nuevo", material: "metal", estancias: ["cocina"] },
-    { id: 10, name: "Auriculares Inalámbricos Pro", price: 189000, category: "tecno", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80", tag: "Mas Vendido", material: "plastico", estancias: ["oficina", "sala", "dormitorio"] },
-    { id: 11, name: "Freidora de Aire Digital", price: 289000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 349000, estancias: ["cocina"] },
-    { id: 12, name: "Base de Carga Inalámbrica", price: 89000, category: "accesorios", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80", tag: "Nuevo", material: "plastico", estancias: ["oficina", "sala", "dormitorio"] },
-    { id: 13, name: "Smartwatch Deportivo", price: 349000, category: "tecno", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80", tag: "Nuevo", material: "aluminio", estancias: ["sala", "dormitorio"] },
-    { id: 14, name: "Aspiradora Robot Inteligente", price: 890000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80", tag: "Mas Vendido", material: "plastico", estancias: ["sala", "dormitorio", "cocina"] },
-    { id: 15, name: "Hub USB-C 7 en 1", price: 65000, category: "accesorios", image: "https://images.unsplash.com/photo-1619953942547-233eab5a70d6?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 85000, estancias: ["oficina"] },
-    { id: 16, name: "Televisor QLED 65\" 4K Smart TV", price: 2890000, category: "tecno", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 3490000, estancias: ["sala"] },
-    { id: 17, name: "Televisor OLED 55\" 4K Dolby Vision", price: 3450000, category: "tecno", image: "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 4190000, estancias: ["sala"] },
-    { id: 18, name: "Televisor 75\" Mini LED 8K", price: 7250000, category: "tecno", image: "https://images.unsplash.com/photo-1601944179066-29786cb9d32a?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 8490000, estancias: ["sala"] },
-    { id: 19, name: "Televisor 50\" UHD 4K Smart TV", price: 1590000, category: "tecno", image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 1890000, estancias: ["sala", "dormitorio"] }
-];
+let products = [];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
