@@ -346,6 +346,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if(cartIcon) cartIcon.onclick = openCart;
     if(cartClose) cartClose.onclick = closeCart;
     if(cartOverlay) cartOverlay.onclick = closeCart;
+
+    // Admin login button
+    const loginBtn = document.getElementById('adminLoginBtn');
+    if (loginBtn) {
+        loginBtn.onclick = async () => {
+            const email = document.getElementById('adminLoginEmail')?.value.trim();
+            const pass = document.getElementById('adminLoginPass')?.value;
+            const errEl = document.getElementById('adminLoginError');
+            if (!email || !pass) {
+                if (errEl) { errEl.textContent = 'Completá ambos campos.'; errEl.classList.remove('hidden'); }
+                return;
+            }
+            try {
+                await firebase.auth().signInWithEmailAndPassword(email, pass);
+                if (errEl) errEl.classList.add('hidden');
+            } catch (e) {
+                const msg = e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'
+                    ? 'Credenciales inválidas.'
+                    : e.code === 'auth/too-many-requests'
+                    ? 'Demasiados intentos. Esperá un momento.'
+                    : 'Error al iniciar sesión.';
+                if (errEl) { errEl.textContent = msg; errEl.classList.remove('hidden'); }
+            }
+        };
+        // Allow Enter key to submit
+        document.getElementById('adminLoginPass')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+        document.getElementById('adminLoginEmail')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+    }
     if(hamburger) hamburger.onclick = () => {
         const nav = document.getElementById('mobileNav');
         const overlay = document.getElementById('menuOverlay');
@@ -445,47 +477,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ===== ADMIN PANEL ===== */
-let adminAuth = sessionStorage.getItem('admin_auth') === 'true';
+let adminAuth = false;
+let authUnsub = null;
 
 function checkAdminAccess() {
-    if (window.location.hash === '#admin') {
-        if (!adminAuth) {
-            promptAdminPassword();
-        } else {
-            setTimeout(openAdmin, 100);
-        }
+    if (window.location.hash !== '#admin') return;
+    if (adminAuth) {
+        openAdmin();
+    } else {
+        showAdminLogin();
     }
 }
 
-async function promptAdminPassword() {
-    const pass = prompt('🔐 Ingrese la clave de administrador:');
-    if (pass === null) return;
-    try {
-        const res = await fetch('/api/auth', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: pass })
-        });
-        const data = await res.json();
-        if (data.ok) {
-            adminAuth = true;
-            sessionStorage.setItem('admin_auth', 'true');
-            openAdmin();
-        } else {
-            alert(data.error || 'Clave incorrecta.');
-            history.pushState({ page: 'home' }, '', window.location.pathname);
-            showPage('home');
-        }
-    } catch (e) {
-        alert('Error al conectar con el servidor de autenticación.');
-        history.pushState({ page: 'home' }, '', window.location.pathname);
-        showPage('home');
+function showAdminLogin() {
+    document.getElementById('adminLoginBox')?.classList.remove('hidden');
+    document.getElementById('adminPanelContent')?.style.setProperty('display', 'none');
+    const formContainer = document.getElementById('adminForm')?.closest('.bg-surface-container-lowest');
+    if (formContainer && formContainer !== document.getElementById('adminLoginBox')?.closest('.bg-surface-container-lowest')) {
+        formContainer.classList.add('hidden');
     }
+    const tableContainer = document.querySelector('#page-admin .overflow-hidden');
+    if (tableContainer) tableContainer.classList.add('hidden');
+}
+
+function adminLogout() {
+    firebase.auth().signOut().then(() => {
+        adminAuth = false;
+        showAdminLogin();
+        showPage('home');
+    });
 }
 
 function openAdmin() {
     adminAuth = true;
-    sessionStorage.setItem('admin_auth', 'true');
+    document.getElementById('adminLoginBox')?.classList.add('hidden');
+    document.getElementById('adminPanelContent')?.style.setProperty('display', 'block');
+    const formContainer = document.getElementById('adminForm')?.closest('.bg-surface-container-lowest');
+    if (formContainer) formContainer.classList.remove('hidden');
+    const tableContainer = document.querySelector('#page-admin .overflow-hidden');
+    if (tableContainer) tableContainer.classList.remove('hidden');
     showPage('admin');
     adminRenderTable();
     document.getElementById('adminForm').reset();
@@ -698,6 +728,20 @@ function firebaseInit() {
         firebaseReady = true;
         updateFirebaseStatus();
         firebaseLoadProducts();
+        // Listen for auth state changes
+        firebase.auth().onAuthStateChanged(user => {
+            if (user && user.email === 'admin@multitechcolombia.com') {
+                adminAuth = true;
+                if (window.location.hash === '#admin') {
+                    openAdmin();
+                }
+            } else {
+                adminAuth = false;
+                if (window.location.hash === '#admin') {
+                    showAdminLogin();
+                }
+            }
+        });
     } catch (e) {
         console.error('Firebase init error:', e);
         alert('Error al conectar con Firebase: ' + e.message);
