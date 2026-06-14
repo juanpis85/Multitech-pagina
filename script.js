@@ -490,6 +490,7 @@ function checkAdminAccess() {
 }
 
 function showAdminLogin() {
+    showPage('admin');
     document.getElementById('adminLoginBox')?.classList.remove('hidden');
     document.getElementById('adminPanelContent')?.style.setProperty('display', 'none');
     const formContainer = document.getElementById('adminForm')?.closest('.bg-surface-container-lowest');
