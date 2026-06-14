@@ -595,11 +595,14 @@ function adminEditProduct(id) {
 function adminRenderTable() {
     const tbody = document.getElementById('adminTableBody');
     if (!tbody) return;
-    if (products.length === 0) {
-        tbody.innerHTML = '<tr><td class="px-4 py-8 text-center text-on-surface-variant" colspan="7">No hay productos todavía.</td></tr>';
+    const searchInput = document.getElementById('adminSearch');
+    const term = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const filtered = term ? products.filter(p => p.name.toLowerCase().includes(term)) : products;
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td class="px-4 py-8 text-center text-on-surface-variant" colspan="7">' + (term ? 'No se encontraron productos con ese nombre.' : 'No hay productos todavía.') + '</td></tr>';
         return;
     }
-    tbody.innerHTML = products.map(p => `
+    tbody.innerHTML = filtered.map(p => `
         <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
             <td class="px-4 py-3 text-on-surface-variant text-xs">${p.id}</td>
             <td class="px-4 py-3"><img src="${p.image}" class="w-12 h-12 object-cover border border-outline-variant"/></td>
@@ -632,6 +635,36 @@ function adminExportJSON() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+async function adminReassignIds() {
+    if (!firestoreDb) {
+        alert('Firebase no está conectado.');
+        return;
+    }
+    if (!confirm('¿Reasignar IDs a todos los productos secuencialmente desde 1? Esta operación es irreversible.')) return;
+    try {
+        const snapshot = await firestoreDb.collection('productos').orderBy('id', 'asc').get();
+        if (snapshot.empty) {
+            alert('No hay productos en Firebase.');
+            return;
+        }
+        const docs = [];
+        snapshot.forEach(doc => docs.push({ id: doc.id, data: doc.data() }));
+        for (let i = 0; i < docs.length; i++) {
+            const newId = i + 1;
+            docs[i].data.id = newId;
+            await firestoreDb.collection('productos').doc(String(newId)).set(docs[i].data);
+            if (String(newId) !== docs[i].id) {
+                await firestoreDb.collection('productos').doc(docs[i].id).delete();
+            }
+        }
+        await firebaseLoadProducts();
+        alert('IDs reasignados correctamente.');
+    } catch (e) {
+        alert('Error al reasignar IDs: ' + e.message);
+        console.error(e);
+    }
 }
 
 /* ===== FIREBASE INTEGRATION ===== */

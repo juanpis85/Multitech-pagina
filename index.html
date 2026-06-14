@@ -519,6 +519,13 @@ Ver ofertas
 </div>
 <!-- Products Table -->
 <div class="bg-surface-container-lowest border border-outline-variant overflow-hidden">
+<div class="px-8 pt-6 pb-4 border-b border-outline-variant flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+<div class="relative flex-1 max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full border border-outline-variant bg-surface pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminSearch" oninput="adminRenderTable()" placeholder="Buscar producto por nombre..." type="text"/>
+</div>
+<button class="border border-outline px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="adminReassignIds()"><span class="material-symbols-outlined text-sm align-text-bottom">refresh</span> Reasignar IDs</button>
+</div>
 <div class="overflow-x-auto">
 <table class="w-full text-sm">
 <thead>
