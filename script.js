@@ -347,37 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(cartClose) cartClose.onclick = closeCart;
     if(cartOverlay) cartOverlay.onclick = closeCart;
 
-    // Admin login button
-    const loginBtn = document.getElementById('adminLoginBtn');
-    if (loginBtn) {
-        loginBtn.onclick = async () => {
-            const email = document.getElementById('adminLoginEmail')?.value.trim();
-            const pass = document.getElementById('adminLoginPass')?.value;
-            const errEl = document.getElementById('adminLoginError');
-            if (!email || !pass) {
-                if (errEl) { errEl.textContent = 'Completá ambos campos.'; errEl.classList.remove('hidden'); }
-                return;
-            }
-            try {
-                await firebase.auth(firebaseApp).signInWithEmailAndPassword(email, pass);
-                if (errEl) errEl.classList.add('hidden');
-            } catch (e) {
-                const msg = e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'
-                    ? 'Credenciales inválidas.'
-                    : e.code === 'auth/too-many-requests'
-                    ? 'Demasiados intentos. Esperá un momento.'
-                    : 'Error al iniciar sesión.';
-                if (errEl) { errEl.textContent = msg; errEl.classList.remove('hidden'); }
-            }
-        };
-        // Allow Enter key to submit
-        document.getElementById('adminLoginPass')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') loginBtn.click();
-        });
-        document.getElementById('adminLoginEmail')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') loginBtn.click();
-        });
-    }
     if(hamburger) hamburger.onclick = () => {
         const nav = document.getElementById('mobileNav');
         const overlay = document.getElementById('menuOverlay');
@@ -491,14 +460,59 @@ function checkAdminAccess() {
 
 function showAdminLogin() {
     showPage('admin');
-    document.getElementById('adminLoginBox')?.classList.remove('hidden');
+    const box = document.getElementById('adminLoginBox');
+    if (!box) return;
+    box.innerHTML = `
+<div class="bg-surface-container-lowest border border-outline-variant p-8 mb-6">
+<h3 class="font-display text-xl mb-4">Iniciar Sesión como Administrador</h3>
+<p class="text-on-surface-variant text-sm mb-6">Usá tu cuenta de administrador para acceder al panel.</p>
+<div class="flex flex-col md:flex-row gap-4 max-w-lg">
+<input class="flex-1 border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminLoginEmail" placeholder="Correo electrónico" type="email"/>
+<input class="flex-1 border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminLoginPass" placeholder="Contraseña" type="password"/>
+<button class="bg-on-surface text-surface px-6 py-2.5 text-sm font-semibold uppercase tracking-widest hover:bg-primary transition-soft" id="adminLoginBtn" type="button">Ingresar</button>
+</div>
+<p class="text-error text-sm mt-3 hidden" id="adminLoginError"></p>
+</div>`;
+    document.getElementById('adminLoginError')?.classList.add('hidden');
+    setupAdminLogin();
     document.getElementById('adminPanelContent')?.style.setProperty('display', 'none');
     const formContainer = document.getElementById('adminForm')?.closest('.bg-surface-container-lowest');
-    if (formContainer && formContainer !== document.getElementById('adminLoginBox')?.closest('.bg-surface-container-lowest')) {
+    if (formContainer && formContainer !== box.closest('.bg-surface-container-lowest')) {
         formContainer.classList.add('hidden');
     }
     const tableContainer = document.querySelector('#page-admin .overflow-hidden');
     if (tableContainer) tableContainer.classList.add('hidden');
+}
+
+function setupAdminLogin() {
+    const loginBtn = document.getElementById('adminLoginBtn');
+    if (!loginBtn) return;
+    loginBtn.onclick = async () => {
+        const email = document.getElementById('adminLoginEmail')?.value.trim();
+        const pass = document.getElementById('adminLoginPass')?.value;
+        const errEl = document.getElementById('adminLoginError');
+        if (!email || !pass) {
+            if (errEl) { errEl.textContent = 'Completá ambos campos.'; errEl.classList.remove('hidden'); }
+            return;
+        }
+        try {
+            await firebase.auth(firebaseApp).signInWithEmailAndPassword(email, pass);
+            if (errEl) errEl.classList.add('hidden');
+        } catch (e) {
+            const msg = e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'
+                ? 'Credenciales inválidas.'
+                : e.code === 'auth/too-many-requests'
+                ? 'Demasiados intentos. Esperá un momento.'
+                : 'Error al iniciar sesión.';
+            if (errEl) { errEl.textContent = msg; errEl.classList.remove('hidden'); }
+        }
+    };
+    document.getElementById('adminLoginPass')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') loginBtn.click();
+    });
+    document.getElementById('adminLoginEmail')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') loginBtn.click();
+    });
 }
 
 function adminLogout() {
@@ -511,7 +525,8 @@ function adminLogout() {
 
 function openAdmin() {
     adminAuth = true;
-    document.getElementById('adminLoginBox')?.classList.add('hidden');
+    const box = document.getElementById('adminLoginBox');
+    if (box) box.innerHTML = '';
     document.getElementById('adminPanelContent')?.style.setProperty('display', 'block');
     const formContainer = document.getElementById('adminForm')?.closest('.bg-surface-container-lowest');
     if (formContainer) formContainer.classList.remove('hidden');
