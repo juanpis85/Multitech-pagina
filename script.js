@@ -445,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ===== ADMIN PANEL ===== */
-const ADMIN_PASSWORD = 'kjkrzpj8599';
 let adminAuth = sessionStorage.getItem('admin_auth') === 'true';
 
 function checkAdminAccess() {
@@ -458,14 +457,27 @@ function checkAdminAccess() {
     }
 }
 
-function promptAdminPassword() {
+async function promptAdminPassword() {
     const pass = prompt('🔐 Ingrese la clave de administrador:');
-    if (pass === ADMIN_PASSWORD) {
-        adminAuth = true;
-        sessionStorage.setItem('admin_auth', 'true');
-        openAdmin();
-    } else if (pass !== null) {
-        alert('Clave incorrecta.');
+    if (pass === null) return;
+    try {
+        const res = await fetch('/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: pass })
+        });
+        const data = await res.json();
+        if (data.ok) {
+            adminAuth = true;
+            sessionStorage.setItem('admin_auth', 'true');
+            openAdmin();
+        } else {
+            alert(data.error || 'Clave incorrecta.');
+            history.pushState({ page: 'home' }, '', window.location.pathname);
+            showPage('home');
+        }
+    } catch (e) {
+        alert('Error al conectar con el servidor de autenticación.');
         history.pushState({ page: 'home' }, '', window.location.pathname);
         showPage('home');
     }

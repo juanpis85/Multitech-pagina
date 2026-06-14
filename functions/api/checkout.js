@@ -1,37 +1,76 @@
+const ALLOWED_ORIGIN = 'https://multitechcolombia.com';
+
+function corsHeaders(origin) {
+    const safe = origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : 'https://multitechcolombia.com';
+    return {
+        'Access-Control-Allow-Origin': safe,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400'
+    };
+}
+
+function json(data, status, headers = {}) {
+    return new Response(JSON.stringify(data), {
+        status,
+        headers: { 'Content-Type': 'application/json', ...headers }
+    });
+}
+
 export async function onRequest(context) {
     const { request, env } = context;
+    const origin = request.headers.get('Origin') || '';
+    const cors = corsHeaders(origin);
+
+    if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: cors });
+    }
+
+    if (request.method !== 'POST') {
+        return json({ error: 'Method not allowed' }, 405, cors);
+    }
+
     const accessToken = env.MP_ACCESS_TOKEN;
     const publicKey = env.MP_PUBLIC_KEY;
 
     if (!accessToken || !publicKey) {
-        return new Response(JSON.stringify({
-            error: 'MercadoPago no configurado. El administrador debe agregar MP_ACCESS_TOKEN y MP_PUBLIC_KEY en Cloudflare Pages.'
-        }), { status: 503, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
-    }
-
-    if (request.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+        return json({ error: 'MercadoPago no configurado.' }, 503, cors);
     }
 
     try {
         const body = await request.json();
         const { items, customer } = body;
 
-        if (!items || !items.length) {
-            return new Response(JSON.stringify({ error: 'El carrito está vacío' }), { status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+        if (!Array.isArray(items) || items.length === 0) {
+            return json({ error: 'El carrito está vacío' }, 400, cors);
+        }
+
+        // Validate each item
+        for (const item of items) {
+            if (!item.name || typeof item.name !== 'string') {
+                return json({ error: 'Cada producto debe tener un nombre válido.' }, 400, cors);
+            }
+            const qty = Number(item.quantity);
+            const price = Number(item.price);
+            if (!Number.isInteger(qty) || qty < 1) {
+                return json({ error: `Cantidad inválida para "${item.name}".` }, 400, cors);
+            }
+            if (!Number.isFinite(price) || price <= 0) {
+                return json({ error: `Precio inválido para "${item.name}".` }, 400, cors);
+            }
         }
 
         const preference = {
             items: items.map(i => ({
-                title: i.name,
+                title: String(i.name).slice(0, 80),
                 quantity: Number(i.quantity),
                 currency_id: 'COP',
                 unit_price: Number(i.price)
             })),
             payer: {
-                name: customer?.name || '',
-                email: customer?.email || '',
-                phone: { number: customer?.phone || '' }
+                name: customer?.name ? String(customer.name).slice(0, 100) : '',
+                email: customer?.email ? String(customer.email).slice(0, 100) : '',
+                phone: { number: customer?.phone ? String(customer.phone).slice(0, 20) : '' }
             },
             back_urls: {
                 success: 'https://multitechcolombia.com?payment=success',
@@ -56,20 +95,18 @@ export async function onRequest(context) {
         const data = await response.json();
 
         if (!response.ok) {
-            return new Response(JSON.stringify({ error: 'Error al crear el pago: ' + (data.message || response.statusText) }), {
-                status: 502, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-            });
+            console.error('MercadoPago error:', data);
+            return json({ error: 'Error al procesar el pago. Intente nuevamente.' }, 502, cors);
         }
 
-        return new Response(JSON.stringify({
+        return json({
             init_point: data.init_point,
             preference_id: data.id,
             public_key: publicKey
-        }), { status: 200, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+        }, 200, cors);
 
     } catch (err) {
-        return new Response(JSON.stringify({ error: 'Error interno: ' + err.message }), {
-            status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-        });
+        console.error('Checkout error:', err);
+        return json({ error: 'Error interno del servidor.' }, 500, cors);
     }
 }
