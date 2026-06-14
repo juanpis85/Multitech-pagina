@@ -130,7 +130,7 @@ function applyFilters() {
         const matchCat = allowedCategories.size === 0 || allowedCategories.has(p.category);
         // Match estancias: if product has estancias array, use it; fall back to category mapping
         const matchEstancia = checkedEstancias.length === 0 ||
-            (p.estancias ? p.estancias.some(e => checkedEstancias.includes(e)) : checkedEstancias.some(e => estanciaCategories[e].includes(p.category)));
+            (Array.isArray(p.estancias) && p.estancias.some(e => checkedEstancias.includes(e)));
         let matchPrice = true;
         if(priceRange && priceRange !== 'all') {
             const [min, max] = priceRange.split('-').map(Number);
