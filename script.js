@@ -78,7 +78,7 @@ function showPage(pageId) {
 // Browser back/forward
 window.addEventListener('popstate', () => {
     const hash = window.location.hash.replace('#', '');
-    if (hash === 'catalogo') {
+    if (hash === 'catalogo' || hash === 'electro') {
         showPage('electro');
     } else if (hash === 'admin') {
         checkAdminAccess();
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
     // Handle initial hash for browser navigation
     const initHash = window.location.hash.replace('#', '');
-    if (initHash === 'catalogo') {
+    if (initHash === 'catalogo' || initHash === 'electro') {
         showPage('electro');
     }
     checkAdminAccess();
