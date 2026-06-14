@@ -123,7 +123,6 @@ function applyFilters() {
     if(!grid) return;
 
     const allowedCategories = new Set();
-    checkedEstancias.forEach(e => estanciaCategories[e].forEach(c => allowedCategories.add(c)));
     checkedTypes.forEach(t => allowedCategories.add(t));
 
     const filtered = products.filter(p => {
