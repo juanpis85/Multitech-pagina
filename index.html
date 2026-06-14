@@ -467,13 +467,30 @@ Ver ofertas
 <option value="Mas Vendido">Más Vendido</option>
 </select>
 </div>
-<div>
-<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Material</label>
-<select class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminMaterial">
-<option value="metal">Metal</option>
-<option value="aluminio">Aluminio</option>
-<option value="plastico">Plástico</option>
-</select>
+<div class="md:col-span-2 lg:col-span-3">
+<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-2">Estancias donde se muestra</label>
+<div class="flex flex-wrap gap-5" id="adminEstancias">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="cocina"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🍳 Cocina</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="sala"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🛋️ Sala de Estar</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="oficina"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💼 Oficina</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="dormitorio"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🛏️ Dormitorio</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="bano"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🚿 Baño</span>
+</label>
+</div>
 </div>
 <div class="md:col-span-2 lg:col-span-3">
 <label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Imagen</label>

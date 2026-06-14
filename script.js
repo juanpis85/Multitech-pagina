@@ -1,23 +1,23 @@
 let products = [
-    { id: 1, name: "Nevera Side-by-Side Smart", price: 1850000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1571175432270-4822567450d9?w=800&q=80", tag: "Nuevo", material: "metal", originalPrice: 2100000 },
-    { id: 2, name: "MacBook Pro M3 Max", price: 8950000, category: "tecno", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 9990000 },
-    { id: 3, name: "AirPods Max Silver", price: 1250000, category: "tecno", image: "https://images.unsplash.com/photo-1613040819284-97f741502c2c?w=800&q=80", tag: "Mas Vendido", material: "aluminio" },
-    { id: 4, name: "Horno Empotrable Pro", price: 980000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80", tag: "Nuevo", material: "metal" },
-    { id: 5, name: "Teclado Mecánico Custom", price: 245000, category: "accesorios", image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 299000 },
-    { id: 6, name: "Mouse Inalámbrico Zen", price: 132000, category: "accesorios", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80", tag: "Mas Vendido", material: "plastico" },
-    { id: 7, name: "Lavadora Ultra Quiet", price: 2200000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1582730147043-34827495fe45?w=800&q=80", tag: "Nuevo", material: "metal" },
-    { id: 8, name: "Monitor 4K Design Studio", price: 1680000, category: "tecno", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 1990000 },
-    { id: 9, name: "Cafetera Expreso Italia", price: 420000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80", tag: "Nuevo", material: "metal" },
-    { id: 10, name: "Auriculares Inalámbricos Pro", price: 189000, category: "tecno", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80", tag: "Mas Vendido", material: "plastico" },
-    { id: 11, name: "Freidora de Aire Digital", price: 289000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 349000 },
-    { id: 12, name: "Base de Carga Inalámbrica", price: 89000, category: "accesorios", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80", tag: "Nuevo", material: "plastico" },
-    { id: 13, name: "Smartwatch Deportivo", price: 349000, category: "tecno", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80", tag: "Nuevo", material: "aluminio" },
-    { id: 14, name: "Aspiradora Robot Inteligente", price: 890000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80", tag: "Mas Vendido", material: "plastico" },
-    { id: 15, name: "Hub USB-C 7 en 1", price: 65000, category: "accesorios", image: "https://images.unsplash.com/photo-1619953942547-233eab5a70d6?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 85000 },
-    { id: 16, name: "Televisor QLED 65\" 4K Smart TV", price: 2890000, category: "tecno", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 3490000 },
-    { id: 17, name: "Televisor OLED 55\" 4K Dolby Vision", price: 3450000, category: "tecno", image: "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 4190000 },
-    { id: 18, name: "Televisor 75\" Mini LED 8K", price: 7250000, category: "tecno", image: "https://images.unsplash.com/photo-1601944179066-29786cb9d32a?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 8490000 },
-    { id: 19, name: "Televisor 50\" UHD 4K Smart TV", price: 1590000, category: "tecno", image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 1890000 }
+    { id: 1, name: "Nevera Side-by-Side Smart", price: 1850000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1571175432270-4822567450d9?w=800&q=80", tag: "Nuevo", material: "metal", originalPrice: 2100000, estancias: ["cocina"] },
+    { id: 2, name: "MacBook Pro M3 Max", price: 8950000, category: "tecno", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 9990000, estancias: ["oficina", "sala"] },
+    { id: 3, name: "AirPods Max Silver", price: 1250000, category: "tecno", image: "https://images.unsplash.com/photo-1613040819284-97f741502c2c?w=800&q=80", tag: "Mas Vendido", material: "aluminio", estancias: ["oficina", "sala", "dormitorio"] },
+    { id: 4, name: "Horno Empotrable Pro", price: 980000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80", tag: "Nuevo", material: "metal", estancias: ["cocina"] },
+    { id: 5, name: "Teclado Mecánico Custom", price: 245000, category: "accesorios", image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 299000, estancias: ["oficina"] },
+    { id: 6, name: "Mouse Inalámbrico Zen", price: 132000, category: "accesorios", image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80", tag: "Mas Vendido", material: "plastico", estancias: ["oficina", "sala"] },
+    { id: 7, name: "Lavadora Ultra Quiet", price: 2200000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1582730147043-34827495fe45?w=800&q=80", tag: "Nuevo", material: "metal", estancias: ["cocina", "bano"] },
+    { id: 8, name: "Monitor 4K Design Studio", price: 1680000, category: "tecno", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 1990000, estancias: ["oficina", "sala"] },
+    { id: 9, name: "Cafetera Expreso Italia", price: 420000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80", tag: "Nuevo", material: "metal", estancias: ["cocina"] },
+    { id: 10, name: "Auriculares Inalámbricos Pro", price: 189000, category: "tecno", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80", tag: "Mas Vendido", material: "plastico", estancias: ["oficina", "sala", "dormitorio"] },
+    { id: 11, name: "Freidora de Aire Digital", price: 289000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 349000, estancias: ["cocina"] },
+    { id: 12, name: "Base de Carga Inalámbrica", price: 89000, category: "accesorios", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80", tag: "Nuevo", material: "plastico", estancias: ["oficina", "sala", "dormitorio"] },
+    { id: 13, name: "Smartwatch Deportivo", price: 349000, category: "tecno", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80", tag: "Nuevo", material: "aluminio", estancias: ["sala", "dormitorio"] },
+    { id: 14, name: "Aspiradora Robot Inteligente", price: 890000, category: "electrodomesticos", image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80", tag: "Mas Vendido", material: "plastico", estancias: ["sala", "dormitorio", "cocina"] },
+    { id: 15, name: "Hub USB-C 7 en 1", price: 65000, category: "accesorios", image: "https://images.unsplash.com/photo-1619953942547-233eab5a70d6?w=800&q=80", tag: "Oferta", material: "aluminio", originalPrice: 85000, estancias: ["oficina"] },
+    { id: 16, name: "Televisor QLED 65\" 4K Smart TV", price: 2890000, category: "tecno", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 3490000, estancias: ["sala"] },
+    { id: 17, name: "Televisor OLED 55\" 4K Dolby Vision", price: 3450000, category: "tecno", image: "https://images.unsplash.com/photo-1461151304267-38535e780c79?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 4190000, estancias: ["sala"] },
+    { id: 18, name: "Televisor 75\" Mini LED 8K", price: 7250000, category: "tecno", image: "https://images.unsplash.com/photo-1601944179066-29786cb9d32a?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 8490000, estancias: ["sala"] },
+    { id: 19, name: "Televisor 50\" UHD 4K Smart TV", price: 1590000, category: "tecno", image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=800&q=80", tag: "Oferta", material: "metal", originalPrice: 1890000, estancias: ["sala", "dormitorio"] }
 ];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -88,7 +88,24 @@ function showPage(pageId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active-nav'));
     if(pageId === 'home') document.getElementById('nav-inicio')?.classList.add('active-nav');
+    // Push hash for browser back/forward
+    const hash = pageId === 'home' ? '' : pageId;
+    if (window.location.hash.replace('#', '') !== hash) {
+        history.pushState({ page: pageId }, '', hash ? '#' + hash : window.location.pathname);
+    }
 }
+
+// Browser back/forward
+window.addEventListener('popstate', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'catalogo') {
+        showPage('electro');
+    } else if (hash === 'admin') {
+        checkAdminAccess();
+    } else {
+        showPage('home');
+    }
+});
 
 function scrollToSection(id) {
     const el = document.getElementById(id);
@@ -132,12 +149,15 @@ function applyFilters() {
     const filtered = products.filter(p => {
         const matchSearch = p.name.toLowerCase().includes(query);
         const matchCat = allowedCategories.size === 0 || allowedCategories.has(p.category);
+        // Match estancias: if product has estancias array, use it; fall back to category mapping
+        const matchEstancia = checkedEstancias.length === 0 ||
+            (p.estancias ? p.estancias.some(e => checkedEstancias.includes(e)) : checkedEstancias.some(e => estanciaCategories[e].includes(p.category)));
         let matchPrice = true;
         if(priceRange && priceRange !== 'all') {
             const [min, max] = priceRange.split('-').map(Number);
             matchPrice = p.price >= min && p.price <= max;
         }
-        return matchSearch && matchCat && matchPrice;
+        return matchSearch && matchCat && matchPrice && matchEstancia;
     });
     grid.innerHTML = '';
     filtered.forEach(p => grid.appendChild(createProductCard(p)));
@@ -366,6 +386,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderProducts();
     renderCart();
+    // Handle initial hash for browser navigation
+    const initHash = window.location.hash.replace('#', '');
+    if (initHash === 'catalogo') {
+        showPage('electro');
+    }
     checkAdminAccess();
 
     // World Cup section — physics ball crash
@@ -462,7 +487,8 @@ function promptAdminPassword() {
         openAdmin();
     } else if (pass !== null) {
         alert('Clave incorrecta.');
-        window.location.hash = '';
+        history.pushState({ page: 'home' }, '', window.location.pathname);
+        showPage('home');
     }
 }
 
@@ -480,7 +506,7 @@ function openAdmin() {
 }
 
 function closeAdmin() {
-    window.location.hash = '';
+    history.pushState({ page: 'home' }, '', window.location.pathname);
     showPage('home');
 }
 
@@ -492,11 +518,13 @@ async function adminSaveProduct() {
         const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
         const category = document.getElementById('adminCategory').value;
         const tag = document.getElementById('adminTag').value;
-        const material = document.getElementById('adminMaterial').value;
         const description = document.getElementById('adminDescription').value.trim();
         const fileInput = document.getElementById('adminImageFile');
         const preview = document.getElementById('adminImagePreview');
         let image = document.getElementById('adminImage').value.trim();
+
+        // Read estancias
+        const estancias = Array.from(document.querySelectorAll('#adminEstancias input[type="checkbox"]:checked')).map(cb => cb.value);
 
         if (fileInput.files.length > 0) {
             if (preview.src && !preview.classList.contains('hidden')) {
@@ -511,7 +539,12 @@ async function adminSaveProduct() {
             return;
         }
 
-        const product = { id: 0, name, price, category, tag, material, image, description };
+        if (estancias.length === 0) {
+            alert('Seleccioná al menos una estancia donde se mostrará el producto.');
+            return;
+        }
+
+        const product = { id: 0, name, price, category, tag, image, description, estancias };
         if (originalPrice) product.originalPrice = originalPrice;
 
         if (editId) {
@@ -540,6 +573,7 @@ async function adminSaveProduct() {
 function adminCancelEdit() {
     document.getElementById('adminForm').reset();
     document.getElementById('adminEditId').value = '';
+    document.querySelectorAll('#adminEstancias input[type="checkbox"]').forEach(cb => cb.checked = false);
     const preview = document.getElementById('adminImagePreview');
     preview.classList.add('hidden');
     preview.src = '';
@@ -566,12 +600,15 @@ function adminEditProduct(id) {
     document.getElementById('adminOriginalPrice').value = p.originalPrice || '';
     document.getElementById('adminCategory').value = p.category;
     document.getElementById('adminTag').value = p.tag;
-    document.getElementById('adminMaterial').value = p.material;
     document.getElementById('adminDescription').value = p.description || '';
     document.getElementById('adminImage').value = '';
     const preview = document.getElementById('adminImagePreview');
     preview.src = p.image;
     preview.classList.remove('hidden');
+    // Check estancias
+    document.querySelectorAll('#adminEstancias input[type="checkbox"]').forEach(cb => {
+        cb.checked = p.estancias ? p.estancias.includes(cb.value) : false;
+    });
     window.scrollTo({ top: document.getElementById('adminForm').offsetTop - 120, behavior: 'smooth' });
 }
 
