@@ -107,17 +107,17 @@ function toggleFilter(btn) {
 }
 
 const estanciaCategories = {
-    cocina: ['electrodomesticos'],
-    sala: ['electrodomesticos', 'accesorios'],
-    oficina: ['tecno', 'accesorios'],
-    dormitorio: ['electrodomesticos', 'accesorios'],
-    bano: ['accesorios']
+    cocina: ['electrodomesticos', 'lavado'],
+    sala: ['televisores', 'electrodomesticos'],
+    oficina: ['tecnologia', 'electrodomesticos'],
+    dormitorio: ['electrodomesticos', 'aires'],
+    bano: ['lavado']
 };
 
 function applyFilters() {
     const query = document.getElementById('electroSearch')?.value?.toLowerCase() || '';
     const checkedEstancias = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="cocina"], .filter-sidebar input[type="checkbox"][value="sala"], .filter-sidebar input[type="checkbox"][value="oficina"], .filter-sidebar input[type="checkbox"][value="dormitorio"], .filter-sidebar input[type="checkbox"][value="bano"]')).filter(cb => cb.checked).map(cb => cb.value);
-    const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="tecno"], .filter-sidebar input[type="checkbox"][value="electrodomesticos"], .filter-sidebar input[type="checkbox"][value="accesorios"]')).filter(cb => cb.checked).map(cb => cb.value);
+    const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="televisores"], .filter-sidebar input[type="checkbox"][value="aires"], .filter-sidebar input[type="checkbox"][value="electrodomesticos"], .filter-sidebar input[type="checkbox"][value="lavado"], .filter-sidebar input[type="checkbox"][value="tecnologia"]')).filter(cb => cb.checked).map(cb => cb.value);
     const priceRange = document.querySelector('input[name="price"]:checked')?.value;
     const grid = document.getElementById('electroGrid');
     if(!grid) return;
