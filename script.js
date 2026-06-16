@@ -10,8 +10,8 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
    y solo la URL optimizada se guarda en Firestore.
 */
 const CLOUDINARY_CONFIG = {
-    cloudName: 'TU_CLOUD_NAME',       // Ej: 'dwp7x5kf9'
-    uploadPreset: 'TU_UPLOAD_PRESET'  // Ej: 'multitech_unsigned'
+    cloudName: 'djmkenlag',
+    uploadPreset: 'ml_default'
 };
 
 function formatCOP(price) {
