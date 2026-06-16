@@ -35,7 +35,7 @@ function createProductCard(p) {
             </button>
         </div>
         <div class="p-6 text-center">
-            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${p.category}</p>
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')}</p>
             <h4 class="font-display text-lg mb-2 text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
             <p class="text-primary font-price text-lg font-semibold">${priceHTML}</p>
         </div>
@@ -127,7 +127,8 @@ function applyFilters() {
 
     const filtered = products.filter(p => {
         const matchSearch = p.name.toLowerCase().includes(query);
-        const matchCat = allowedCategories.size === 0 || allowedCategories.has(p.category);
+        const productCategories = Array.isArray(p.categories) ? p.categories : (p.category ? [p.category] : []);
+        const matchCat = allowedCategories.size === 0 || productCategories.some(c => allowedCategories.has(c));
         // Match estancias: if product has estancias array, use it; fall back to category mapping
         const matchEstancia = checkedEstancias.length === 0 ||
             (Array.isArray(p.estancias) && p.estancias.some(e => checkedEstancias.includes(e)));
@@ -284,7 +285,7 @@ function openProductModal(id) {
             <img src="${p.image}" class="w-full h-full object-cover">
         </div>
         <div class="md:w-1/2 p-12 flex flex-col justify-center">
-            <span class="text-[10px] uppercase tracking-widest text-primary font-bold mb-2">${p.category} | ${p.tag}</span>
+            <span class="text-[10px] uppercase tracking-widest text-primary font-bold mb-2">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')} | ${p.tag}</span>
             <h2 class="text-4xl font-display font-bold mb-4 text-on-surface">${p.name}</h2>
             <p class="text-2xl font-price text-primary mb-8 font-semibold">${priceHTML}</p>
             <p class="text-on-surface-variant text-sm leading-relaxed mb-10">${descText}</p>
@@ -553,14 +554,14 @@ async function adminSaveProduct() {
         const name = document.getElementById('adminName').value.trim();
         const price = parseInt(document.getElementById('adminPrice').value);
         const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
-        const category = document.getElementById('adminCategory').value;
+        const stock = parseInt(document.getElementById('adminStock').value) || 0;
+        const categories = Array.from(document.querySelectorAll('#adminCategories input[type="checkbox"]:checked')).map(cb => cb.value);
         const tag = document.getElementById('adminTag').value;
         const description = document.getElementById('adminDescription').value.trim();
         const fileInput = document.getElementById('adminImageFile');
         const preview = document.getElementById('adminImagePreview');
         let image = document.getElementById('adminImage').value.trim();
 
-        // Read estancias
         const estancias = Array.from(document.querySelectorAll('#adminEstancias input[type="checkbox"]:checked')).map(cb => cb.value);
 
         if (fileInput.files.length > 0) {
@@ -576,12 +577,17 @@ async function adminSaveProduct() {
             return;
         }
 
+        if (categories.length === 0) {
+            alert('Seleccioná al menos una categoría para el producto.');
+            return;
+        }
+
         if (estancias.length === 0) {
             alert('Seleccioná al menos una estancia donde se mostrará el producto.');
             return;
         }
 
-        const product = { id: 0, name, price, category, tag, image, description, estancias };
+        const product = { id: 0, name, price, categories, tag, image, description, estancias, stock };
         if (originalPrice) product.originalPrice = originalPrice;
 
         if (editId) {
@@ -611,6 +617,7 @@ function adminCancelEdit() {
     document.getElementById('adminForm').reset();
     document.getElementById('adminEditId').value = '';
     document.querySelectorAll('#adminEstancias input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('#adminCategories input[type="checkbox"]').forEach(cb => cb.checked = false);
     const preview = document.getElementById('adminImagePreview');
     preview.classList.add('hidden');
     preview.src = '';
@@ -635,13 +642,18 @@ function adminEditProduct(id) {
     document.getElementById('adminName').value = p.name;
     document.getElementById('adminPrice').value = p.price;
     document.getElementById('adminOriginalPrice').value = p.originalPrice || '';
-    document.getElementById('adminCategory').value = p.category;
+    document.getElementById('adminStock').value = p.stock || 0;
     document.getElementById('adminTag').value = p.tag;
     document.getElementById('adminDescription').value = p.description || '';
     document.getElementById('adminImage').value = '';
     const preview = document.getElementById('adminImagePreview');
     preview.src = p.image;
     preview.classList.remove('hidden');
+    // Check categories
+    const cats = Array.isArray(p.categories) ? p.categories : (p.category ? [p.category] : []);
+    document.querySelectorAll('#adminCategories input[type="checkbox"]').forEach(cb => {
+        cb.checked = cats.includes(cb.value);
+    });
     // Check estancias
     document.querySelectorAll('#adminEstancias input[type="checkbox"]').forEach(cb => {
         cb.checked = p.estancias ? p.estancias.includes(cb.value) : false;
@@ -656,7 +668,7 @@ function adminRenderTable() {
     const term = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const filtered = term ? products.filter(p => p.name.toLowerCase().includes(term)) : products;
     if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td class="px-4 py-8 text-center text-on-surface-variant" colspan="7">' + (term ? 'No se encontraron productos con ese nombre.' : 'No hay productos todavía.') + '</td></tr>';
+        tbody.innerHTML = '<tr><td class="px-4 py-8 text-center text-on-surface-variant" colspan="8">' + (term ? 'No se encontraron productos con ese nombre.' : 'No hay productos todavía.') + '</td></tr>';
         return;
     }
     tbody.innerHTML = filtered.map(p => `
@@ -665,7 +677,8 @@ function adminRenderTable() {
             <td class="px-4 py-3"><img src="${p.image}" class="w-12 h-12 object-cover border border-outline-variant"/></td>
             <td class="px-4 py-3 font-medium">${p.name}</td>
             <td class="px-4 py-3">${formatCOP(p.price)}${p.originalPrice ? ' <span class="text-on-surface-variant/50 line-through text-xs">' + formatCOP(p.originalPrice) + '</span>' : ''}</td>
-            <td class="px-4 py-3 text-xs uppercase tracking-wider text-on-surface-variant">${p.category}</td>
+            <td class="px-4 py-3 text-xs uppercase tracking-wider text-on-surface-variant">${(Array.isArray(p.categories) ? p.categories : [p.category || '']).join(', ')}</td>
+            <td class="px-4 py-3 text-xs">${p.stock !== undefined ? p.stock : '-'}</td>
             <td class="px-4 py-3"><span class="text-[10px] px-2 py-0.5 font-bold uppercase text-white ${p.tag === 'Nuevo' ? 'bg-green-700' : p.tag === 'Oferta' ? 'bg-orange-700' : 'bg-amber-800'}">${p.tag}</span></td>
             <td class="px-4 py-3 text-right">
                 <button onclick="adminEditProduct(${p.id})" class="text-primary hover:text-on-primary-fixed-variant transition-colors text-sm font-semibold uppercase tracking-wider mr-3">Editar</button>

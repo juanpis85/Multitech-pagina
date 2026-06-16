@@ -484,14 +484,33 @@ Ver ofertas
 <input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminOriginalPrice" placeholder="Ej: 2100000" type="number"/>
 </div>
 <div>
-<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Categoría</label>
-<select class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminCategory">
-<option value="televisores">Televisores</option>
-<option value="aires">Aires Acondicionados</option>
-<option value="electrodomesticos">Electrodomésticos</option>
-<option value="lavado">Lavado</option>
-<option value="tecnologia">Tecnología</option>
-</select>
+<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Stock</label>
+<input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminStock" placeholder="Ej: 10" type="number" min="0"/>
+</div>
+<div class="md:col-span-2 lg:col-span-3">
+<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-2">Categorías</label>
+<div class="flex flex-wrap gap-5" id="adminCategories">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="televisores"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">📺 Televisores</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="aires"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">❄️ Aires Acondicionados</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="electrodomesticos"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🏠 Electrodomésticos</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="lavado"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🧺 Lavado</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="tecnologia"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💻 Tecnología</span>
+</label>
+</div>
 </div>
 <div>
 <label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Etiqueta</label>
@@ -568,7 +587,8 @@ Ver ofertas
 <th class="text-left px-4 py-4 font-semibold">Imagen</th>
 <th class="text-left px-4 py-4 font-semibold">Nombre</th>
 <th class="text-left px-4 py-4 font-semibold">Precio</th>
-<th class="text-left px-4 py-4 font-semibold">Categoría</th>
+<th class="text-left px-4 py-4 font-semibold">Categorías</th>
+<th class="text-left px-4 py-4 font-semibold">Stock</th>
 <th class="text-left px-4 py-4 font-semibold">Etiqueta</th>
 <th class="text-right px-4 py-4 font-semibold">Acciones</th>
 </tr>
