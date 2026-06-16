@@ -566,6 +566,16 @@ Ver ofertas
 <label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Descripción</label>
 <textarea class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminDescription" placeholder="Descripción del producto para la vista detallada" rows="3"></textarea>
 </div>
+<div class="md:col-span-2 lg:col-span-3">
+<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-2">Imágenes Adicionales</label>
+<div class="flex flex-wrap gap-3" id="adminExtraImages"></div>
+<div class="flex gap-3 mt-3">
+<label class="flex items-center gap-2 border border-outline-variant px-4 py-2.5 text-sm cursor-pointer hover:bg-surface-container-high transition-soft">
+<span class="material-symbols-outlined text-sm">add</span> Agregar imagen
+<input accept="image/*" class="hidden" id="adminExtraImageFile" onchange="adminUploadExtraImage(event)" type="file"/>
+</label>
+</div>
+</div>
 <div class="md:col-span-2 lg:col-span-3 flex gap-3">
 <button class="bg-on-surface text-surface px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary transition-soft" id="adminSaveBtn" type="button">Guardar Producto</button>
 <button class="border border-outline px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="adminCancelEdit()" type="button">Cancelar</button>

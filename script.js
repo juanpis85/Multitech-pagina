@@ -325,9 +325,21 @@ function openProductModal(id) {
     if(!body) return;
     const materialText = p.material === 'aluminio' ? 'aluminio aeronáutico' : p.material === 'metal' ? 'acero cepillado' : 'materiales sustentables';
     const descText = p.description || `Este artefacto ha sido seleccionado por su excepcional manufactura y estética superior. Construido con ${materialText}, garantiza durabilidad y una experiencia de usuario inigualable.`;
+
+    const allImages = [p.image, ...(Array.isArray(p.images) ? p.images : [])];
+    const hasGallery = allImages.length > 1;
+    const mainId = 'modalMainImage';
+    const thumbnails = hasGallery ? `
+        <div class="flex gap-2 px-4 pb-4 overflow-x-auto">
+            ${allImages.map((url, i) =>
+                `<img src="${url}" class="thumb w-16 h-16 object-cover border-2 cursor-pointer transition-opacity hover:opacity-80 ${i === 0 ? 'border-primary' : 'border-transparent'}" onclick="document.getElementById('${mainId}').src='${url}'; document.querySelectorAll('#modalBody .thumb').forEach(t=>t.classList.remove('border-primary')); this.classList.add('border-primary')">`
+            ).join('')}
+        </div>` : '';
+
     body.innerHTML = `
-        <div class="md:w-1/2 bg-surface-container-low h-80 md:h-auto">
-            <img src="${p.image}" class="w-full h-full object-cover">
+        <div class="md:w-1/2 bg-surface-container-low flex flex-col">
+            <img id="${mainId}" src="${p.image}" class="w-full h-80 md:h-[450px] object-cover flex-none">
+            ${thumbnails}
         </div>
         <div class="md:w-1/2 p-12 flex flex-col justify-center">
             <span class="text-[10px] uppercase tracking-widest text-primary font-bold mb-2">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')} | ${p.tag}</span>
@@ -638,7 +650,7 @@ async function adminSaveProduct() {
             return;
         }
 
-        const product = { id: 0, name, price, categories, tag, image, description, estancias, stock };
+        const product = { id: 0, name, price, categories, tag, image, description, estancias, stock, images: extraImages.length > 0 ? extraImages : undefined };
         if (originalPrice) product.originalPrice = originalPrice;
 
         if (editId) {
@@ -674,6 +686,8 @@ function adminCancelEdit() {
     preview.src = '';
     const status = document.getElementById('adminUploadStatus');
     status.textContent = '';
+    extraImages = [];
+    renderExtraImages();
 }
 
 function adminUploadImage(e) {
@@ -714,6 +728,41 @@ function adminUploadImage(e) {
     });
 }
 
+/* ===== IMÁGENES ADICIONALES ===== */
+let extraImages = [];
+
+function adminUploadExtraImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`, { method: 'POST', body: formData })
+    .then(res => { if (!res.ok) throw new Error('Error al subir (HTTP ' + res.status + ')'); return res.json(); })
+    .then(data => {
+        extraImages.push(data.secure_url);
+        renderExtraImages();
+        e.target.value = '';
+    })
+    .catch(err => { alert('Error: ' + err.message); e.target.value = ''; });
+}
+
+function adminRemoveExtraImage(index) {
+    extraImages.splice(index, 1);
+    renderExtraImages();
+}
+
+function renderExtraImages() {
+    const container = document.getElementById('adminExtraImages');
+    if (!container) return;
+    container.innerHTML = extraImages.map((url, i) =>
+        `<div class="relative group">
+            <img src="${url}" class="w-20 h-20 object-cover border border-outline-variant">
+            <button class="absolute -top-2 -right-2 w-5 h-5 bg-red-600 text-white text-[10px] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" onclick="adminRemoveExtraImage(${i})">✕</button>
+        </div>`
+    ).join('');
+}
+
 function adminEditProduct(id) {
     const p = products.find(x => x.id === id);
     if (!p) return;
@@ -730,6 +779,8 @@ function adminEditProduct(id) {
     preview.classList.remove('hidden');
     const status = document.getElementById('adminUploadStatus');
     status.textContent = '';
+    extraImages = Array.isArray(p.images) ? [...p.images] : [];
+    renderExtraImages();
     // Check categories
     const cats = Array.isArray(p.categories) ? p.categories : (p.category ? [p.category] : []);
     document.querySelectorAll('#adminCategories input[type="checkbox"]').forEach(cb => {
