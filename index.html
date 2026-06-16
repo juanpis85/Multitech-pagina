@@ -118,6 +118,96 @@ Ver ofertas
 </div>
 </div>
 </section>
+<!-- Categories Carousel -->
+<section class="py-section-gap overflow-hidden">
+<div class="max-w-container-max mx-auto px-gutter mb-12 flex justify-between items-end">
+<div>
+<h2 class="text-4xl md:text-3xl font-display mb-2">Categorías Sugeridas</h2>
+<div class="h-1 w-20 bg-primary"></div>
+</div>
+</div>
+<div class="relative group">
+<div class="flex gap-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory justify-center" id="categoryTrack">
+<div class="flex-none w-72 md:w-[380px] aspect-[4/5] relative snap-start overflow-hidden group">
+<img alt="Electro" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<h3 class="text-3xl font-display mb-2">Electrodomésticos</h3>
+<a class="text-sm border-b border-white pb-1 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar Colección</a>
+</div>
+</div>
+<div class="flex-none w-72 md:w-[380px] aspect-[4/5] relative snap-start overflow-hidden group">
+<img alt="Tech" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<h3 class="text-3xl font-display mb-2">Tecnología</h3>
+<a class="text-sm border-b border-white pb-1 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar Colección</a>
+</div>
+</div>
+<div class="flex-none w-72 md:w-[380px] aspect-[4/5] relative snap-start overflow-hidden group">
+<img alt="Accesorios" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=80"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<h3 class="text-3xl font-display mb-2">Accesorios</h3>
+<a class="text-sm border-b border-white pb-1 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar Colección</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- World Cup 2026 - screen crash -->
+<section class="relative overflow-hidden bg-on-surface min-h-[600px] flex items-center worldcup-section">
+<div class="absolute inset-0">
+<img alt="" class="w-full h-full object-cover opacity-35 scale-105" src="https://images.unsplash.com/photo-1459865264687-595d652de67e?w=1600&q=80"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-b from-on-surface/70 via-on-surface/40 to-on-surface/80"></div>
+<div class="absolute inset-0" style="background: linear-gradient(135deg, #003893 0%, #003893 18%, transparent 30%, transparent 70%, #CE1126 82%, #CE1126 100%); opacity: 0.7; mix-blend-mode: overlay; pointer-events: none;"></div>
+<div class="absolute inset-0" style="background: linear-gradient(90deg, #FFCD00 0%, #FFCD00 5%, transparent 50%, #FFCD00 95%, #FFCD00 100%); opacity: 0.25; mix-blend-mode: soft-light; pointer-events: none;"></div>
+
+<!-- Ball that crashes -->
+<div class="worldcup-ball z-20" id="worldcupBall">⚽</div>
+
+<!-- Glass screen that cracks -->
+<div class="worldcup-glass absolute inset-0 z-10 pointer-events-none" id="worldcupGlass">
+<div class="crack crack-1"></div>
+<div class="crack crack-2"></div>
+<div class="crack crack-3"></div>
+<div class="crack crack-4"></div>
+<div class="crack crack-5"></div>
+<div class="crack crack-6"></div>
+<div class="crack crack-7"></div>
+<div class="crack crack-8"></div>
+<div class="crack crack-9"></div>
+</div>
+
+<!-- Shards flying outward -->
+<div class="shard shard-1 z-15" id="shard1"></div>
+<div class="shard shard-2 z-15" id="shard2"></div>
+<div class="shard shard-3 z-15" id="shard3"></div>
+<div class="shard shard-4 z-15" id="shard4"></div>
+<div class="shard shard-5 z-15" id="shard5"></div>
+<div class="shard shard-6 z-15" id="shard6"></div>
+
+<!-- Impact flash -->
+<div class="worldcup-flash absolute inset-0 z-15 pointer-events-none opacity-0" id="worldcupFlash"></div>
+
+<div class="relative max-w-container-max mx-auto px-gutter w-full py-section-gap z-5">
+<div class="max-w-3xl mx-auto text-center worldcup-content opacity-0" id="worldcupContent">
+<span class="text-[#FFCD00] uppercase tracking-[0.4em] text-xs font-bold mb-6 block">⚽ Mundial 2026</span>
+<h2 class="text-display-lg md:text-6xl font-display font-bold leading-[1.05] mb-6 text-surface">Llegó el momento.<br/>Todas las selecciones. Un solo sueño.</h2>
+<p class="text-surface/70 text-body-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto">32 países. Un balón. Una pasión que nos une. Colombia está lista y esperamos que tu si. Vive cada partido, cada gol, cada latido en la pantalla que merece este momento.</p>
+<p class="text-[#FFCD00] font-display text-2xl md:text-3xl font-bold italic mb-10">— Esto es Mundial —</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<a class="bg-[#FFCD00] text-on-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-yellow-400 transition-soft shadow-xl flex items-center gap-3" href="#" onclick="showPage('electro'); document.getElementById('electroSearch').value='televisor'; applyFilters(); return false;">
+<span class="text-lg">📺</span> Ver Televisores
+</a>
+<a class="border-2 border-[#FFCD00]/40 text-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface/10 transition-soft flex items-center gap-3" href="#" onclick="showPage('electro'); document.getElementById('electroSearch').value=''; applyFilters(); return false;">
+<span class="text-lg">🇨🇴</span> Explora la colección
+</a>
+</div>
+</div>
+</div>
+</section>
 <!-- Interactive House Map -->
 <section class="py-section-gap bg-surface-container-low">
 <div class="max-w-container-max mx-auto px-gutter">
@@ -194,96 +284,6 @@ Ver ofertas
 .room-card { border: 1px solid #d1c5b4; transition: transform 0.4s ease, box-shadow 0.4s ease; }
 .room-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
 </style>
-<!-- World Cup 2026 - screen crash -->
-<section class="relative overflow-hidden bg-on-surface min-h-[600px] flex items-center worldcup-section">
-<div class="absolute inset-0">
-<img alt="" class="w-full h-full object-cover opacity-35 scale-105" src="https://images.unsplash.com/photo-1459865264687-595d652de67e?w=1600&q=80"/>
-</div>
-<div class="absolute inset-0 bg-gradient-to-b from-on-surface/70 via-on-surface/40 to-on-surface/80"></div>
-<div class="absolute inset-0" style="background: linear-gradient(135deg, #003893 0%, #003893 18%, transparent 30%, transparent 70%, #CE1126 82%, #CE1126 100%); opacity: 0.7; mix-blend-mode: overlay; pointer-events: none;"></div>
-<div class="absolute inset-0" style="background: linear-gradient(90deg, #FFCD00 0%, #FFCD00 5%, transparent 50%, #FFCD00 95%, #FFCD00 100%); opacity: 0.25; mix-blend-mode: soft-light; pointer-events: none;"></div>
-
-<!-- Ball that crashes -->
-<div class="worldcup-ball z-20" id="worldcupBall">⚽</div>
-
-<!-- Glass screen that cracks -->
-<div class="worldcup-glass absolute inset-0 z-10 pointer-events-none" id="worldcupGlass">
-<div class="crack crack-1"></div>
-<div class="crack crack-2"></div>
-<div class="crack crack-3"></div>
-<div class="crack crack-4"></div>
-<div class="crack crack-5"></div>
-<div class="crack crack-6"></div>
-<div class="crack crack-7"></div>
-<div class="crack crack-8"></div>
-<div class="crack crack-9"></div>
-</div>
-
-<!-- Shards flying outward -->
-<div class="shard shard-1 z-15" id="shard1"></div>
-<div class="shard shard-2 z-15" id="shard2"></div>
-<div class="shard shard-3 z-15" id="shard3"></div>
-<div class="shard shard-4 z-15" id="shard4"></div>
-<div class="shard shard-5 z-15" id="shard5"></div>
-<div class="shard shard-6 z-15" id="shard6"></div>
-
-<!-- Impact flash -->
-<div class="worldcup-flash absolute inset-0 z-15 pointer-events-none opacity-0" id="worldcupFlash"></div>
-
-<div class="relative max-w-container-max mx-auto px-gutter w-full py-section-gap z-5">
-<div class="max-w-3xl mx-auto text-center worldcup-content opacity-0" id="worldcupContent">
-<span class="text-[#FFCD00] uppercase tracking-[0.4em] text-xs font-bold mb-6 block">⚽ Mundial 2026</span>
-<h2 class="text-display-lg md:text-6xl font-display font-bold leading-[1.05] mb-6 text-surface">Llegó el momento.<br/>Todas las selecciones. Un solo sueño.</h2>
-<p class="text-surface/70 text-body-lg md:text-xl leading-relaxed mb-4 max-w-2xl mx-auto">32 países. Un balón. Una pasión que nos une. Colombia está lista y esperamos que tu si. Vive cada partido, cada gol, cada latido en la pantalla que merece este momento.</p>
-<p class="text-[#FFCD00] font-display text-2xl md:text-3xl font-bold italic mb-10">— Esto es Mundial —</p>
-<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-<a class="bg-[#FFCD00] text-on-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-yellow-400 transition-soft shadow-xl flex items-center gap-3" href="#" onclick="showPage('electro'); document.getElementById('electroSearch').value='televisor'; applyFilters(); return false;">
-<span class="text-lg">📺</span> Ver Televisores
-</a>
-<a class="border-2 border-[#FFCD00]/40 text-surface px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-surface/10 transition-soft flex items-center gap-3" href="#" onclick="showPage('electro'); document.getElementById('electroSearch').value=''; applyFilters(); return false;">
-<span class="text-lg">🇨🇴</span> Explora la colección
-</a>
-</div>
-</div>
-</div>
-</section>
-<!-- Categories Carousel -->
-<section class="py-section-gap overflow-hidden">
-<div class="max-w-container-max mx-auto px-gutter mb-12 flex justify-between items-end">
-<div>
-<h2 class="text-4xl md:text-3xl font-display mb-2">Categorías Sugeridas</h2>
-<div class="h-1 w-20 bg-primary"></div>
-</div>
-</div>
-<div class="relative group">
-<div class="flex gap-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory justify-center" id="categoryTrack">
-<div class="flex-none w-72 md:w-[380px] aspect-[4/5] relative snap-start overflow-hidden group">
-<img alt="Electro" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80"/>
-<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
-<div class="absolute bottom-10 left-10 text-white">
-<h3 class="text-3xl font-display mb-2">Electrodomésticos</h3>
-<a class="text-sm border-b border-white pb-1 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar Colección</a>
-</div>
-</div>
-<div class="flex-none w-72 md:w-[380px] aspect-[4/5] relative snap-start overflow-hidden group">
-<img alt="Tech" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80"/>
-<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
-<div class="absolute bottom-10 left-10 text-white">
-<h3 class="text-3xl font-display mb-2">Tecnología</h3>
-<a class="text-sm border-b border-white pb-1 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar Colección</a>
-</div>
-</div>
-<div class="flex-none w-72 md:w-[380px] aspect-[4/5] relative snap-start overflow-hidden group">
-<img alt="Accesorios" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=80"/>
-<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
-<div class="absolute bottom-10 left-10 text-white">
-<h3 class="text-3xl font-display mb-2">Accesorios</h3>
-<a class="text-sm border-b border-white pb-1 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar Colección</a>
-</div>
-</div>
-</div>
-</div>
-</section>
 <!-- Dynamic Product Sections -->
 <section class="py-section-gap bg-surface-container-low" id="nuevos">
 <div class="max-w-container-max mx-auto px-gutter">
