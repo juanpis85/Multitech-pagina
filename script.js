@@ -2,6 +2,18 @@ let products = [];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+/* ===== CLOUDINARY CONFIG =====
+   Creá una cuenta gratis en https://cloudinary.com
+   Luego en Settings > Upload creá un "upload preset" con modo "Unsigned".
+   Copiá tu Cloud name y el nombre del preset acá abajo.
+   Las imágenes se suben directo desde el navegador a Cloudinary,
+   y solo la URL optimizada se guarda en Firestore.
+*/
+const CLOUDINARY_CONFIG = {
+    cloudName: 'TU_CLOUD_NAME',       // Ej: 'dwp7x5kf9'
+    uploadPreset: 'TU_UPLOAD_PRESET'  // Ej: 'multitech_unsigned'
+};
+
 function formatCOP(price) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
 }
@@ -114,7 +126,12 @@ const estanciaCategories = {
     bano: ['lavado']
 };
 
-function applyFilters() {
+/* ===== PAGINACIÓN ===== */
+const PAGE_SIZE = 20;
+let currentPage = 1;
+
+function applyFilters(resetPage = true) {
+    if (resetPage) currentPage = 1;
     const query = document.getElementById('electroSearch')?.value?.toLowerCase() || '';
     const checkedEstancias = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="cocina"], .filter-sidebar input[type="checkbox"][value="sala"], .filter-sidebar input[type="checkbox"][value="oficina"], .filter-sidebar input[type="checkbox"][value="dormitorio"], .filter-sidebar input[type="checkbox"][value="bano"]')).filter(cb => cb.checked).map(cb => cb.value);
     const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="televisores"], .filter-sidebar input[type="checkbox"][value="aires"], .filter-sidebar input[type="checkbox"][value="electrodomesticos"], .filter-sidebar input[type="checkbox"][value="lavado"], .filter-sidebar input[type="checkbox"][value="tecnologia"]')).filter(cb => cb.checked).map(cb => cb.value);
@@ -140,9 +157,37 @@ function applyFilters() {
         return matchSearch && matchCat && matchPrice && matchEstancia;
     });
     grid.innerHTML = '';
-    filtered.forEach(p => grid.appendChild(createProductCard(p)));
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = filtered.slice(start, start + PAGE_SIZE);
+    pageItems.forEach(p => grid.appendChild(createProductCard(p)));
     const countEl = document.getElementById('productCount');
     if(countEl) countEl.innerText = filtered.length;
+    renderPagination(totalPages, filtered.length);
+}
+
+function changePage(page) {
+    currentPage = page;
+    applyFilters(false);
+}
+
+function renderPagination(totalPages, totalItems) {
+    const container = document.getElementById('pagination');
+    if (!container) return;
+    if (totalPages <= 1) { container.innerHTML = ''; return; }
+    let html = '<div class="flex items-center justify-center gap-2 mt-10">';
+    html += `<button class="px-4 py-2 text-xs font-semibold uppercase tracking-widest border border-outline-variant bg-surface hover:bg-surface-container-high transition-soft ${currentPage === 1 ? 'opacity-40 pointer-events-none' : ''}" onclick="changePage(${currentPage - 1})">← Anterior</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
+            html += `<button class="w-10 h-10 text-xs font-semibold border ${i === currentPage ? 'bg-on-surface text-surface border-on-surface' : 'border-outline-variant bg-surface hover:bg-surface-container-high'} transition-soft" onclick="changePage(${i})">${i}</button>`;
+        } else if (i === currentPage - 3 || i === currentPage + 3) {
+            html += '<span class="text-on-surface-variant text-xs">…</span>';
+        }
+    }
+    html += `<button class="px-4 py-2 text-xs font-semibold uppercase tracking-widest border border-outline-variant bg-surface hover:bg-surface-container-high transition-soft ${currentPage === totalPages ? 'opacity-40 pointer-events-none' : ''}" onclick="changePage(${currentPage + 1})">Siguiente →</button>`;
+    html += '</div>';
+    container.innerHTML = html;
 }
 
 function filterAll(val) {
@@ -151,7 +196,7 @@ function filterAll(val) {
         showPage('electro');
         const searchEl = document.getElementById('electroSearch');
         if(searchEl) searchEl.value = val;
-        applyFilters();
+        applyFilters(true);
     }
 }
 
@@ -564,6 +609,12 @@ async function adminSaveProduct() {
 
         const estancias = Array.from(document.querySelectorAll('#adminEstancias input[type="checkbox"]:checked')).map(cb => cb.value);
 
+        const uploadStatus = document.getElementById('adminUploadStatus');
+        if (fileInput.files.length > 0 && (!preview.src || preview.classList.contains('hidden'))) {
+            alert('Esperá a que termine la subida de la imagen a Cloudinary.');
+            return;
+        }
+
         if (fileInput.files.length > 0) {
             if (preview.src && !preview.classList.contains('hidden')) {
                 image = preview.src;
@@ -621,18 +672,46 @@ function adminCancelEdit() {
     const preview = document.getElementById('adminImagePreview');
     preview.classList.add('hidden');
     preview.src = '';
+    const status = document.getElementById('adminUploadStatus');
+    status.textContent = '';
 }
 
 function adminUploadImage(e) {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        const preview = document.getElementById('adminImagePreview');
-        preview.src = event.target.result;
+    const status = document.getElementById('adminUploadStatus');
+    const preview = document.getElementById('adminImagePreview');
+    const urlInput = document.getElementById('adminImage');
+    status.textContent = 'Subiendo...';
+    status.className = 'text-xs text-on-surface-variant mt-2';
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Error al subir a Cloudinary (HTTP ' + res.status + ')');
+        return res.json();
+    })
+    .then(data => {
+        const url = data.secure_url;
+        preview.src = url;
         preview.classList.remove('hidden');
-    };
-    reader.readAsDataURL(file);
+        urlInput.value = url;
+        status.textContent = '✓ Imagen subida a Cloudinary';
+        status.className = 'text-xs text-green-700 mt-2';
+        e.target.value = '';
+    })
+    .catch(err => {
+        console.error('Cloudinary upload error:', err);
+        status.textContent = '✗ Error: ' + err.message;
+        status.className = 'text-xs text-red-600 mt-2';
+        e.target.value = '';
+    });
 }
 
 function adminEditProduct(id) {
@@ -649,6 +728,8 @@ function adminEditProduct(id) {
     const preview = document.getElementById('adminImagePreview');
     preview.src = p.image;
     preview.classList.remove('hidden');
+    const status = document.getElementById('adminUploadStatus');
+    status.textContent = '';
     // Check categories
     const cats = Array.isArray(p.categories) ? p.categories : (p.category ? [p.category] : []);
     document.querySelectorAll('#adminCategories input[type="checkbox"]').forEach(cb => {
