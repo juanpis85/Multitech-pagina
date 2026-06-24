@@ -12,13 +12,17 @@
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="https://multitechco.com/"/>
 <link rel="preload" as="image" href="images/hero.jpeg" fetchpriority="high"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
 <link rel="stylesheet" href="style.css"/>
+<style>
+body{margin:0;font-family:Inter,sans-serif;background:#faf9f7;color:#1a1c1b}h1,h2,h3,h4,.font-display{font-family:Playfair Display,serif}.page{display:none}.page.active{display:block}.active-nav{color:#775a19;border-bottom:2px solid #775a19}</style>
 <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
 <script defer src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
 <script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-fixed-dim": "#d4c5a7", secondary: "#5e5e5e", "on-secondary-fixed": "#1b1c1c", "on-tertiary-fixed-variant": "#50462f", tertiary: "#695d45", "on-tertiary-fixed": "#221b08", "surface-container-highest": "#e3e2e0", "on-error-container": "#93000a", "error-container": "#ffdad6", "on-primary-fixed": "#261900", "inverse-primary": "#e9c176", "surface-container-low": "#f4f3f1", "tertiary-container": "#b2a488", "primary-container": "#c5a059", "surface-dim": "#dadad8", "on-error": "#ffffff", surface: "#faf9f7", "inverse-on-surface": "#f1f1ef", "on-tertiary": "#ffffff", "secondary-container": "#e3e2e2", "surface-container-lowest": "#ffffff", outline: "#7f7667", "outline-variant": "#d1c5b4", "surface-variant": "#e3e2e0", "on-primary-container": "#4e3700", "primary-fixed-dim": "#e9c176", "on-secondary": "#ffffff", "surface-container": "#efeeec", background: "#faf9f7", "surface-bright": "#faf9f7", "on-background": "#1a1c1b", "tertiary-fixed": "#f1e1c2", "on-surface": "#1a1c1b", "on-primary-fixed-variant": "#5d4201", "secondary-fixed-dim": "#c7c6c6", error: "#ba1a1a", "on-primary": "#ffffff", primary: "#775a19", "on-secondary-fixed-variant": "#464747", "on-tertiary-container": "#443a25", "surface-container-high": "#e9e8e6", "secondary-fixed": "#e3e2e2", "primary-fixed": "#ffdea5", "surface-tint": "#775a19", "on-surface-variant": "#4e4639", "on-secondary-container": "#646464", "inverse-surface": "#2f3130"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {"section-gap": "80px", "container-max": "1280px", "margin-mobile": "20px", unit: "8px", gutter: "24px"}, fontFamily: {display: ["Playfair Display"], body: ["Inter"], headline: ["Playfair Display"], label: ["Inter"], price: ["Space Grotesk"], accent: ["Cormorant Garamond"]}, fontSize: {}}}};</script>
@@ -131,7 +135,7 @@ Ver ofertas
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="categoryTrack">
 <div class="relative overflow-hidden group aspect-square">
-<img alt="Televisores" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-televisores.jpg"/>
+<img alt="Televisores" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/cat-televisores.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Televisores</h3>
@@ -139,7 +143,7 @@ Ver ofertas
 </div>
 </div>
 <div class="relative overflow-hidden group aspect-square">
-<img alt="Aires Acondicionados" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-aires.png"/>
+<img alt="Aires Acondicionados" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/cat-aires.png"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Aires Acondicionados</h3>
@@ -147,7 +151,7 @@ Ver ofertas
 </div>
 </div>
 <div class="relative overflow-hidden group aspect-square">
-<img alt="Electrodomésticos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-electrodomesticos.jpg"/>
+<img alt="Electrodomésticos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/cat-electrodomesticos.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Electrodomésticos</h3>
@@ -155,7 +159,7 @@ Ver ofertas
 </div>
 </div>
 <div class="relative overflow-hidden group aspect-square">
-<img alt="Lavado" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-lavado.jpg"/>
+<img alt="Lavado" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/cat-lavado.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Lavado</h3>
@@ -163,7 +167,7 @@ Ver ofertas
 </div>
 </div>
 <div class="relative overflow-hidden group aspect-square">
-<img alt="Tecnología" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-tecnologia.jpg"/>
+<img alt="Tecnología" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/cat-tecnologia.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Tecnología</h3>
@@ -176,7 +180,7 @@ Ver ofertas
 <!-- World Cup 2026 - screen crash -->
 <section class="relative overflow-hidden bg-on-surface min-h-[600px] flex items-center worldcup-section">
 <div class="absolute inset-0">
-<img alt="" class="w-full h-full object-cover opacity-35 scale-105" src="images/mundial-bg.jpg"/>
+<img alt="" class="w-full h-full object-cover opacity-35 scale-105" loading="lazy" src="images/mundial-bg.jpg"/>
 </div>
 <div class="absolute inset-0 bg-gradient-to-b from-on-surface/70 via-on-surface/40 to-on-surface/80"></div>
 <div class="absolute inset-0" style="background: linear-gradient(135deg, #003893 0%, #003893 18%, transparent 30%, transparent 70%, #CE1126 82%, #CE1126 100%); opacity: 0.7; mix-blend-mode: overlay; pointer-events: none;"></div>
@@ -236,7 +240,7 @@ Ver ofertas
 </div>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
 <div class="room-card relative overflow-hidden cursor-pointer group aspect-square" onclick="exploreRoom('cocina')">
-<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/estancia-cocina.jpg"/>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/estancia-cocina.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
 <span class="material-symbols-outlined text-primary text-2xl mb-1 block">countertops</span>
@@ -248,7 +252,7 @@ Ver ofertas
 </div>
 </div>
 <div class="room-card relative overflow-hidden cursor-pointer group aspect-square md:col-span-2 md:row-span-2" onclick="exploreRoom('sala')">
-<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/estancia-sala.jpg"/>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/estancia-sala.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
 <span class="material-symbols-outlined text-primary text-2xl mb-1 block">living</span>
@@ -260,7 +264,7 @@ Ver ofertas
 </div>
 </div>
 <div class="room-card relative overflow-hidden cursor-pointer group aspect-square" onclick="exploreRoom('oficina')">
-<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/estancia-oficina.jpg"/>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/estancia-oficina.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
 <span class="material-symbols-outlined text-primary text-2xl mb-1 block">desk</span>
@@ -272,7 +276,7 @@ Ver ofertas
 </div>
 </div>
 <div class="room-card relative overflow-hidden cursor-pointer group aspect-square" onclick="exploreRoom('dormitorio')">
-<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/estancia-dormitorio.jpg"/>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/estancia-dormitorio.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
 <span class="material-symbols-outlined text-primary text-2xl mb-1 block">bed</span>
@@ -284,7 +288,7 @@ Ver ofertas
 </div>
 </div>
 <div class="room-card relative overflow-hidden cursor-pointer group aspect-square" onclick="exploreRoom('bano')">
-<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/estancia-bano.jpg"/>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" src="images/estancia-bano.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
 <span class="material-symbols-outlined text-primary text-2xl mb-1 block">bathtub</span>
