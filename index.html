@@ -11,6 +11,7 @@
 <meta property="og:image" content="images/og-image.jpg"/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="https://multitechco.com/"/>
+<link rel="preload" as="image" href="images/hero.jpeg" fetchpriority="high"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
 <link rel="stylesheet" href="style.css"/>
 <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
@@ -73,7 +74,7 @@
 <!-- Editorial Hero Section -->
 <section class="relative h-[870px] overflow-hidden bg-surface-dim">
 <div class="absolute inset-0">
-<img alt="Tech Boutique" class="w-full h-full object-cover" src="images/hero.jpeg"/>
+<img alt="Tech Boutique" class="w-full h-full object-cover" fetchpriority="high" loading="eager" src="images/hero.jpeg"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface-dim via-surface-dim/60 to-transparent w-1/2"></div>
 </div>
 <div class="relative h-full px-gutter flex flex-col justify-start pt-36 items-start">
