@@ -11,4 +11,3 @@
 # HTML: no cache (always fresh)
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
-/
