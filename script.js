@@ -22,9 +22,9 @@ function getDiscount(p) {
     return p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
 }
 
-function createProductCard(p) {
+function createProductCard(p, wide = false) {
     const div = document.createElement('div');
-    div.className = "product-card flex-none w-72 md:w-80 group snap-start bg-white overflow-hidden";
+    div.className = "product-card flex-none group snap-start bg-white overflow-hidden " + (wide ? "w-80 md:w-[22rem]" : "w-72 md:w-80");
     const discount = getDiscount(p);
     const priceHTML = p.originalPrice
         ? `<span class="original-price">${formatCOP(p.originalPrice)}</span> ${formatCOP(p.price)}`
@@ -64,11 +64,10 @@ function renderProducts() {
     };
     Object.values(grids).forEach(g => { if(g) g.innerHTML = '' });
     products.forEach(p => {
-        const card = createProductCard(p);
-        if(p.tag === 'Nuevo' && grids.nuevos) grids.nuevos.appendChild(card.cloneNode(true));
-        if(p.tag === 'Oferta' && grids.ofertas) grids.ofertas.appendChild(card.cloneNode(true));
-        if(p.tag === 'Mas Vendido' && grids.vendidos) grids.vendidos.appendChild(card.cloneNode(true));
-        if(grids.electro) grids.electro.appendChild(card.cloneNode(true));
+        if(p.tag === 'Nuevo' && grids.nuevos) grids.nuevos.appendChild(createProductCard(p, true));
+        if(p.tag === 'Oferta' && grids.ofertas) grids.ofertas.appendChild(createProductCard(p, true));
+        if(p.tag === 'Mas Vendido' && grids.vendidos) grids.vendidos.appendChild(createProductCard(p, true));
+        if(grids.electro) grids.electro.appendChild(createProductCard(p));
     });
     updateCartCount();
     applyFilters();
