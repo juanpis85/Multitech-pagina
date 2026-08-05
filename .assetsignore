@@ -1,0 +1,9 @@
+.git
+.wrangler
+.wrangler-check
+node_modules
+wrangler.jsonc
+firestore.rules
+firebase.json
+functions
+.gitignore
