@@ -31,7 +31,7 @@ function createProductCard(p) {
         : formatCOP(p.price);
     const discountBadge = discount > 0 ? `<span class="product-badge discount">-${discount}%</span>` : "";
     div.innerHTML = `
-        <div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low">
+        <div class="relative overflow-hidden aspect-[16/10] bg-surface-container-low">
             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
             <div class="absolute top-4 left-4">
                 <span class="product-badge ${p.tag === 'Nuevo' ? 'nuevo' : p.tag === 'Oferta' ? 'oferta' : 'mas-vendido'}">${p.tag}</span>
