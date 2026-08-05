@@ -650,7 +650,8 @@ async function adminSaveProduct() {
             return;
         }
 
-        const product = { id: 0, name, price, categories, tag, image, description, estancias, stock, images: extraImages.length > 0 ? extraImages : undefined };
+        const product = { id: 0, name, price, categories, tag, image, description, estancias, stock };
+        if (extraImages.length > 0) product.images = extraImages;
         if (originalPrice) product.originalPrice = originalPrice;
 
         if (editId) {
