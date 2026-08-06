@@ -30,6 +30,9 @@ function createProductCard(p, wide = false) {
         ? `<span class="original-price">${formatCOP(p.originalPrice)}</span> ${formatCOP(p.price)}`
         : formatCOP(p.price);
     const discountBadge = discount > 0 ? `<span class="product-badge discount">-${discount}%</span>` : "";
+    const contentClass = wide ? "p-3" : "p-6";
+    const titleClass = wide ? "text-base mb-1" : "text-lg mb-2";
+    const priceClass = wide ? "text-base" : "text-lg";
     div.innerHTML = `
         <div class="relative overflow-hidden aspect-[4/3] bg-surface-container-low">
             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
@@ -46,10 +49,10 @@ function createProductCard(p, wide = false) {
                 <span class="material-symbols-outlined text-sm">visibility</span>
             </button>
         </div>
-        <div class="p-6 text-center">
+        <div class="${contentClass} text-center">
             <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')}</p>
-            <h4 class="font-display text-lg mb-2 text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
-            <p class="text-primary font-price text-lg font-semibold">${priceHTML}</p>
+            <h4 class="font-display ${titleClass} text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
+            <p class="text-primary font-price ${priceClass} font-semibold">${priceHTML}</p>
         </div>
     `;
     return div;
