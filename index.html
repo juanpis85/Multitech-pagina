@@ -62,10 +62,10 @@
 <span class="material-symbols-outlined">close</span>
 </button>
 <nav class="flex flex-col gap-4">
-<a class="text-xl font-display" href="#" onclick="showPage('home'); closeMenu();">Inicio</a>
-<a class="text-xl font-display" href="#" onclick="showPage('home'); scrollToSection('nuevos'); closeMenu();">Nuevos</a>
-<a class="text-xl font-display" href="#" onclick="showPage('home'); scrollToSection('ofertas'); closeMenu();">Ofertas</a>
-<a class="text-xl font-display" href="#" onclick="showPage('electro'); closeMenu();">Catálogo</a>
+<a class="text-xl font-display" href="#" onclick="showPage('home'); closeMenu(); return false;">Inicio</a>
+<a class="text-xl font-display" href="#" onclick="showPage('home'); scrollToSection('nuevos'); closeMenu(); return false;">Nuevos</a>
+<a class="text-xl font-display" href="#" onclick="showPage('home'); scrollToSection('ofertas'); closeMenu(); return false;">Ofertas</a>
+<a class="text-xl font-display" href="#" onclick="showPage('electro'); closeMenu(); return false;">Catálogo</a>
 </nav>
 </div>
 <!-- MAIN CONTENT -->
@@ -130,44 +130,44 @@ Ver ofertas
 </div>
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="categoryTrack">
-<div class="relative overflow-hidden group aspect-square">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
 <img alt="Televisores" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-televisores.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Televisores</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
 <img alt="Aires Acondicionados" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-aires.png"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Aires Acondicionados</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
 <img alt="Electrodomésticos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-electrodomesticos.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Electrodomésticos</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
 <img alt="Lavado" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-lavado.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Lavado</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
 <img alt="Tecnología" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-tecnologia.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Tecnología</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro')">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
 </div>
 </div>
 </div>
