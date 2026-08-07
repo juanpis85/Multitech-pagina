@@ -51,7 +51,7 @@ function createProductCard(p, wide = false) {
         </div>
         <div class="${contentClass} text-center">
             <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')}</p>
-            <h4 class="font-display ${titleClass} text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
+            <h4 class="font-display font-bold ${titleClass} text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
             <p class="text-primary font-price ${priceClass} font-semibold">${priceHTML}</p>
         </div>
     `;
