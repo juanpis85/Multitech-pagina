@@ -1,3 +1,21 @@
+/* ============================================================================
+   MULTITECHCO — style.css
+   Estilos base que complementan a Tailwind. La mayoría del diseño usa clases
+   utilitarias de Tailwind directamente en index.html; acá van las reglas que
+   no se pueden hacer con utilidades (hover complejos, animaciones, etc.).
+   ÍNDICE:
+   1. Estilos base (tipografías, transiciones, scrollbar, navegación)
+   2. Tarjetas de producto
+   3. Animación del hero
+   4. Efecto blur de los modales
+   5. Visibilidad de páginas (SPA)
+   6. Carrusel de productos + badges
+   7. Precio tachado (original)
+   8. Responsive del carrusel
+   9. Checkout y aviso de cookies
+   ============================================================================ */
+
+/* ===== 1. ESTILOS BASE ==================================================== */
 body { font-family: 'Inter', sans-serif; background-color: #faf9f7; color: #1a1c1b; }
 h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
 .transition-soft { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -5,6 +23,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .active-nav { color: #775a19; border-bottom: 2px solid #775a19; }
 
+/* ===== 2. TARJETAS DE PRODUCTO ============================================ */
 .product-card {
     background: #ffffff;
     border: 1px solid #e3e2e0;
@@ -15,6 +34,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
 }
 
+/* ===== 3. ANIMACIÓN DEL HERO (entrada del texto) ========================== */
 .hero-slide-in {
     animation: slideUp 1.2s ease-out forwards;
 }
@@ -23,11 +43,16 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== 4. FONDO BORROSO DE LOS MODALES ==================================== */
 .modal-blur {
     backdrop-filter: blur(8px);
     background: rgba(47, 49, 48, 0.4);
 }
 
+/* ===== 5. VISIBILIDAD DE PÁGINAS (SPA) ====================================
+   La página es una SPA: las tres "vistas" (home, electro, admin) están en el
+   mismo HTML y se muestran/ocultan con la clase .active.
+============================================================================ */
 .page {
     display: none;
 }
@@ -35,11 +60,13 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     display: block;
 }
 
+/* ===== 6. CARRUSEL DE PRODUCTOS =========================================== */
 .products-carousel .product-card {
     flex: 0 0 300px;
     scroll-snap-align: start;
 }
 
+/* --- Badges (Nuevo / Oferta / Más Vendido / Descuento) --- */
 .product-badge {
     position: absolute;
     top: 16px;
@@ -62,6 +89,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     right: 16px;
 }
 
+/* ===== 7. PRECIO ORIGINAL TACHADO ========================================= */
 .product-info .original-price {
     font-size: 0.85rem;
     color: #999;
@@ -70,6 +98,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     font-weight: 400;
 }
 
+/* ===== 8. RESPONSIVE DEL CARRUSEL ========================================= */
 @media (max-width: 768px) {
     .products-carousel .product-card {
         flex: 0 0 260px;
@@ -82,6 +111,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
     }
 }
 
+/* ===== 9. CHECKOUT Y AVISO DE COOKIES ===================================== */
 /* Checkout modal */
 #checkoutModal input:focus {
     box-shadow: 0 0 0 1px #FFCD00;

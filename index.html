@@ -1,6 +1,26 @@
 <!DOCTYPE html>
+<!-- ============================================================================
+     MULTITECHCO — index.html
+     ----------------------------------------------------------------------------
+     ESTRUCTURA DEL DOCUMENTO (buscá el comentario con el mismo nombre):
+     1. <head>:  metadatos, fuentes, estilos y librerías (Firebase, Tailwind)
+     2. Header:  logo + navegación + buscador + carrito + menú móvil
+     3. Página de inicio (page-home):
+        - Hero editorial
+        - Trust (beneficios de compra)
+        - Categorías Sugeridas
+        - Explora por Estancias
+        - Secciones dinámicas de productos (Recién Llegados / Ofertas / Más Vendidos)
+        - Barra de financiación + Testimonios
+     4. Página de catálogo (page-electro): filtros + grilla + paginación
+     5. Página de administración (page-admin): login + CRUD de productos
+     6. Carrito lateral + modal de checkout (pago)
+     7. Modales: términos y condiciones, detalle de producto, cookies
+     8. Footer
+     ============================================================================ -->
 <html class="light" lang="es">
 <head>
+<!-- ---------- Metadatos y SEO ---------- -->
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>MultiTechco | Tecnología y Electrodomésticos de Gama Alta</title>
@@ -13,17 +33,28 @@
 <link rel="canonical" href="https://multitechco.com/"/>
 <link rel="preload" as="image" href="images/hero.jpeg" fetchpriority="high"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
+<!-- ---------- Estilos ---------- -->
 <link rel="stylesheet" href="style.css"/>
+<!-- ---------- Librerías externas ---------- -->
+<!-- Firebase (autenticación + base de datos de productos) -->
 <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+<!-- Tailwind CSS (framework de estilos utilitarios) -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Playfair Display, Inter, Space Grotesk, Cormorant Garamond -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome (iconos) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<!-- Material Symbols (iconos modernos) -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- ---------- Configuración de Tailwind (colores y medidas del diseño) ---------- -->
 <script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-fixed-dim": "#d4c5a7", secondary: "#5e5e5e", "on-secondary-fixed": "#1b1c1c", "on-tertiary-fixed-variant": "#50462f", tertiary: "#695d45", "on-tertiary-fixed": "#221b08", "surface-container-highest": "#e3e2e0", "on-error-container": "#93000a", "error-container": "#ffdad6", "on-primary-fixed": "#261900", "inverse-primary": "#e9c176", "surface-container-low": "#f4f3f1", "tertiary-container": "#b2a488", "primary-container": "#c5a059", "surface-dim": "#dadad8", "on-error": "#ffffff", surface: "#faf9f7", "inverse-on-surface": "#f1f1ef", "on-tertiary": "#ffffff", "secondary-container": "#e3e2e2", "surface-container-lowest": "#ffffff", outline: "#7f7667", "outline-variant": "#d1c5b4", "surface-variant": "#e3e2e0", "on-primary-container": "#4e3700", "primary-fixed-dim": "#e9c176", "on-secondary": "#ffffff", "surface-container": "#efeeec", background: "#faf9f7", "surface-bright": "#faf9f7", "on-background": "#1a1c1b", "tertiary-fixed": "#f1e1c2", "on-surface": "#1a1c1b", "on-primary-fixed-variant": "#5d4201", "secondary-fixed-dim": "#c7c6c6", error: "#ba1a1a", "on-primary": "#ffffff", primary: "#775a19", "on-secondary-fixed-variant": "#464747", "on-tertiary-container": "#443a25", "surface-container-high": "#e9e8e6", "secondary-fixed": "#e3e2e2", "primary-fixed": "#ffdea5", "surface-tint": "#775a19", "on-surface-variant": "#4e4639", "on-secondary-container": "#646464", "inverse-surface": "#2f3130"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {"section-gap": "80px", "container-max": "1280px", "margin-mobile": "20px", unit: "8px", gutter: "24px"}, fontFamily: {display: ["Playfair Display"], body: ["Inter"], headline: ["Playfair Display"], label: ["Inter"], price: ["Space Grotesk"], accent: ["Cormorant Garamond"]}, fontSize: {}}}};</script>
 </head>
 <body class="bg-surface text-on-surface">
+<!-- ============================================================================
+     2. HEADER (logo + navegación + buscador + carrito)
+     ============================================================================ -->
 <!-- Header -->
 <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm h-20">
 <div class="max-w-container-max mx-auto px-gutter flex justify-between items-center h-full">
@@ -56,6 +87,7 @@
 </div>
 </header>
 <!-- Mobile Menu Overlay -->
+<!-- ===== MENÚ MÓVIL (pantallas chicas) ===== -->
 <div class="fixed inset-0 bg-inverse-surface/50 z-[60] hidden transition-opacity duration-300" id="menuOverlay"></div>
 <div class="fixed right-0 top-0 h-full w-72 bg-surface z-[70] translate-x-full transition-transform duration-300 shadow-xl p-8 flex flex-col gap-6" id="mobileNav">
 <button class="self-end" onclick="closeMenu()">
@@ -70,8 +102,11 @@
 </div>
 <!-- MAIN CONTENT -->
 <main class="pt-20">
+<!-- ============================================================================
+     3. PÁGINA DE INICIO (page-home)
+     ============================================================================ -->
 <div class="page active" id="page-home">
-<!-- Editorial Hero Section -->
+<!-- 3.1 Hero editorial (portada principal) -->
 <section class="relative h-[640px] md:h-[870px] overflow-hidden bg-surface-dim">
 <div class="absolute inset-0">
 <img alt="Tech Boutique" class="w-full h-full object-cover" fetchpriority="high" loading="eager" src="images/hero.jpeg"/>
@@ -93,7 +128,7 @@ Ver ofertas
 </div>
 </div>
 </section>
-<!-- Trust Section -->
+<!-- 3.2 Trust (beneficios de compra) -->
 <section class="bg-surface-container-lowest py-20 border-b border-outline-variant">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
@@ -120,7 +155,7 @@ Ver ofertas
 </div>
 </div>
 </section>
-<!-- Categories Carousel -->
+<!-- 3.3 Categorías Sugeridas (accesos directos al catálogo) -->
 <section class="bg-surface-container-lowest py-20 border-b border-outline-variant overflow-hidden">
 <div class="max-w-container-max mx-auto px-gutter mb-8 flex justify-between items-end">
 <div>
@@ -173,7 +208,7 @@ Ver ofertas
 </div>
 </div>
 </section>
-<!-- Interactive House Map -->
+<!-- 3.4 Explora por Estancias (mapa interactivo de ambientes) -->
 <section class="py-section-gap bg-surface-container-low">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="text-center mb-12">
@@ -257,11 +292,13 @@ Ver ofertas
 </div>
 </div>
 </section>
+<!-- Estilos extra exclusivos de esta sección -->
 <style>
 .room-card { border: 1px solid #d1c5b4; transition: transform 0.4s ease, box-shadow 0.4s ease; }
 .room-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
 </style>
-<!-- Dynamic Product Sections -->
+<!-- 3.5 Secciones dinámicas de productos (las tarjetas las genera script.js) -->
+<!-- 3.5.1 Recién Llegados -->
 <section class="py-16 bg-surface-container-low" id="nuevos">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="flex justify-between items-center mb-10">
@@ -274,6 +311,7 @@ Ver ofertas
 <div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="nuevosGrid"></div>
 </div>
 </section>
+<!-- 3.5.2 Ofertas Disponibles -->
 <section class="py-16" id="ofertas">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="flex justify-between items-center mb-10">
@@ -286,7 +324,7 @@ Ver ofertas
 <div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="ofertasGrid"></div>
 </div>
 </section>
-<!-- Más Vendidos -->
+<!-- 3.5.3 Más Vendidos -->
 <section class="py-16 bg-surface-container-low" id="mas-vendidos">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="flex justify-between items-center mb-10">
@@ -299,7 +337,7 @@ Ver ofertas
 <div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="vendidosGrid"></div>
 </div>
 </section>
-<!-- Credit Bar -->
+<!-- 3.6 Barra de financiación -->
 <div class="bg-on-surface text-surface py-12">
 <div class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-6">
 <div class="flex items-center gap-6">
@@ -312,7 +350,7 @@ Ver ofertas
 <a class="px-10 py-3 border border-primary text-primary hover:bg-primary hover:text-white transition-soft tracking-widest text-sm font-semibold uppercase" href="#">Consultar Crédito</a>
 </div>
 </div>
-<!-- Testimonials -->
+<!-- 3.7 Testimonios -->
 <section class="py-16 bg-surface">
 <div class="max-w-container-max mx-auto px-gutter text-center mb-10">
 <h2 class="text-3xl font-display mb-3">Experiencias de nuestros Miembros</h2>
@@ -340,11 +378,13 @@ Ver ofertas
 </div>
 </section>
 </div>
-<!-- CATALOG PAGE -->
+<!-- ============================================================================
+     4. PÁGINA DE CATÁLOGO (page-electro)
+     ============================================================================ -->
 <div class="page hidden" id="page-electro">
 <div class="max-w-container-max mx-auto px-gutter py-12">
 <div class="flex flex-col lg:flex-row gap-12">
-<!-- Sidebar Filters -->
+<!-- 4.1 Barra lateral de filtros -->
 <aside class="lg:w-72 flex-none space-y-8 filter-sidebar">
 <div class="pb-4 border-b border-outline-variant">
 <h2 class="font-display text-2xl font-bold">Filtros</h2>
@@ -382,6 +422,7 @@ Ver ofertas
 </div>
 </div>
 </aside>
+<!-- 4.2 Zona de resultados: buscador + grilla de productos + paginación -->
 <div class="flex-grow">
 <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
 <div class="relative w-full md:w-96">
@@ -396,7 +437,9 @@ Ver ofertas
 </div>
 </div>
 </div>
-<!-- ADMIN PAGE -->
+<!-- ============================================================================
+     5. PÁGINA DE ADMINISTRACIÓN (page-admin)
+     ============================================================================ -->
 <div class="page hidden" id="page-admin">
 <div class="max-w-container-max mx-auto px-gutter py-12">
 <div class="flex justify-between items-center mb-8">
@@ -409,8 +452,7 @@ Ver ofertas
 <button class="border border-outline px-5 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="closeAdmin()">Cerrar Panel</button>
 </div>
 </div>
-<!-- Admin Login Form -->
-<!-- Admin Login (rendered by JS) -->
+<!-- 5.1 Formulario de inicio de sesión (el HTML lo genera script.js) -->
 <div id="adminLoginBox"></div>
 <div class="bg-surface-container-lowest border border-outline-variant p-8 mb-6" id="adminPanelContent" style="display:none">
 <div class="flex justify-between items-center">
@@ -433,7 +475,7 @@ Ver ofertas
 <h3 class="font-display text-xl mb-6">Agregar / Editar Producto</h3>
 <form class="space-y-8" id="adminForm">
 <input class="hidden" id="adminEditId" type="hidden"/>
-<!-- Información Básica -->
+<!-- 5.2 Formulario: información básica del producto -->
 <div>
 <h4 class="text-xs font-bold uppercase tracking-widest text-primary mb-4 pb-2 border-b border-outline-variant">Información Básica</h4>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -463,7 +505,7 @@ Ver ofertas
 </div>
 </div>
 </div>
-<!-- Clasificación -->
+<!-- 5.3 Formulario: clasificación (categorías + estancias) -->
 <div>
 <h4 class="text-xs font-bold uppercase tracking-widest text-primary mb-4 pb-2 border-b border-outline-variant">Clasificación</h4>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -523,7 +565,7 @@ Ver ofertas
 </div>
 </div>
 </div>
-<!-- Imágenes -->
+<!-- 5.4 Formulario: imágenes del producto (subida a Cloudinary) -->
 <div>
 <h4 class="text-xs font-bold uppercase tracking-widest text-primary mb-4 pb-2 border-b border-outline-variant">Imágenes</h4>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -555,19 +597,19 @@ Ver ofertas
 </div>
 </div>
 </div>
-<!-- Descripción -->
+<!-- 5.5 Formulario: descripción -->
 <div>
 <h4 class="text-xs font-bold uppercase tracking-widest text-primary mb-4 pb-2 border-b border-outline-variant">Descripción</h4>
 <textarea class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminDescription" placeholder="Descripción del producto para la vista detallada" rows="3"></textarea>
 </div>
-<!-- Acciones -->
+<!-- 5.6 Botones de acción (guardar / cancelar) -->
 <div class="flex gap-3 pt-2">
 <button class="bg-on-surface text-surface px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary transition-soft" id="adminSaveBtn" type="button">Guardar Producto</button>
 <button class="border border-outline px-8 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="adminCancelEdit()" type="button">Cancelar</button>
 </div>
 </form>
 </div>
-<!-- Products Table -->
+<!-- 5.7 Tabla de productos existentes (buscar, editar, eliminar) -->
 <div class="bg-surface-container-lowest border border-outline-variant overflow-hidden">
 <div class="px-8 pt-6 pb-4 border-b border-outline-variant flex flex-col sm:flex-row gap-4 items-start sm:items-center">
 <div class="relative flex-1 max-w-xs">
@@ -599,7 +641,10 @@ Ver ofertas
 </main>
 
 
-<!-- SHOPPING CART SIDEBAR -->
+<!-- ============================================================================
+     6. CARRITO LATERAL Y CHECKOUT
+     ============================================================================ -->
+<!-- 6.1 Carrito lateral (panel deslizante desde la derecha) -->
 <div class="fixed inset-0 bg-inverse-surface/60 z-[100] hidden backdrop-blur-sm transition-opacity" id="cartOverlay"></div>
 <div class="fixed right-0 top-0 h-full w-full md:w-[450px] bg-surface z-[110] translate-x-full transition-transform duration-500 shadow-2xl flex flex-col" id="cartSidebar">
 <div class="p-8 border-b border-outline-variant flex justify-between items-center">
@@ -621,7 +666,7 @@ Ver ofertas
 <p class="text-[10px] text-center mt-4 uppercase tracking-tighter text-on-secondary-container">Impuestos y envío calculados al finalizar</p>
 </div>
 </div>
-<!-- CHECKOUT MODAL -->
+<!-- 6.2 Modal de checkout (flujo de pago en 2 pasos) -->
 <div class="fixed inset-0 z-[180] hidden flex items-center justify-center p-4" id="checkoutModal">
 <div class="absolute inset-0 bg-inverse-surface/60 backdrop-blur-sm" onclick="closeCheckout()"></div>
 <div class="relative bg-surface w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
@@ -631,7 +676,7 @@ Ver ofertas
 </div>
 
 <div class="p-6 md:p-8 space-y-8" id="checkoutBody">
-<!-- Step 1: Customer info -->
+<!-- 6.2.1 Paso 1: datos del cliente -->
 <div id="checkoutStep1">
 <h3 class="font-display text-lg mb-6">Tus datos</h3>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -659,7 +704,7 @@ Ver ofertas
 <button class="checkout-continue w-full bg-on-surface text-surface py-4 mt-6 font-bold uppercase tracking-widest hover:bg-primary transition-soft text-sm">Continuar</button>
 </div>
 
-<!-- Step 2: Order summary + payment -->
+<!-- 6.2.2 Paso 2: resumen del pedido + pago -->
 <div id="checkoutStep2" class="hidden">
 <h3 class="font-display text-lg mb-6">Resumen del pedido</h3>
 <div class="space-y-4 mb-8" id="checkoutItems"></div>
@@ -695,13 +740,13 @@ Ir a pagar con MercadoPago
 </div>
 </div>
 
-<!-- Loading -->
+<!-- 6.2.3 Procesando el pago -->
 <div id="checkoutLoading" class="hidden text-center py-16">
 <div class="inline-block w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
 <p class="text-on-surface-variant">Creando tu pago...</p>
 </div>
 
-<!-- Success -->
+<!-- 6.2.4 Pago exitoso -->
 <div id="checkoutSuccess" class="hidden text-center py-12">
 <div class="text-6xl mb-6">✅</div>
 <h3 class="font-display text-2xl font-bold mb-3">¡Pago confirmado!</h3>
@@ -710,7 +755,7 @@ Ir a pagar con MercadoPago
 <button class="mt-8 bg-on-surface text-surface px-8 py-4 font-semibold uppercase tracking-widest hover:bg-primary transition-soft" onclick="closeCheckout()">Seguir comprando</button>
 </div>
 
-<!-- Error -->
+<!-- 6.2.5 Error de pago -->
 <div id="checkoutError" class="hidden text-center py-12">
 <div class="text-6xl mb-6">❌</div>
 <h3 class="font-display text-2xl font-bold mb-3">Error al procesar el pago</h3>
@@ -720,7 +765,10 @@ Ir a pagar con MercadoPago
 </div>
 </div>
 </div>
-<!-- TÉRMINOS Y CONDICIONES MODAL -->
+<!-- ============================================================================
+     7. MODALES: TÉRMINOS, DETALLE DE PRODUCTO Y COOKIES
+     ============================================================================ -->
+<!-- 7.1 Términos y Condiciones (obligatorio antes de pagar) -->
 <div class="fixed inset-0 z-[190] hidden flex items-center justify-center p-4" id="termsModal">
 <div class="absolute inset-0 bg-inverse-surface/60 backdrop-blur-sm" onclick="closeTermsModal()"></div>
 <div class="relative bg-surface w-full max-w-3xl max-h-[90vh] shadow-2xl flex flex-col">
@@ -883,7 +931,7 @@ Ir a pagar con MercadoPago
 </div>
 </div>
 </div>
-<!-- PRODUCT MODAL -->
+<!-- 7.2 Modal de detalle de producto (el contenido lo genera script.js) -->
 <div class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4" id="productModal">
 <div class="absolute inset-0 modal-blur" onclick="closeProductModal()"></div>
 <div class="relative bg-white w-full max-w-4xl max-h-[921px] overflow-y-auto shadow-2xl">
@@ -891,14 +939,14 @@ Ir a pagar con MercadoPago
 <div class="flex flex-col md:flex-row h-full" id="modalBody"></div>
 </div>
 </div>
-<!-- WhatsApp Floating Button -->
+<!-- Botón flotante de WhatsApp (enlace directo al chat) -->
 <a class="fixed bottom-8 right-8 w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform z-40" href="#" onclick="openWhatsApp(); return false;">
 <i class="fab fa-whatsapp text-3xl"></i>
 </a>
 
 
 
-<!-- Footer -->
+<!-- ===== 8. FOOTER ===== -->
 <footer class="bg-inverse-surface text-surface pt-20 pb-10">
 <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
 <div class="col-span-1 md:col-span-1">
@@ -947,8 +995,9 @@ Ir a pagar con MercadoPago
 <p class="text-[11px] uppercase tracking-[.3em] text-surface-variant/40">© 2026 MultiTechco — Tecnológica de Vanguardia.</p>
 </div>
 </footer>
+<!-- El script principal de la aplicación (Firebase, renderizado, admin, etc.) -->
 <script defer src="script.js"></script>
-<!-- Cookie Consent -->
+<!-- 7.3 Aviso de cookies (elección guardada en localStorage) -->
 <div class="cookie-banner fixed bottom-0 left-0 right-0 z-50 translate-y-full opacity-0" id="cookieBanner">
 <div class="bg-on-surface/95 backdrop-blur-xl border-t border-white/10">
 <div class="max-w-container-max mx-auto px-gutter py-6 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
@@ -966,7 +1015,7 @@ Ir a pagar con MercadoPago
 </div>
 </div>
 </div>
-<!-- Toast notification -->
+<!-- Notificación toast (mensajes flotantes de confirmación) -->
 <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] opacity-0 translate-y-4 transition-all duration-500 pointer-events-none" id="cartToast">
 <div class="bg-on-surface text-surface px-6 py-3.5 shadow-2xl flex items-center gap-3 text-sm font-medium whitespace-nowrap">
 <span class="toast-msg"></span>

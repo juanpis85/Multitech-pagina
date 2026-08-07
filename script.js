@@ -1,8 +1,38 @@
+/* ============================================================================
+   MULTITECHCO — script.js
+   ----------------------------------------------------------------------------
+   CÓMO FUNCIONA LA PÁGINA (resumen rápido):
+
+   La tienda es una SPA (Single Page Application): hay una sola página HTML y
+   este archivo muestra/oculta las "vistas" (home, catálogo, admin).
+
+   Los productos vienen de Firebase Firestore (nube) y se guardan también en
+   memoria (products[]) para renderizar rápido. El carrito y las cookies se
+   guardan en localStorage del navegador.
+
+   ÍNDICE DE SECCIONES (buscá el banner con el mismo nombre):
+   1.  ESTADO GLOBAL Y CONFIGURACIÓN ............ (products, cart, Cloudinary)
+   2.  UTILIDADES Y TARJETAS DE PRODUCTO ......... (formatCOP, createProductCard)
+   3.  RENDERIZADO DE PRODUCTOS .................. (renderProducts)
+   4.  NAVEGACIÓN ENTRE PÁGINAS .................. (showPage, scrollToSection)
+   5.  FILTROS, BÚSQUEDA Y PAGINACIÓN ............ (sidebar, search, páginas)
+   6.  CARRITO DE COMPRAS ........................ (agregar, quitar, cantidad)
+   7.  MODAL DE DETALLE DE PRODUCTO .............. (openProductModal)
+   8.  ACCIONES DE INTERFAZ ...................... (WhatsApp, menú, estancias)
+   9.  PANEL ADMIN: AUTENTICACIÓN ................ (login, logout)
+   10. PANEL ADMIN: CRUD DE PRODUCTOS ............ (alta, edición, borrado)
+   11. FIREBASE (CONEXIÓN A LA NUBE) ............. (Firestore, autenticación)
+   12. CHECKOUT Y PAGO ........................... (carrito, datos, MercadoPago)
+   13. CONSENTIMIENTO DE COOKIES ................. (aceptar / rechazar)
+   =========================================================================== */
+
+/* ===== 1. ESTADO GLOBAL Y CONFIGURACIÓN =================================== */
+
 let products = [];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-/* ===== CLOUDINARY CONFIG =====
+/* --- Configuración de Cloudinary (subida de imágenes desde el admin) ------
    Creá una cuenta gratis en https://cloudinary.com
    Luego en Settings > Upload creá un "upload preset" con modo "Unsigned".
    Copiá tu Cloud name y el nombre del preset acá abajo.
@@ -13,6 +43,8 @@ const CLOUDINARY_CONFIG = {
     cloudName: 'djmkenlag',
     uploadPreset: 'ml_default'
 };
+
+/* ===== 2. UTILIDADES Y TARJETAS DE PRODUCTO =============================== */
 
 function formatCOP(price) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
@@ -58,6 +90,12 @@ function createProductCard(p, wide = false) {
     return div;
 }
 
+/* ===== 3. RENDERIZADO DE PRODUCTOS ========================================
+   Recorre products[] y coloca cada tarjeta en su grilla correspondiente.
+   - Tarjetas de portada (wide = true):  Recién Llegados, Ofertas, Más Vendidos
+   - Tarjeta de catálogo (wide = false): grilla principal de productos
+============================================================================ */
+
 function renderProducts() {
     const grids = {
         nuevos: document.getElementById('nuevosGrid'),
@@ -75,6 +113,13 @@ function renderProducts() {
     updateCartCount();
     applyFilters();
 }
+
+/* ===== 4. NAVEGACIÓN ENTRE PÁGINAS ========================================
+   showPage() muestra una "vista" (home / electro / admin) ocultando las demás
+   y guarda el estado en el historial del navegador (hash) para que funcionen
+   los botones "atrás"/"adelante". scrollToSection() baja suavemente a una
+   sección de la página de inicio.
+============================================================================ */
 
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -112,6 +157,15 @@ function scrollToSection(id) {
         window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
 }
+
+/* ===== 5. FILTROS, BÚSQUEDA Y PAGINACIÓN ==================================
+   El catálogo se filtra por:
+   - Búsqueda de texto (nombre del producto)
+   - Estancias (cocina, sala, oficina, dormitorio, baño, lavado)
+   - Tipo de producto (televisores, aires, electrodomésticos, lavado, tecnología)
+   - Rango de precio
+   Los resultados se muestran de a PAGE_SIZE productos por página.
+============================================================================ */
 
 function toggleFilter(btn) {
     const content = btn.nextElementSibling;
@@ -202,6 +256,12 @@ function filterAll(val) {
         applyFilters(true);
     }
 }
+
+/* ===== 6. CARRITO DE COMPRAS ==============================================
+   El carrito se guarda en localStorage ('cart') para que persista al recargar.
+   Funciones: agregar, quitar, cambiar cantidad, abrir/cerrar el panel lateral
+   y actualizar el contador de la cabecera.
+============================================================================ */
 
 function addToCart(id) {
     const p = products.find(x => x.id === id);
@@ -317,6 +377,11 @@ function closeCart() {
     document.body.style.overflow = '';
 }
 
+/* ===== 7. MODAL DE DETALLE DE PRODUCTO ====================================
+   Al hacer clic en un producto se abre una ventana modal con su imagen,
+   descripción, precio, estancias y la opción de agregarlo al carrito.
+============================================================================ */
+
 function openProductModal(id) {
     const p = products.find(x => x.id === id);
     if(!p) return;
@@ -365,6 +430,14 @@ function closeProductModal() {
     if(modal) modal.classList.add('hidden');
     document.body.style.overflow = '';
 }
+
+/* ===== 8. ACCIONES DE INTERFAZ ============================================
+   openWhatsApp()   -> abre un chat de WhatsApp con el número de la tienda
+   scrollCarousel() -> botones izquierda/derecha de los carruseles de productos
+   closeMenu()      -> cierra el menú desplegable del móvil
+   exploreRoom()    -> al tocar una estancia en el home, va al catálogo con
+                       esa estancia ya seleccionada en los filtros
+============================================================================ */
 
 function openWhatsApp() {
     window.open('https://wa.me/573017085272?text=¡Hola! Quiero conocer más sobre sus productos premium.', '_blank');
@@ -436,6 +509,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ===== ADMIN PANEL ===== */
+/* ===== 9. PANEL ADMIN: AUTENTICACIÓN ======================================
+   El admin se protege con Firebase Auth (correo + contraseña).
+   - checkAdminAccess(): si el hash es #admin, decide entre login o panel.
+   - setupAdminLogin():  conecta el botón "Ingresar" del formulario.
+   - adminLogout():      cierra sesión y vuelve al inicio.
+============================================================================ */
+
 let adminAuth = false;
 let authUnsub = null;
 
@@ -512,6 +592,12 @@ function adminLogout() {
         showPage('home');
     });
 }
+
+/* ===== 10. PANEL ADMIN: CRUD DE PRODUCTOS =================================
+   Toda la gestión de productos: crear, editar, eliminar, subir imágenes,
+   exportar JSON y renumerar IDs. Los cambios se guardan en Firestore y se
+   actualizan en la tienda al instante (refreshSiteProducts).
+============================================================================ */
 
 function openAdmin() {
     adminAuth = true;
@@ -803,6 +889,14 @@ async function adminReassignIds() {
 }
 
 /* ===== FIREBASE INTEGRATION ===== */
+/* ===== 11. FIREBASE (CONEXIÓN A LA NUBE) ==================================
+   - firebaseInit():             inicializa la app de Firebase (una sola vez)
+   - firebaseLoadProducts():     trae los productos desde Firestore al inicio
+   - firebaseSaveProductToCloud(): guarda/actualiza un producto
+   - firebaseDeleteProductFromCloud(): elimina un producto de la nube
+   - updateFirebaseStatus():     muestra el estado de conexión en el admin
+============================================================================ */
+
 let firebaseApp = null;
 let firestoreDb = null;
 let firebaseReady = false;
@@ -897,6 +991,13 @@ async function adminDeleteProduct(id) {
 firebaseInit();
 
 /* ===== CHECKOUT ===== */
+
+/* ===== 12. CHECKOUT Y PAGO ================================================
+   Flujo de compra en 2 pasos:
+   1) Datos del cliente (nombre, correo, teléfono, dirección)
+   2) Resumen del pedido + botón de pago (MercadoPago)
+   Incluye el modal de Términos y Condiciones obligatorio antes de pagar.
+============================================================================ */
 
 function openCheckout() {
     const modal = document.getElementById('checkoutModal');
@@ -1089,6 +1190,11 @@ async function proceedToPayment() {
     if (localStorage.getItem('cookies_accepted') !== null) return;
     setTimeout(() => banner.classList.add('show'), 600);
 })();
+
+/* ===== 13. CONSENTIMIENTO DE COOKIES ======================================
+   El aviso de cookies guarda la elección del usuario en localStorage para
+   no volver a mostrarlo en cada visita.
+============================================================================ */
 
 function acceptCookies() {
     localStorage.setItem('cookies_accepted', 'true');
