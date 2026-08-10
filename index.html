@@ -165,44 +165,44 @@ Ver ofertas
 </div>
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="categoryTrack">
-<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="exploreCategory('televisores'); return false;">
 <img alt="Televisores" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-televisores.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Televisores</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="exploreCategory('televisores'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="exploreCategory('aires'); return false;">
 <img alt="Aires Acondicionados" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-aires.png"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Aires Acondicionados</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="exploreCategory('aires'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="exploreCategory('electrodomesticos'); return false;">
 <img alt="Electrodomésticos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-electrodomesticos.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Electrodomésticos</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="exploreCategory('electrodomesticos'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="exploreCategory('lavado'); return false;">
 <img alt="Lavado" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-lavado.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Lavado</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="exploreCategory('lavado'); return false;">Explorar</a>
 </div>
 </div>
-<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="showPage('electro'); return false;">
+<div class="relative overflow-hidden group aspect-square cursor-pointer" onclick="exploreCategory('tecnologia'); return false;">
 <img alt="Tecnología" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="images/cat-tecnologia.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-on-surface/70 via-on-surface/10 to-transparent"></div>
 <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
 <h3 class="font-display text-lg font-bold">Tecnología</h3>
-<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="showPage('electro'); return false;">Explorar</a>
+<a class="text-xs border-b border-white pb-0.5 hover:text-primary hover:border-primary transition-colors" href="#" onclick="exploreCategory('tecnologia'); return false;">Explorar</a>
 </div>
 </div>
 </div>
@@ -498,6 +498,7 @@ Ver ofertas
 <div>
 <label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Etiqueta</label>
 <select class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminTag">
+<option value="">Ninguno</option>
 <option value="Nuevo">Nuevo</option>
 <option value="Oferta">Oferta</option>
 <option value="Mas Vendido">Más Vendido</option>

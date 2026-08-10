@@ -62,6 +62,9 @@ function createProductCard(p, wide = false) {
         ? `<span class="original-price">${formatCOP(p.originalPrice)}</span> ${formatCOP(p.price)}`
         : formatCOP(p.price);
     const discountBadge = discount > 0 ? `<span class="product-badge discount">-${discount}%</span>` : "";
+    const tagBadge = p.tag
+        ? `<span class="product-badge ${p.tag === 'Nuevo' ? 'nuevo' : p.tag === 'Oferta' ? 'oferta' : 'mas-vendido'}">${p.tag}</span>`
+        : "";
     const contentClass = wide ? "p-3" : "p-6";
     const titleClass = wide ? "text-base mb-1" : "text-lg mb-2";
     const priceClass = wide ? "text-base" : "text-lg";
@@ -69,7 +72,7 @@ function createProductCard(p, wide = false) {
         <div class="relative overflow-hidden aspect-[4/3] bg-surface-container-low">
             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
             <div class="absolute top-4 left-4">
-                <span class="product-badge ${p.tag === 'Nuevo' ? 'nuevo' : p.tag === 'Oferta' ? 'oferta' : 'mas-vendido'}">${p.tag}</span>
+                ${tagBadge}
             </div>
             ${discountBadge}
             <div class="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
@@ -469,6 +472,17 @@ function exploreRoom(room) {
     }, 100);
 }
 
+function exploreCategory(cat) {
+    showPage('electro');
+    setTimeout(() => {
+        const allCheckboxes = document.querySelectorAll('.filter-sidebar input[type="checkbox"]');
+        allCheckboxes.forEach(cb => cb.checked = false);
+        const catCb = document.querySelector(`.filter-sidebar input[type="checkbox"][value="${cat}"]`);
+        if (catCb) catCb.checked = true;
+        applyFilters();
+    }, 100);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const cartIcon = document.getElementById('cartIcon');
     const cartClose = document.getElementById('cartClose');
@@ -830,7 +844,7 @@ function adminRenderTable() {
             <td class="px-4 py-3">${formatCOP(p.price)}${p.originalPrice ? ' <span class="text-on-surface-variant/50 line-through text-xs">' + formatCOP(p.originalPrice) + '</span>' : ''}</td>
             <td class="px-4 py-3 text-xs uppercase tracking-wider text-on-surface-variant">${(Array.isArray(p.categories) ? p.categories : [p.category || '']).join(', ')}</td>
             <td class="px-4 py-3 text-xs">${p.stock !== undefined ? p.stock : '-'}</td>
-            <td class="px-4 py-3"><span class="text-[10px] px-2 py-0.5 font-bold uppercase text-white ${p.tag === 'Nuevo' ? 'bg-green-700' : p.tag === 'Oferta' ? 'bg-orange-700' : 'bg-amber-800'}">${p.tag}</span></td>
+            <td class="px-4 py-3">${p.tag ? '<span class="text-[10px] px-2 py-0.5 font-bold uppercase text-white ' + (p.tag === 'Nuevo' ? 'bg-green-700' : p.tag === 'Oferta' ? 'bg-orange-700' : 'bg-amber-800') + '">' + p.tag + '</span>' : '<span class="text-[10px] px-2 py-0.5 font-bold uppercase text-on-surface-variant bg-surface-container-high">Ninguno</span>'}</td>
             <td class="px-4 py-3 text-right">
                 <button onclick="adminEditProduct(${p.id})" class="text-primary hover:text-on-primary-fixed-variant transition-colors text-sm font-semibold uppercase tracking-wider mr-3">Editar</button>
                 <button onclick="adminDeleteProduct(${p.id})" class="text-error hover:text-on-error-container transition-colors text-sm font-semibold uppercase tracking-wider">Eliminar</button>
