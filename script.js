@@ -453,6 +453,15 @@ function scrollCarousel(id, dir) {
     el.scrollBy({ left: scrollAmount * dir, behavior: 'smooth' });
 }
 
+function videoHover(video, enter) {
+    if(!video) return;
+    if(enter) {
+        video.play().catch(() => {});
+    } else {
+        video.pause();
+    }
+}
+
 function closeMenu() {
     const nav = document.getElementById('mobileNav');
     const overlay = document.getElementById('menuOverlay');

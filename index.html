@@ -209,11 +209,11 @@ Ver ofertas
 </div>
 </section>
 <!-- 3.4 Galería de Videos (videos destacados de la marca) -->
-<section class="py-16 bg-on-surface">
+<section class="py-16 bg-surface">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="flex justify-between items-center mb-10">
 <div>
-<h2 class="text-4xl md:text-3xl font-display text-surface">Galería de Videos</h2>
+<h2 class="text-4xl md:text-3xl font-display">Galería de Videos</h2>
 <div class="h-1 w-20 bg-primary mt-2"></div>
 </div>
 <div class="flex gap-2">
@@ -222,15 +222,15 @@ Ver ofertas
 </div>
 </div>
 <div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="videosGrid">
-<video controls preload="metadata" playsinline class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start">
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
 <source src="images/video-1.mp4" type="video/mp4"/>
 Tu navegador no soporta video HTML5.
 </video>
-<video controls preload="metadata" playsinline class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start">
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
 <source src="images/video-2.mp4" type="video/mp4"/>
 Tu navegador no soporta video HTML5.
 </video>
-<video controls preload="metadata" playsinline class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start">
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
 <source src="images/video-3.mp4" type="video/mp4"/>
 Tu navegador no soporta video HTML5.
 </video>
