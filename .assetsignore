@@ -7,3 +7,4 @@ firestore.rules
 firebase.json
 functions
 .gitignore
+images/*.mov

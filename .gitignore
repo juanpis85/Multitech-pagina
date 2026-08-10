@@ -4,6 +4,9 @@ Thumbs.db
 *.swp
 *.swo
 
+# videos originales (demasiado grandes para Workers Assets y git)
+images/*.mov
+
 # wrangler files
 .wrangler
 .dev.vars*
