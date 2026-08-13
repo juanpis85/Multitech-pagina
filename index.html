@@ -584,27 +584,31 @@ Tu navegador no soporta video HTML5.
 <label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-2">Estancias donde se muestra</label>
 <div class="flex flex-wrap gap-5" id="adminEstancias">
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="cocina"/>
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="ninguna" onclick="adminEstanciaToggle(this)"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">Ninguna específica</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="cocina" onclick="adminEstanciaToggle(this)"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🍳 Cocina</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="sala"/>
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="sala" onclick="adminEstanciaToggle(this)"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🛋️ Sala de Estar</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="oficina"/>
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="oficina" onclick="adminEstanciaToggle(this)"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💼 Oficina</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="dormitorio"/>
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="dormitorio" onclick="adminEstanciaToggle(this)"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🛏️ Dormitorio</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="bano"/>
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="bano" onclick="adminEstanciaToggle(this)"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🚿 Baño</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="lavado"/>
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="lavado" onclick="adminEstanciaToggle(this)"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🧺 Lavado</span>
 </label>
 </div>

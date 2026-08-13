@@ -718,6 +718,20 @@ async function adminSaveProduct() {
     }
 }
 
+function adminEstanciaToggle(cb) {
+    const all = document.querySelectorAll('#adminEstancias input[type="checkbox"]');
+    if (cb.value === 'ninguna') {
+        if (cb.checked) {
+            all.forEach(other => { if (other !== cb) other.checked = false; });
+        }
+    } else {
+        if (cb.checked) {
+            const none = document.querySelector('#adminEstancias input[type="checkbox"][value="ninguna"]');
+            if (none) none.checked = false;
+        }
+    }
+}
+
 function adminCancelEdit() {
     document.getElementById('adminForm').reset();
     document.getElementById('adminEditId').value = '';
