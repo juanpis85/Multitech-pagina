@@ -70,7 +70,7 @@ function createProductCard(p, wide = false) {
     const priceClass = wide ? "text-base" : "text-lg";
     div.innerHTML = `
         <div class="relative overflow-hidden aspect-[4/3] bg-surface-container-low">
-            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105">
             <div class="absolute top-4 left-4">
                 ${tagBadge}
             </div>
@@ -409,7 +409,7 @@ function openProductModal(id) {
 
     body.innerHTML = `
         <div class="md:w-1/2 bg-surface-container-low flex flex-col">
-            <img id="${mainId}" src="${p.image}" class="w-full h-80 md:h-[450px] object-cover flex-none">
+            <img id="${mainId}" src="${p.image}" class="w-full h-80 md:h-[450px] object-contain flex-none">
             ${thumbnails}
         </div>
         <div class="md:w-1/2 p-12 flex flex-col justify-center">
