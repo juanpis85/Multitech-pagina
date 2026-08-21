@@ -449,6 +449,8 @@ Tu navegador no soporta video HTML5.
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="electrodomesticos"/><span class="text-sm group-hover:text-primary transition-colors">Electrodomésticos</span></label>
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span></label>
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="tecnologia"/><span class="text-sm group-hover:text-primary transition-colors">Tecnología</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="accesorios"/><span class="text-sm group-hover:text-primary transition-colors">Accesorios</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="muebles"/><span class="text-sm group-hover:text-primary transition-colors">Muebles</span></label>
 </div>
 </div>
 <div>
@@ -525,8 +527,8 @@ Tu navegador no soporta video HTML5.
 <input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminName" placeholder="Nombre del producto" required type="text"/>
 </div>
 <div>
-<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Precio (COP)</label>
-<input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminPrice" placeholder="Ej: 1850000" required type="number"/>
+<label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Precio (COP) <span class="normal-case font-normal text-on-surface-variant/60">(opcional)</span></label>
+<input class="w-full border border-outline-variant bg-surface px-4 py-2.5 text-sm focus:ring-1 focus:ring-primary outline-none" id="adminPrice" placeholder="Ej: 1850000 (opcional)" type="number"/>
 </div>
 <div>
 <label class="text-xs uppercase tracking-widest font-semibold text-on-surface-variant block mb-1">Precio Original</label>
@@ -573,6 +575,14 @@ Tu navegador no soporta video HTML5.
 <label class="flex items-center gap-2 cursor-pointer group">
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="tecnologia"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💻 Tecnología</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="accesorios"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🎧 Accesorios</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="muebles"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🪑 Muebles</span>
 </label>
 </div>
 </div>

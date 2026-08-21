@@ -51,16 +51,22 @@ function formatCOP(price) {
 }
 
 function getDiscount(p) {
-    return p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
+    return (p.originalPrice && p.price) ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
+}
+
+/* Muestra el precio formateado o "Consultar" si el producto no tiene precio */
+function priceOrConsult(p, consultClass = '') {
+    if (!p.price && !p.originalPrice) return `<span class="${consultClass}">Consultar precio</span>`;
+    return p.originalPrice
+        ? `<span class="original-price">${formatCOP(p.originalPrice)}</span> ${formatCOP(p.price)}`
+        : formatCOP(p.price);
 }
 
 function createProductCard(p, wide = false) {
     const div = document.createElement('div');
     div.className = "product-card flex-none group snap-start bg-white overflow-hidden " + (wide ? "w-80 md:w-[22rem]" : "w-72 md:w-80");
     const discount = getDiscount(p);
-    const priceHTML = p.originalPrice
-        ? `<span class="original-price">${formatCOP(p.originalPrice)}</span> ${formatCOP(p.price)}`
-        : formatCOP(p.price);
+    const priceHTML = priceOrConsult(p);
     const discountBadge = discount > 0 ? `<span class="product-badge discount">-${discount}%</span>` : "";
     const tagBadge = p.tag
         ? `<span class="product-badge ${p.tag === 'Nuevo' ? 'nuevo' : p.tag === 'Oferta' ? 'oferta' : 'mas-vendido'}">${p.tag}</span>`
@@ -194,7 +200,7 @@ function applyFilters(resetPage = true) {
     if (resetPage) currentPage = 1;
     const query = document.getElementById('electroSearch')?.value?.toLowerCase() || '';
     const checkedEstancias = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="cocina"], .filter-sidebar input[type="checkbox"][value="sala"], .filter-sidebar input[type="checkbox"][value="oficina"], .filter-sidebar input[type="checkbox"][value="dormitorio"], .filter-sidebar input[type="checkbox"][value="bano"], .filter-sidebar input[type="checkbox"][value="lavado"]')).filter(cb => cb.checked).map(cb => cb.value);
-    const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="televisores"], .filter-sidebar input[type="checkbox"][value="aires"], .filter-sidebar input[type="checkbox"][value="electrodomesticos"], .filter-sidebar input[type="checkbox"][value="lavado"], .filter-sidebar input[type="checkbox"][value="tecnologia"]')).filter(cb => cb.checked).map(cb => cb.value);
+    const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="televisores"], .filter-sidebar input[type="checkbox"][value="aires"], .filter-sidebar input[type="checkbox"][value="electrodomesticos"], .filter-sidebar input[type="checkbox"][value="lavado"], .filter-sidebar input[type="checkbox"][value="tecnologia"], .filter-sidebar input[type="checkbox"][value="accesorios"], .filter-sidebar input[type="checkbox"][value="muebles"]')).filter(cb => cb.checked).map(cb => cb.value);
     const priceRange = document.querySelector('input[name="price"]:checked')?.value;
     const grid = document.getElementById('electroGrid');
     if(!grid) return;
@@ -269,6 +275,10 @@ function filterAll(val) {
 function addToCart(id) {
     const p = products.find(x => x.id === id);
     if(!p) return;
+    if (!p.price) {
+        showToast(`${p.name} no tiene precio definido — consultalo por WhatsApp`);
+        return;
+    }
     const exists = cart.find(x => x.id === id);
     if(exists) {
         exists.quantity++;
@@ -389,9 +399,8 @@ function openProductModal(id) {
     const p = products.find(x => x.id === id);
     if(!p) return;
     const discount = getDiscount(p);
-    const priceHTML = p.originalPrice
-        ? `<span class="original-price">${formatCOP(p.originalPrice)}</span> ${formatCOP(p.price)}`
-        : formatCOP(p.price);
+    const priceHTML = priceOrConsult(p);
+    const canBuy = Boolean(p.price);
     const body = document.getElementById('modalBody');
     if(!body) return;
     const materialText = p.material === 'aluminio' ? 'aluminio aeronáutico' : p.material === 'metal' ? 'acero cepillado' : 'materiales sustentables';
@@ -417,9 +426,13 @@ function openProductModal(id) {
             <h2 class="text-4xl font-display font-bold mb-4 text-on-surface">${p.name}</h2>
             <p class="text-2xl font-price text-primary mb-8 font-semibold">${priceHTML}</p>
             <p class="text-on-surface-variant text-sm leading-relaxed mb-10">${descText}</p>
-            <button onclick="addToCart(${p.id}); closeProductModal();" class="w-full bg-on-surface text-surface py-5 font-semibold uppercase tracking-widest hover:bg-primary transition-soft">
-                Adquirir ahora
-            </button>
+            ${canBuy
+                ? `<button onclick="addToCart(${p.id}); closeProductModal();" class="w-full bg-on-surface text-surface py-5 font-semibold uppercase tracking-widest hover:bg-primary transition-soft">
+                    Adquirir ahora
+                </button>`
+                : `<button onclick="consultProductWhatsApp(${p.id})" class="w-full bg-on-surface text-surface py-5 font-semibold uppercase tracking-widest hover:bg-primary transition-soft">
+                    Consultar por WhatsApp
+                </button>`}
             <p class="text-[10px] text-center mt-6 text-on-surface-variant uppercase tracking-widest">Disponibilidad limitada en boutique</p>
         </div>
     `;
@@ -444,6 +457,15 @@ function closeProductModal() {
 
 function openWhatsApp() {
     window.open('https://wa.me/573017085272?text=¡Hola! Quiero conocer más sobre sus productos premium.', '_blank');
+}
+
+/* Consulta por WhatsApp de un producto sin precio definido */
+function consultProductWhatsApp(id) {
+    const p = products.find(x => x.id === id);
+    if(!p) return;
+    closeProductModal();
+    const msg = encodeURIComponent(`¡Hola! Me interesa "${p.name}" y quiero saber su precio.`);
+    window.open(`https://wa.me/573017085272?text=${msg}`, '_blank');
 }
 
 function scrollCarousel(id, dir) {
@@ -650,7 +672,7 @@ async function adminSaveProduct() {
     try {
         const editId = document.getElementById('adminEditId').value;
         const name = document.getElementById('adminName').value.trim();
-        const price = parseInt(document.getElementById('adminPrice').value);
+        const price = parseInt(document.getElementById('adminPrice').value) || undefined;
         const originalPrice = parseInt(document.getElementById('adminOriginalPrice').value) || undefined;
         const stock = parseInt(document.getElementById('adminStock').value) || 0;
         const categories = Array.from(document.querySelectorAll('#adminCategories input[type="checkbox"]:checked')).map(cb => cb.value);
@@ -676,8 +698,8 @@ async function adminSaveProduct() {
             image = preview.src;
         }
 
-        if (!name || !price || !image) {
-            alert('Completa todos los campos: nombre, precio e imagen (URL o archivo).');
+        if (!name || !image) {
+            alert('Completa los campos obligatorios: nombre e imagen (URL o archivo). El precio es opcional.');
             return;
         }
 
@@ -691,7 +713,8 @@ async function adminSaveProduct() {
             return;
         }
 
-        const product = { id: 0, name, price, categories, tag, image, description, estancias, stock };
+        const product = { id: 0, name, categories, tag, image, description, estancias, stock };
+        if (price) product.price = price;
         if (extraImages.length > 0) product.images = extraImages;
         if (originalPrice) product.originalPrice = originalPrice;
 
@@ -824,7 +847,7 @@ function adminEditProduct(id) {
     if (!p) return;
     document.getElementById('adminEditId').value = p.id;
     document.getElementById('adminName').value = p.name;
-    document.getElementById('adminPrice').value = p.price;
+    document.getElementById('adminPrice').value = p.price ?? '';
     document.getElementById('adminOriginalPrice').value = p.originalPrice || '';
     document.getElementById('adminStock').value = p.stock || 0;
     document.getElementById('adminTag').value = p.tag;
@@ -864,7 +887,7 @@ function adminRenderTable() {
             <td class="px-4 py-3 text-on-surface-variant text-xs">${p.id}</td>
             <td class="px-4 py-3"><img src="${p.image}" class="w-12 h-12 object-cover border border-outline-variant"/></td>
             <td class="px-4 py-3 font-medium">${p.name}</td>
-            <td class="px-4 py-3">${formatCOP(p.price)}${p.originalPrice ? ' <span class="text-on-surface-variant/50 line-through text-xs">' + formatCOP(p.originalPrice) + '</span>' : ''}</td>
+            <td class="px-4 py-3">${p.price ? formatCOP(p.price) : '<span class="text-on-surface-variant italic text-xs">Sin precio</span>'}${p.originalPrice ? ' <span class="text-on-surface-variant/50 line-through text-xs">' + formatCOP(p.originalPrice) + '</span>' : ''}</td>
             <td class="px-4 py-3 text-xs uppercase tracking-wider text-on-surface-variant">${(Array.isArray(p.categories) ? p.categories : [p.category || '']).join(', ')}</td>
             <td class="px-4 py-3 text-xs">${p.stock !== undefined ? p.stock : '-'}</td>
             <td class="px-4 py-3">${p.tag ? '<span class="text-[10px] px-2 py-0.5 font-bold uppercase text-white ' + (p.tag === 'Nuevo' ? 'bg-green-700' : p.tag === 'Oferta' ? 'bg-orange-700' : 'bg-amber-800') + '">' + p.tag + '</span>' : '<span class="text-[10px] px-2 py-0.5 font-bold uppercase text-on-surface-variant bg-surface-container-high">Ninguno</span>'}</td>
