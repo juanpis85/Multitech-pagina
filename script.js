@@ -81,18 +81,18 @@ function createProductCard(p, wide = false) {
                 ${tagBadge}
             </div>
             ${discountBadge}
-            <div class="absolute inset-x-0 bottom-0 p-3 md:p-6 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
+            <div class="mobile-buy hidden md:block absolute inset-x-0 bottom-0 p-3 md:p-6 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
                 <button onclick="addToCart(${p.id})" class="w-full bg-on-surface text-surface py-3 text-xs font-bold uppercase tracking-widest hover:bg-primary transition-soft shadow-lg">
                     Añadir a Bolsa
                 </button>
             </div>
-            <button onclick="openProductModal(${p.id})" class="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button data-open-modal="1" onclick="openProductModal(${p.id})" class="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <span class="material-symbols-outlined text-sm">visibility</span>
             </button>
         </div>
         <div class="${contentClass} text-center">
             <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')}</p>
-            <h4 class="font-display font-bold ${titleClass} text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
+            <h4 data-open-modal="1" class="font-display font-bold ${titleClass} text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
             <p class="text-primary font-price ${priceClass} font-semibold">${priceHTML}</p>
         </div>
     `;
@@ -559,6 +559,21 @@ document.addEventListener('DOMContentLoaded', () => {
         closeCart();
         openCheckout();
     };
+
+    /* Móvil: mostrar/ocultar "Añadir a Bolsa" al tocar la tarjeta (escritorio sin cambios) */
+    document.addEventListener('click', (e) => {
+        const isMobile = window.matchMedia('(max-width: 767px)').matches;
+        if (!isMobile) return;
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+        const buy = card.querySelector('.mobile-buy');
+        if (!buy) return;
+        if (e.target.closest('[data-open-modal]') || e.target.closest('.mobile-buy')) {
+            buy.classList.add('hidden');
+            return;
+        }
+        buy.classList.toggle('hidden');
+    });
 
     renderProducts();
     renderCart();
