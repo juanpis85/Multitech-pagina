@@ -64,16 +64,16 @@ function priceOrConsult(p, consultClass = '') {
 
 function createProductCard(p, wide = false) {
     const div = document.createElement('div');
-    div.className = "product-card flex-none group snap-start bg-white overflow-hidden " + (wide ? "w-80 md:w-[22rem]" : "w-72 md:w-80");
+    div.className = "product-card flex-none group snap-start bg-white overflow-hidden " + (wide ? "w-80 md:w-[22rem]" : "w-full md:w-80");
     const discount = getDiscount(p);
     const priceHTML = priceOrConsult(p);
     const discountBadge = discount > 0 ? `<span class="product-badge discount">-${discount}%</span>` : "";
     const tagBadge = p.tag
         ? `<span class="product-badge ${p.tag === 'Nuevo' ? 'nuevo' : p.tag === 'Oferta' ? 'oferta' : 'mas-vendido'}">${p.tag}</span>`
         : "";
-    const contentClass = wide ? "p-3" : "p-6";
-    const titleClass = wide ? "text-base mb-1" : "text-lg mb-2";
-    const priceClass = wide ? "text-base" : "text-lg";
+    const contentClass = wide ? "p-3" : "p-3 md:p-6";
+    const titleClass = wide ? "text-base mb-1" : "text-sm md:text-lg mb-2";
+    const priceClass = wide ? "text-base" : "text-sm md:text-lg";
     div.innerHTML = `
         <div class="relative overflow-hidden aspect-[4/3] bg-surface-container-low">
             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105">
@@ -81,7 +81,7 @@ function createProductCard(p, wide = false) {
                 ${tagBadge}
             </div>
             ${discountBadge}
-            <div class="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
+            <div class="absolute inset-x-0 bottom-0 p-3 md:p-6 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
                 <button onclick="addToCart(${p.id})" class="w-full bg-on-surface text-surface py-3 text-xs font-bold uppercase tracking-widest hover:bg-primary transition-soft shadow-lg">
                     Añadir a Bolsa
                 </button>
