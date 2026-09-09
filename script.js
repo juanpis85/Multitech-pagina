@@ -64,7 +64,7 @@ function priceOrConsult(p, consultClass = '') {
 
 function createProductCard(p, wide = false) {
     const div = document.createElement('div');
-    div.className = "product-card flex-none group snap-start bg-white overflow-hidden " + (wide ? "w-80 md:w-[22rem]" : "w-full md:w-80");
+    div.className = "product-card relative flex-none group snap-start bg-white overflow-hidden " + (wide ? "w-80 md:w-[22rem]" : "w-full md:w-80");
     const discount = getDiscount(p);
     const priceHTML = priceOrConsult(p);
     const discountBadge = discount > 0 ? `<span class="product-badge discount">-${discount}%</span>` : "";
