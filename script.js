@@ -71,17 +71,19 @@ function createProductCard(p, wide = false) {
     const tagBadge = p.tag
         ? `<span class="product-badge ${p.tag === 'Nuevo' ? 'nuevo' : p.tag === 'Oferta' ? 'oferta' : 'mas-vendido'}">${p.tag}</span>`
         : "";
-    const contentClass = wide ? "p-3" : "p-3 md:p-6";
+    const contentClass = wide
+        ? "p-3"
+        : "absolute inset-x-0 bottom-0 p-2 md:static md:p-6 bg-gradient-to-t from-white/95 via-white/70 to-transparent md:bg-none";
     const titleClass = wide ? "text-base mb-1" : "text-sm md:text-lg mb-2";
     const priceClass = wide ? "text-base" : "text-sm md:text-lg";
     div.innerHTML = `
-        <div class="relative overflow-hidden aspect-[4/3] bg-surface-container-low">
-            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105">
+        <div class="relative overflow-hidden ${wide ? 'aspect-[4/3]' : 'aspect-[4/5] md:aspect-[4/3]'} bg-surface-container-low">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full ${wide ? 'object-contain' : 'object-cover md:object-contain'} transition-transform duration-700 group-hover:scale-105">
             <div class="absolute top-4 left-4">
                 ${tagBadge}
             </div>
             ${discountBadge}
-            <div class="mobile-buy hidden md:block absolute inset-x-0 bottom-0 p-3 md:p-6 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
+            <div class="mobile-buy z-10 md:z-auto hidden md:block absolute inset-x-0 bottom-0 p-3 md:p-6 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-white to-transparent">
                 <button onclick="addToCart(${p.id})" class="w-full bg-on-surface text-surface py-3 text-xs font-bold uppercase tracking-widest hover:bg-primary transition-soft shadow-lg">
                     Añadir a Bolsa
                 </button>
