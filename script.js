@@ -492,6 +492,23 @@ function closeMenu() {
     document.body.style.overflow = '';
 }
 
+/* Filtros del catálogo: drawer deslizante (solo móvil, lg hacia arriba queda fijo) */
+function openMobileFilters() {
+    const aside = document.querySelector('.filter-sidebar');
+    const overlay = document.getElementById('filterOverlay');
+    if(aside) aside.classList.remove('-translate-x-full');
+    if(overlay) overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileFilters() {
+    const aside = document.querySelector('.filter-sidebar');
+    const overlay = document.getElementById('filterOverlay');
+    if(aside) aside.classList.add('-translate-x-full');
+    if(overlay) overlay.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
 function exploreRoom(room) {
     showPage('electro');
     setTimeout(() => {

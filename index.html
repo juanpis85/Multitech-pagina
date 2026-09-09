@@ -425,20 +425,23 @@ Tu navegador no soporta video HTML5.
 <div class="page hidden" id="page-electro">
 <div class="max-w-container-max mx-auto px-gutter py-12">
 <div class="flex flex-col lg:flex-row gap-12">
-<!-- 4.1 Barra lateral de filtros -->
-<aside class="lg:w-72 flex-none space-y-8 filter-sidebar">
-<div class="pb-4 border-b border-outline-variant">
+<!-- 4.1b Overlay de filtros (solo móvil) -->
+<div class="fixed inset-0 bg-inverse-surface/50 z-[60] hidden transition-opacity duration-300 lg:hidden" id="filterOverlay" onclick="closeMobileFilters()"></div>
+<!-- 4.1 Barra lateral de filtros: drawer en móvil, fija en escritorio (lg) -->
+<aside class="fixed inset-y-0 left-0 z-[70] w-80 max-w-[85vw] bg-surface p-6 shadow-xl -translate-x-full transition-transform duration-300 overflow-y-auto filter-sidebar lg:static lg:inset-auto lg:z-auto lg:w-72 lg:flex-none lg:max-w-none lg:bg-transparent lg:p-0 lg:shadow-none lg:overflow-visible lg:translate-x-0 lg:space-y-8">
+<div class="flex justify-between items-center pb-4 border-b border-outline-variant">
 <h2 class="font-display text-2xl font-bold">Filtros</h2>
+<button class="lg:hidden p-2 -m-2" onclick="closeMobileFilters()"><span class="material-symbols-outlined text-sm">close</span></button>
 </div>
 <div>
 <button class="flex justify-between items-center w-full py-4 font-semibold uppercase text-xs tracking-widest border-b border-outline-variant" onclick="toggleFilter(this)">ESTANCIAS <span class="material-symbols-outlined text-sm">expand_more</span></button>
 <div class="pt-4 space-y-3">
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="cocina"/><span class="text-sm group-hover:text-primary transition-colors">Cocina</span><span class="text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Lavado</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="sala"/><span class="text-sm group-hover:text-primary transition-colors">Sala de Estar</span><span class="text-[10px] text-on-surface-variant/50 ml-auto">Televisores · Electrodomésticos</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="oficina"/><span class="text-sm group-hover:text-primary transition-colors">Oficina</span><span class="text-[10px] text-on-surface-variant/50 ml-auto">Tecnología · Electrodomésticos</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="dormitorio"/><span class="text-sm group-hover:text-primary transition-colors">Dormitorio</span><span class="text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Aires</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="bano"/><span class="text-sm group-hover:text-primary transition-colors">Baño</span><span class="text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span><span class="text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="cocina"/><span class="text-sm group-hover:text-primary transition-colors">Cocina</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="sala"/><span class="text-sm group-hover:text-primary transition-colors">Sala de Estar</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Televisores · Electrodomésticos</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="oficina"/><span class="text-sm group-hover:text-primary transition-colors">Oficina</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Tecnología · Electrodomésticos</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="dormitorio"/><span class="text-sm group-hover:text-primary transition-colors">Dormitorio</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Aires</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="bano"/><span class="text-sm group-hover:text-primary transition-colors">Baño</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
 </div>
 </div>
 <div>
@@ -464,10 +467,12 @@ Tu navegador no soporta video HTML5.
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 border-outline-variant text-primary focus:ring-primary" name="price" onchange="applyFilters()" type="radio" value="3000000-999999999"/><span class="text-sm group-hover:text-primary transition-colors">Más de $3.000.000</span></label>
 </div>
 </div>
+<button class="lg:hidden w-full bg-on-surface text-surface py-4 text-sm font-semibold uppercase tracking-widest hover:bg-primary transition-soft" onclick="closeMobileFilters()">Aplicar filtros</button>
 </aside>
 <!-- 4.2 Zona de resultados: buscador + grilla de productos + paginación -->
 <div class="flex-grow">
 <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+<button class="lg:hidden flex items-center justify-center gap-2 border border-outline px-5 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-surface-container-high transition-soft" onclick="openMobileFilters()"><span class="material-symbols-outlined text-sm">tune</span> Filtros</button>
 <div class="relative w-full md:w-96">
 <input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-none focus:ring-1 focus:ring-primary text-sm font-body italic" id="electroSearch" oninput="applyFilters()" placeholder="Buscar por nombre o característica..." type="text"/>
 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
