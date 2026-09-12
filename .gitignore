@@ -13,3 +13,6 @@ images/*.mov
 !.dev.vars.example
 .env*
 !.env.example
+
+# node
+node_modules
