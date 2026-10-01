@@ -5,13 +5,14 @@
      ESTRUCTURA DEL DOCUMENTO (buscá el comentario con el mismo nombre):
      1. <head>:  metadatos, fuentes, estilos y librerías (Firebase, Tailwind)
      2. Header:  logo + navegación + buscador + carrito + menú móvil
-     3. Página de inicio (page-home):
-        - Hero editorial
-        - Trust (beneficios de compra)
-        - Categorías Sugeridas
-        - Explora por Estancias
-        - Secciones dinámicas de productos (Recién Llegados / Ofertas / Más Vendidos)
-        - Barra de financiación + Testimonios
+     3. Página de inicio (page-home) — orden de las secciones:
+        - 3.1 Hero editorial ("Detalles que transforman tu hogar")
+        - 3.2 Trust (beneficios de compra)
+        - 3.3 Categorías Sugeridas
+        - 3.4 Barra de financiación (Financiación de cortesía)
+        - 3.5 Explora por Estancias
+        - 3.6 Secciones dinámicas de productos (Recién Llegados / Ofertas / Más Vendidos)
+        - 3.7 Galería de Videos
      4. Página de catálogo (page-electro): filtros + grilla + paginación
      5. Página de administración (page-admin): login + CRUD de productos
      6. Carrito lateral + modal de checkout (pago)
@@ -204,49 +205,21 @@ Ver ofertas
 </div>
 </div>
 </section>
-<!-- 3.4 Galería de Videos (videos destacados de la marca) -->
-<section class="py-16 bg-surface">
-<div class="max-w-container-max mx-auto px-gutter">
-<div class="flex justify-between items-center mb-10">
+<!-- 3.4 Barra de financiación (Financiación de cortesía) -->
+<div class="bg-on-surface text-surface py-12">
+<div class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-5xl text-primary">payments</span>
 <div>
-<h2 class="text-4xl md:text-3xl font-display">Galería de Videos</h2>
-<div class="h-1 w-20 bg-primary mt-2"></div>
-</div>
-<div class="flex gap-2">
-<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-soft" onclick="scrollCarousel('videosGrid', -1)"><span class="material-symbols-outlined">chevron_left</span></button>
-<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-soft" onclick="scrollCarousel('videosGrid', 1)"><span class="material-symbols-outlined">chevron_right</span></button>
+<h3 class="font-display text-2xl">Financiación de Cortesía</h3>
+<p class="text-surface-variant/80">Lleva lo mejor hoy, paga después sin cuota inicial.</p>
 </div>
 </div>
-<div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="videosGrid">
-<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
-<source src="images/video-1.mp4" type="video/mp4"/>
-Tu navegador no soporta video HTML5.
-</video>
-<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
-<source src="images/video-2.mp4" type="video/mp4"/>
-Tu navegador no soporta video HTML5.
-</video>
-<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
-<source src="images/video-3.mp4" type="video/mp4"/>
-Tu navegador no soporta video HTML5.
-</video>
-<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
-<source src="images/video-4.mp4" type="video/mp4"/>
-Tu navegador no soporta video HTML5.
-</video>
-<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
-<source src="images/video-5.mp4" type="video/mp4"/>
-Tu navegador no soporta video HTML5.
-</video>
-<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
-<source src="images/video-7.mp4" type="video/mp4"/>
-Tu navegador no soporta video HTML5.
-</video>
+<a class="px-10 py-3 border border-primary text-primary hover:bg-primary hover:text-white transition-soft tracking-widest text-sm font-semibold uppercase" href="#">Consultar Crédito</a>
 </div>
 </div>
-</section>
 <!-- 3.5 Explora por Estancias (mapa interactivo de ambientes) -->
-<section class="py-section-gap bg-surface-container-low">
+<section class="py-section-gap bg-surface-container-lowest">
 <div class="max-w-container-max mx-auto px-gutter">
 <div class="text-center mb-12">
 <h2 class="text-4xl md:text-5xl font-display mb-2">Explora por Estancias</h2>
@@ -374,43 +347,44 @@ Tu navegador no soporta video HTML5.
 <div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="vendidosGrid"></div>
 </div>
 </section>
-<!-- 3.7 Barra de financiación -->
-<div class="bg-on-surface text-surface py-12">
-<div class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-6">
-<div class="flex items-center gap-6">
-<span class="material-symbols-outlined text-5xl text-primary">payments</span>
-<div>
-<h3 class="font-display text-2xl">Financiación de Cortesía</h3>
-<p class="text-surface-variant/80">Lleva lo mejor hoy, paga después sin cuota inicial.</p>
-</div>
-</div>
-<a class="px-10 py-3 border border-primary text-primary hover:bg-primary hover:text-white transition-soft tracking-widest text-sm font-semibold uppercase" href="#">Consultar Crédito</a>
-</div>
-</div>
-<!-- 3.8 Testimonios -->
+<!-- 3.7 Galería de Videos (videos destacados de la marca) -->
 <section class="py-16 bg-surface">
-<div class="max-w-container-max mx-auto px-gutter text-center mb-10">
-<h2 class="text-3xl font-display mb-3">Experiencias de nuestros Miembros</h2>
-<p class="text-sm text-on-surface-variant max-w-2xl mx-auto">La excelencia no se define por nosotros, sino por quienes integran nuestra tecnología en su día a día.</p>
+<div class="max-w-container-max mx-auto px-gutter">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h2 class="text-4xl md:text-3xl font-display">Galería de Videos</h2>
+<div class="h-1 w-20 bg-primary mt-2"></div>
 </div>
-<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="bg-surface-container-lowest p-8 border border-outline-variant text-center">
-<div class="text-primary mb-4 text-sm">★★★★★</div>
-<p class="italic font-display text-base mb-6 leading-relaxed">"La atención personalizada y el diseño de los productos superaron todas mis expectativas. Un lujo necesario."</p>
-<h4 class="font-bold text-xs uppercase tracking-widest">Carlos Martínez</h4>
-<p class="text-xs text-on-surface-variant mt-1">Bogotá, DC</p>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-soft" onclick="scrollCarousel('videosGrid', -1)"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-soft" onclick="scrollCarousel('videosGrid', 1)"><span class="material-symbols-outlined">chevron_right</span></button>
 </div>
-<div class="bg-surface-container-lowest p-8 border border-outline-variant text-center">
-<div class="text-primary mb-4 text-sm">★★★★★</div>
-<p class="italic font-display text-base mb-6 leading-relaxed">"MultiTechco es mi primera opción para actualizar mi oficina en casa. Estética y poder en un solo lugar."</p>
-<h4 class="font-bold text-xs uppercase tracking-widest">María Fernanda López</h4>
-<p class="text-xs text-on-surface-variant mt-1">Medellín, ANT</p>
 </div>
-<div class="bg-surface-container-lowest p-8 border border-outline-variant text-center">
-<div class="text-primary mb-4 text-sm">★★★★★</div>
-<p class="italic font-display text-base mb-6 leading-relaxed">"Envío impecable y empaque de boutique. Realmente cuidan cada detalle del proceso de compra."</p>
-<h4 class="font-bold text-xs uppercase tracking-widest">Andrés Felipe Ríos</h4>
-<p class="text-xs text-on-surface-variant mt-1">Cali, VDC</p>
+<div class="products-carousel flex gap-4 overflow-x-auto hide-scrollbar snap-x" id="videosGrid">
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
+<source src="images/video-1.mp4" type="video/mp4"/>
+Tu navegador no soporta video HTML5.
+</video>
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
+<source src="images/video-2.mp4" type="video/mp4"/>
+Tu navegador no soporta video HTML5.
+</video>
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
+<source src="images/video-3.mp4" type="video/mp4"/>
+Tu navegador no soporta video HTML5.
+</video>
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
+<source src="images/video-4.mp4" type="video/mp4"/>
+Tu navegador no soporta video HTML5.
+</video>
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
+<source src="images/video-5.mp4" type="video/mp4"/>
+Tu navegador no soporta video HTML5.
+</video>
+<video controls muted playsinline preload="metadata" onmouseenter="videoHover(this, true)" onmouseleave="videoHover(this, false)" class="flex-none w-72 md:w-80 aspect-[9/16] bg-black object-cover snap-start rounded-xl overflow-hidden">
+<source src="images/video-7.mp4" type="video/mp4"/>
+Tu navegador no soporta video HTML5.
+</video>
 </div>
 </div>
 </section>
