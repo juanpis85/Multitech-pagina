@@ -44,6 +44,52 @@ const CLOUDINARY_CONFIG = {
     uploadPreset: 'ml_default'
 };
 
+/* --- Categorías y subcategorías de productos ------------------------------
+   categoryChildren: subcategorías que pertenecen a una categoría padre.
+   Al filtrar por "Tecnología" también entran sus subcategorías.
+   Los valores deben coincidir con los checkbox (value="...") del filtro del
+   catálogo y del panel de administración en index.html.
+*/
+const categoryChildren = {
+    tecnologia: ['celulares', 'audifonos', 'cargadores', 'accesorios', 'computadores', 'tablets', 'consolas', 'smartwatch']
+};
+
+/* Nombre legible de cada categoría (para tarjetas, modal y tabla del admin) */
+const categoryLabels = {
+    televisores: 'Televisores',
+    aires: 'Aires Acondicionados',
+    electrodomesticos: 'Electrodomésticos',
+    lavado: 'Lavado',
+    tecnologia: 'Tecnología',
+    celulares: 'Celulares',
+    audifonos: 'Audífonos',
+    cargadores: 'Cargadores',
+    accesorios: 'Accesorios',
+    computadores: 'Computadores',
+    tablets: 'Tablets',
+    consolas: 'Consolas',
+    smartwatch: 'Smart Watch',
+    muebles: 'Muebles',
+    organizadores: 'Organizadores',
+    'cuidado-personal': 'Cuidado Personal'
+};
+
+function categoryLabel(value) {
+    return categoryLabels[value] || value;
+}
+
+/* Categorías de un producto (soporta el formato nuevo array y el viejo string) */
+function productCategories(p) {
+    return Array.isArray(p.categories) ? p.categories : (p.category ? [p.category] : []);
+}
+
+/* Suma a la lista las subcategorías de cada categoría padre seleccionada */
+function expandCategories(values) {
+    const out = new Set(values);
+    values.forEach(v => (categoryChildren[v] || []).forEach(child => out.add(child)));
+    return out;
+}
+
 /* ===== 2. UTILIDADES Y TARJETAS DE PRODUCTO =============================== */
 
 function formatCOP(price) {
@@ -93,7 +139,7 @@ function createProductCard(p, wide = false) {
             </button>
         </div>
         <div class="${contentClass} text-center">
-            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')}</p>
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1 font-semibold">${productCategories(p).map(categoryLabel).join(', ')}</p>
             <h4 data-open-modal="1" class="font-display font-bold ${titleClass} text-on-surface group-hover:text-primary transition-colors cursor-pointer" onclick="openProductModal(${p.id})">${p.name}</h4>
             <p class="text-primary font-price ${priceClass} font-semibold">${priceHTML}</p>
         </div>
@@ -201,19 +247,20 @@ let currentPage = 1;
 function applyFilters(resetPage = true) {
     if (resetPage) currentPage = 1;
     const query = document.getElementById('electroSearch')?.value?.toLowerCase() || '';
-    const checkedEstancias = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="cocina"], .filter-sidebar input[type="checkbox"][value="sala"], .filter-sidebar input[type="checkbox"][value="oficina"], .filter-sidebar input[type="checkbox"][value="dormitorio"], .filter-sidebar input[type="checkbox"][value="bano"], .filter-sidebar input[type="checkbox"][value="lavado"]')).filter(cb => cb.checked).map(cb => cb.value);
-    const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][value="televisores"], .filter-sidebar input[type="checkbox"][value="aires"], .filter-sidebar input[type="checkbox"][value="electrodomesticos"], .filter-sidebar input[type="checkbox"][value="lavado"], .filter-sidebar input[type="checkbox"][value="tecnologia"], .filter-sidebar input[type="checkbox"][value="accesorios"], .filter-sidebar input[type="checkbox"][value="muebles"]')).filter(cb => cb.checked).map(cb => cb.value);
+    // Estancias y categorías: se identifican por atributo (data-estancia / data-category)
+    const checkedEstancias = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][data-estancia]')).filter(cb => cb.checked).map(cb => cb.value);
+    const checkedTypes = Array.from(document.querySelectorAll('.filter-sidebar input[type="checkbox"][data-category]')).filter(cb => cb.checked).map(cb => cb.value);
     const priceRange = document.querySelector('input[name="price"]:checked')?.value;
     const grid = document.getElementById('electroGrid');
     if(!grid) return;
 
-    const allowedCategories = new Set();
-    checkedTypes.forEach(t => allowedCategories.add(t));
+    // Si se filtra por una categoría padre (ej: Tecnología), entran sus subcategorías
+    const allowedCategories = expandCategories(checkedTypes);
 
     const filtered = products.filter(p => {
         const matchSearch = p.name.toLowerCase().includes(query);
-        const productCategories = Array.isArray(p.categories) ? p.categories : (p.category ? [p.category] : []);
-        const matchCat = allowedCategories.size === 0 || productCategories.some(c => allowedCategories.has(c));
+        const productCats = productCategories(p);
+        const matchCat = allowedCategories.size === 0 || productCats.some(c => allowedCategories.has(c));
         // Match estancias: if product has estancias array, use it; fall back to category mapping
         const matchEstancia = checkedEstancias.length === 0 ||
             (Array.isArray(p.estancias) && p.estancias.some(e => checkedEstancias.includes(e)));
@@ -424,7 +471,7 @@ function openProductModal(id) {
             ${thumbnails}
         </div>
         <div class="md:w-1/2 p-12 flex flex-col justify-center">
-            <span class="text-[10px] uppercase tracking-widest text-primary font-bold mb-2">${Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || '')} | ${p.tag}</span>
+            <span class="text-[10px] uppercase tracking-widest text-primary font-bold mb-2">${productCategories(p).map(categoryLabel).join(', ')} | ${p.tag}</span>
             <h2 class="text-4xl font-display font-bold mb-4 text-on-surface">${p.name}</h2>
             <p class="text-2xl font-price text-primary mb-8 font-semibold">${priceHTML}</p>
             <p class="text-on-surface-variant text-sm leading-relaxed mb-10">${descText}</p>
@@ -922,7 +969,7 @@ function adminRenderTable() {
             <td class="px-4 py-3"><img src="${p.image}" class="w-12 h-12 object-cover border border-outline-variant"/></td>
             <td class="px-4 py-3 font-medium">${p.name}</td>
             <td class="px-4 py-3">${p.price ? formatCOP(p.price) : '<span class="text-on-surface-variant italic text-xs">Sin precio</span>'}${p.originalPrice ? ' <span class="text-on-surface-variant/50 line-through text-xs">' + formatCOP(p.originalPrice) + '</span>' : ''}</td>
-            <td class="px-4 py-3 text-xs uppercase tracking-wider text-on-surface-variant">${(Array.isArray(p.categories) ? p.categories : [p.category || '']).join(', ')}</td>
+            <td class="px-4 py-3 text-xs uppercase tracking-wider text-on-surface-variant">${productCategories(p).map(categoryLabel).join(', ')}</td>
             <td class="px-4 py-3 text-xs">${p.stock !== undefined ? p.stock : '-'}</td>
             <td class="px-4 py-3">${p.tag ? '<span class="text-[10px] px-2 py-0.5 font-bold uppercase text-white ' + (p.tag === 'Nuevo' ? 'bg-green-700' : p.tag === 'Oferta' ? 'bg-orange-700' : 'bg-amber-800') + '">' + p.tag + '</span>' : '<span class="text-[10px] px-2 py-0.5 font-bold uppercase text-on-surface-variant bg-surface-container-high">Ninguno</span>'}</td>
             <td class="px-4 py-3 text-right">

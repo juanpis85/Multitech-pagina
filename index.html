@@ -406,24 +406,35 @@ Tu navegador no soporta video HTML5.
 <div>
 <button class="flex justify-between items-center w-full py-4 font-semibold uppercase text-xs tracking-widest border-b border-outline-variant" onclick="toggleFilter(this)">ESTANCIAS <span class="material-symbols-outlined text-sm">expand_more</span></button>
 <div class="pt-4 space-y-3">
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="cocina"/><span class="text-sm group-hover:text-primary transition-colors">Cocina</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Lavado</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="sala"/><span class="text-sm group-hover:text-primary transition-colors">Sala de Estar</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Televisores · Electrodomésticos</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="oficina"/><span class="text-sm group-hover:text-primary transition-colors">Oficina</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Tecnología · Electrodomésticos</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="dormitorio"/><span class="text-sm group-hover:text-primary transition-colors">Dormitorio</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Aires</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="bano"/><span class="text-sm group-hover:text-primary transition-colors">Baño</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-estancia onchange="applyFilters()" type="checkbox" value="cocina"/><span class="text-sm group-hover:text-primary transition-colors">Cocina</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-estancia onchange="applyFilters()" type="checkbox" value="sala"/><span class="text-sm group-hover:text-primary transition-colors">Sala de Estar</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Televisores · Electrodomésticos</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-estancia onchange="applyFilters()" type="checkbox" value="oficina"/><span class="text-sm group-hover:text-primary transition-colors">Oficina</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Tecnología · Electrodomésticos</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-estancia onchange="applyFilters()" type="checkbox" value="dormitorio"/><span class="text-sm group-hover:text-primary transition-colors">Dormitorio</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Electrodomésticos · Aires</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-estancia onchange="applyFilters()" type="checkbox" value="bano"/><span class="text-sm group-hover:text-primary transition-colors">Baño</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-estancia onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span><span class="hidden lg:inline text-[10px] text-on-surface-variant/50 ml-auto">Lavado</span></label>
 </div>
 </div>
 <div>
 <button class="flex justify-between items-center w-full py-4 font-semibold uppercase text-xs tracking-widest border-b border-outline-variant" onclick="toggleFilter(this)">TIPO DE PRODUCTO <span class="material-symbols-outlined text-sm">expand_more</span></button>
 <div class="pt-4 space-y-3">
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="televisores"/><span class="text-sm group-hover:text-primary transition-colors">Televisores</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="aires"/><span class="text-sm group-hover:text-primary transition-colors">Aires Acondicionados</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="electrodomesticos"/><span class="text-sm group-hover:text-primary transition-colors">Electrodomésticos</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="tecnologia"/><span class="text-sm group-hover:text-primary transition-colors">Tecnología</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="accesorios"/><span class="text-sm group-hover:text-primary transition-colors">Accesorios</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" onchange="applyFilters()" type="checkbox" value="muebles"/><span class="text-sm group-hover:text-primary transition-colors">Muebles</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="televisores"/><span class="text-sm group-hover:text-primary transition-colors">Televisores</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="aires"/><span class="text-sm group-hover:text-primary transition-colors">Aires Acondicionados</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="electrodomesticos"/><span class="text-sm group-hover:text-primary transition-colors">Electrodomésticos</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="tecnologia"/><span class="text-sm font-semibold group-hover:text-primary transition-colors">Tecnología</span></label>
+<div class="pl-4 space-y-3 border-l border-outline-variant">
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="celulares"/><span class="text-sm group-hover:text-primary transition-colors">Celulares</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="audifonos"/><span class="text-sm group-hover:text-primary transition-colors">Audífonos</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="cargadores"/><span class="text-sm group-hover:text-primary transition-colors">Cargadores</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="accesorios"/><span class="text-sm group-hover:text-primary transition-colors">Accesorios</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="computadores"/><span class="text-sm group-hover:text-primary transition-colors">Computadores</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="tablets"/><span class="text-sm group-hover:text-primary transition-colors">Tablets</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="consolas"/><span class="text-sm group-hover:text-primary transition-colors">Consolas</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="smartwatch"/><span class="text-sm group-hover:text-primary transition-colors">Smart Watch</span></label>
+</div>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="muebles"/><span class="text-sm group-hover:text-primary transition-colors">Muebles</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="organizadores"/><span class="text-sm group-hover:text-primary transition-colors">Organizadores</span></label>
+<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="cuidado-personal"/><span class="text-sm group-hover:text-primary transition-colors">Cuidado Personal</span></label>
 </div>
 </div>
 <div>
@@ -549,15 +560,53 @@ Tu navegador no soporta video HTML5.
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="tecnologia"/>
-<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💻 Tecnología</span>
+<span class="text-sm font-semibold text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💻 Tecnología</span>
+</label>
+<div class="w-full flex flex-wrap gap-5 pl-5 pt-1 border-l border-outline-variant" id="adminSubcategories">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="celulares"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">📱 Celulares</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="audifonos"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🎧 Audífonos</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="cargadores"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🔌 Cargadores</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="accesorios"/>
-<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🎧 Accesorios</span>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🧩 Accesorios</span>
 </label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="computadores"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🖥️ Computadores</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="tablets"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">📲 Tablets</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="consolas"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🎮 Consolas</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="smartwatch"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">⌚ Smart Watch</span>
+</label>
+</div>
 <label class="flex items-center gap-2 cursor-pointer group">
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="muebles"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🪑 Muebles</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="organizadores"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🗂️ Organizadores</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="cuidado-personal"/>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🧴 Cuidado Personal</span>
 </label>
 </div>
 </div>
