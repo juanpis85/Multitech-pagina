@@ -231,6 +231,36 @@ function toggleFilter(btn) {
     icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
 }
 
+/* --- Desplegable de subcategorías (ej: Tecnología) ------------------------
+   El botón apunta al panel con aria-controls. Es la misma mecánica del
+   desplegable de los filtros (toggleFilter), adaptada a las subcategorías.
+*/
+function toggleSubcategories(btn) {
+    const id = btn && btn.getAttribute('aria-controls');
+    const panel = id ? document.getElementById(id) : null;
+    if (!panel) return;
+    const cerrado = panel.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!cerrado));
+    const icon = btn.querySelector('span');
+    if (icon) icon.style.transform = cerrado ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+/* Abre el desplegable de subcategorías de una categoría (si está cerrado) */
+function openSubcategories(id) {
+    const panel = document.getElementById(id);
+    if (!panel || !panel.classList.contains('hidden')) return;
+    const btn = document.querySelector('[aria-controls="' + id + '"]');
+    if (btn) toggleSubcategories(btn);
+}
+
+/* Deja abiertos los desplegables que tengan alguna subcategoría marcada.
+   Se usa al editar un producto en el admin y al llegar desde el home. */
+function syncSubcategoryPanels(scope) {
+    (scope || document).querySelectorAll('[data-subcategories]').forEach(panel => {
+        if (panel.querySelector('input[type="checkbox"]:checked')) openSubcategories(panel.id);
+    });
+}
+
 const estanciaCategories = {
     cocina: ['electrodomesticos', 'lavado'],
     sala: ['televisores', 'electrodomesticos'],
@@ -565,6 +595,7 @@ function exploreRoom(room) {
         allCheckboxes.forEach(cb => cb.checked = false);
         const estanciaCb = document.querySelector(`.filter-sidebar input[type="checkbox"][value="${room}"]`);
         if (estanciaCb) estanciaCb.checked = true;
+        syncSubcategoryPanels(document.querySelector('.filter-sidebar'));
         applyFilters();
     }, 100);
 }
@@ -576,6 +607,7 @@ function exploreCategory(cat) {
         allCheckboxes.forEach(cb => cb.checked = false);
         const catCb = document.querySelector(`.filter-sidebar input[type="checkbox"][value="${cat}"]`);
         if (catCb) catCb.checked = true;
+        syncSubcategoryPanels(document.querySelector('.filter-sidebar'));
         applyFilters();
     }, 100);
 }
@@ -946,6 +978,8 @@ function adminEditProduct(id) {
     document.querySelectorAll('#adminCategories input[type="checkbox"]').forEach(cb => {
         cb.checked = cats.includes(cb.value);
     });
+    // Si el producto tiene subcategorías marcadas, se despliega el grupo (ej: Tecnología)
+    syncSubcategoryPanels(document.getElementById('adminCategories'));
     // Check estancias
     document.querySelectorAll('#adminEstancias input[type="checkbox"]').forEach(cb => {
         cb.checked = p.estancias ? p.estancias.includes(cb.value) : false;

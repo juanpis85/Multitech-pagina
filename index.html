@@ -421,8 +421,11 @@ Tu navegador no soporta video HTML5.
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="aires"/><span class="text-sm group-hover:text-primary transition-colors">Aires Acondicionados</span></label>
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="electrodomesticos"/><span class="text-sm group-hover:text-primary transition-colors">Electrodomésticos</span></label>
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="lavado"/><span class="text-sm group-hover:text-primary transition-colors">Lavado</span></label>
-<label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="tecnologia"/><span class="text-sm font-semibold group-hover:text-primary transition-colors">Tecnología</span></label>
-<div class="pl-4 space-y-3 border-l border-outline-variant">
+<div class="flex items-center justify-between gap-2">
+<label class="flex flex-1 items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="tecnologia"/><span class="text-sm font-semibold group-hover:text-primary transition-colors">Tecnología</span></label>
+<button aria-controls="subcats-tecnologia" aria-expanded="false" class="p-1 -mr-1 text-on-surface-variant hover:text-primary transition-colors" onclick="toggleSubcategories(this)" title="Ver subcategorías de Tecnología" type="button"><span class="material-symbols-outlined text-base block transition-transform duration-300">expand_more</span></button>
+</div>
+<div class="pl-4 space-y-3 border-l border-outline-variant hidden" data-subcategories="tecnologia" id="subcats-tecnologia">
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="celulares"/><span class="text-sm group-hover:text-primary transition-colors">Celulares</span></label>
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="audifonos"/><span class="text-sm group-hover:text-primary transition-colors">Audífonos</span></label>
 <label class="flex items-center gap-3 cursor-pointer group"><input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" data-category onchange="applyFilters()" type="checkbox" value="cargadores"/><span class="text-sm group-hover:text-primary transition-colors">Cargadores</span></label>
@@ -558,11 +561,14 @@ Tu navegador no soporta video HTML5.
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="lavado"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">🧺 Lavado</span>
 </label>
+<div class="flex items-center gap-2">
 <label class="flex items-center gap-2 cursor-pointer group">
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="tecnologia"/>
 <span class="text-sm font-semibold text-on-surface-variant group-hover:text-on-surface transition-colors select-none">💻 Tecnología</span>
 </label>
-<div class="w-full flex flex-wrap gap-5 pl-5 pt-1 border-l border-outline-variant" id="adminSubcategories">
+<button aria-controls="adminSubcategories" aria-expanded="false" class="p-0.5 text-on-surface-variant hover:text-primary transition-colors" onclick="toggleSubcategories(this)" title="Ver subcategorías de Tecnología" type="button"><span class="material-symbols-outlined text-base block transition-transform duration-300">expand_more</span></button>
+</div>
+<div class="w-full flex flex-wrap gap-5 pl-5 pt-1 border-l border-outline-variant hidden" data-subcategories="tecnologia" id="adminSubcategories">
 <label class="flex items-center gap-2 cursor-pointer group">
 <input class="w-4 h-4 accent-primary cursor-pointer" type="checkbox" value="celulares"/>
 <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">📱 Celulares</span>
